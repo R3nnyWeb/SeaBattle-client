@@ -14,6 +14,7 @@ public class Cell extends Actor {
     private int fieldX;
     private int fieldY;
     private Ship ship;
+    private Color color;
     private ShapeRenderer shape;
 
 
@@ -24,6 +25,7 @@ public class Cell extends Actor {
         this.fieldX = fieldX;
         this.fieldY = fieldY;
         this.ship = ship;
+        this.color = Color.BLACK;
         shape = new ShapeRenderer();
         shape.setAutoShapeType(true);
         this.setBounds(x, y, x + size, y + size);
@@ -31,6 +33,7 @@ public class Cell extends Actor {
         this.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println(fieldX + " " + fieldY);
+                color = Color.WHITE;
                 return true;
             }
 
@@ -42,8 +45,10 @@ public class Cell extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         shape.setProjectionMatrix(batch.getProjectionMatrix());
         shape.begin();
-        shape.setColor(Color.RED);
+        shape.setColor(color);
         shape.rect(x,y,size,size);
         shape.end();
     }
+
+
 }
