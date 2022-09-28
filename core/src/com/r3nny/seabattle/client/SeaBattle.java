@@ -4,28 +4,41 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class SeaBattle extends ApplicationAdapter {
+
+	public static final float WORLD_WIDTH = 1024;
+	public static final float WORLD_HEIGHT = 576;
 	SpriteBatch batch;
 	Texture img;
+
+
 
 	Stage stage;
 	
 	@Override
 	public void create () {
-		stage = new Stage(new FitViewport(1024,576));
+		stage = new Stage(new FitViewport(WORLD_WIDTH,WORLD_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
 
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 		Image imageActor = new Image(img);
-		stage.addActor(new ActorTest(img, 100,100));
+//		stage.addActor(new Cell(800,100,20,0,0,null));
+//		stage.addActor(new Grid());
+//		stage.addActor(new ActorTest(img, 100,100));
+//		stage.addActor(new ActorTest(img, 200,200));
+		GameField gm = new GameField(100,200);
+
+		stage.addActor(gm.initField());
+
+
 	}
 
 	public void resize (int width, int height) {
@@ -38,6 +51,7 @@ public class SeaBattle extends ApplicationAdapter {
 		ScreenUtils.clear(0, 0, .5f, 1);
 		stage.act();
 		stage.draw();
+
 	}
 	
 	@Override
