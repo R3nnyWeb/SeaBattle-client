@@ -6,8 +6,17 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.utils.Array;
+import com.r3nny.seabattle.client.Game;
+import com.r3nny.seabattle.client.GameStatus;
 import com.r3nny.seabattle.client.controller.CellController;
+import com.r3nny.seabattle.client.controller.ShipsCreator;
 import com.r3nny.seabattle.client.model.Cell;
+import com.r3nny.seabattle.client.model.Ship;
+import com.r3nny.seabattle.client.model.ShipType;
+
+import static com.r3nny.seabattle.client.controller.ShipsCreator.currentShipType;
+import static com.r3nny.seabattle.client.controller.ShipsCreator.shipTypes;
 
 public class CellView extends Actor {
 
@@ -16,7 +25,10 @@ public class CellView extends Actor {
     private Cell cell;
     private float x;
     private float y;
-    public static final float SIZE = 25;
+    public static final float SIZE = 23;
+
+    private ShipView shipPreview;
+
     private ShapeRenderer shape;
 
     public CellView(final Cell cell, float x, float y) {
@@ -24,11 +36,30 @@ public class CellView extends Actor {
         this.x = x;
         this.y = y;
         this.setBounds(x, y, SIZE,  SIZE);
+
         cellController = new CellController();
+
         this.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 cellController.handleCellClick(cell);
+                Game.playerView.removeShipPreview(shipPreview);
                 return true;
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+               if ((Game.status == GameStatus.SHIPS_STAGE) && (ShipsCreator.canCreateShipHere(cell,Game.playerField.getField()))){
+                   Cell[] temp = {cell};
+                   shipPreview = Game.playerView.addPreViewShip(new Ship(temp, ShipsCreator.shipTypes[currentShipType]));
+               }
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                if (Game.status == GameStatus.SHIPS_STAGE){
+                   Game.playerView.removeShipPreview(shipPreview);
+                }
+                shipPreview = null;
             }
         });
         shape = new ShapeRenderer();

@@ -8,7 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.r3nny.seabattle.client.controller.GameFieldController;
+import com.r3nny.seabattle.client.model.GameField;
 import com.r3nny.seabattle.client.view.GameFieldView;
+
+
 
 public class SeaBattle extends ApplicationAdapter {
 
@@ -27,8 +30,10 @@ public class SeaBattle extends ApplicationAdapter {
 		Gdx.input.setInputProcessor(stage);
 
 
-
-		stage.addActor(new GameFieldView(100,100));
+		Game.playerField = new GameField();
+		Game.playerView = new GameFieldView(100,500, Game.playerField);
+		GameFieldController playerFieldController = new GameFieldController( Game.playerField,Game.playerView);
+		stage.addActor(Game.playerView);
 
 	}
 
@@ -39,7 +44,7 @@ public class SeaBattle extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(0, 0, .5f, 1);
+		ScreenUtils.clear(0, 0, .7f, 1);
 		stage.act();
 		stage.draw();
 

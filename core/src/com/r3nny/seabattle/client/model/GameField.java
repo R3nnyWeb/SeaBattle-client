@@ -1,8 +1,6 @@
 package com.r3nny.seabattle.client.model;
 
-import com.r3nny.seabattle.client.Ship;
-
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class GameField {
@@ -11,6 +9,7 @@ public class GameField {
     private List<Ship> ships;
 
     public GameField() {
+        ships = new LinkedList<>();
         field = new Cell[FIELD_SIZE][FIELD_SIZE];
         initCells();
     }
@@ -24,7 +23,20 @@ public class GameField {
         }
     }
 
+    public void addShip(Ship ship) {
+         addShip(ship);
+
+    }
+
+    public List<Ship> getShips() {
+        return ships;
+    }
+
     public Cell[][] getField() {
         return field;
+    }
+
+    public void setShips(List<Ship> ships) {
+        this.ships = ships;
     }
 }
