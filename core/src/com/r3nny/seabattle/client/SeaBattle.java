@@ -44,7 +44,7 @@ public class SeaBattle extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(0, 0, .7f, 1);
+		ScreenUtils.clear(1f, 1f, 1f, 1);
 		stage.act();
 		stage.draw();
 

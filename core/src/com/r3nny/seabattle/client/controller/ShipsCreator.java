@@ -44,10 +44,9 @@ public class ShipsCreator {
         }
         Ship ship = new Ship(shipCells, shipTypes[currentShipType]);
         for (int i = 0; i < shipCells.length; i++) {
-
             shipCells[i].setShip(ship);
-
         }
+
 
 
         Game.playerView.addShipView(ship);
