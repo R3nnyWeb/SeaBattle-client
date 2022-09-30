@@ -1,8 +1,6 @@
 package com.r3nny.seabattle.client.model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,14 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class Cell extends Actor {
 
-    public static final int SIZE = 23;
+    public static final float SIZE = 23;
 
     private final int column;
     private final int row;
     private Ship ship;
     private CellStatus status;
 
-    private ShapeRenderer shape;
+    private final ShapeRenderer shape;
 
 
     public Cell(float x, float y, int column, int row, Ship ship, CellStatus status) {
@@ -70,9 +68,7 @@ public class Cell extends Actor {
         return row;
     }
 
-    public Ship getShip() {
-        return ship;
-    }
+
 
     public void setShip(Ship ship) {
         this.ship = ship;

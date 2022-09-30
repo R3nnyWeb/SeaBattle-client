@@ -12,8 +12,8 @@ public class GameField extends Group {
     public static final int FIELD_SIZE = 10;
     private final float x;
     private final float y;
-    private Cell[][] field;
-    private List<Ship> ships;
+    private final Cell[][] field;
+    private final List<Ship> ships;
 
     public GameField(float x, float y) {
 
@@ -62,10 +62,6 @@ public class GameField extends Group {
     }
 
 
-    public void addShip(Ship ship) {
-        ships.add(ship);
-        super.addActor(ship);
-    }
 
     public Cell[][] getField() {
         return field;

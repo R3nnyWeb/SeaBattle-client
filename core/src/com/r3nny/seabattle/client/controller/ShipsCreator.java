@@ -1,7 +1,6 @@
 package com.r3nny.seabattle.client.controller;
 
 import com.r3nny.seabattle.client.Game;
-import com.r3nny.seabattle.client.GameStatus;
 import com.r3nny.seabattle.client.model.*;
 
 
@@ -10,7 +9,7 @@ public class ShipsCreator {
             ShipType.THREE_DECK, ShipType.THREE_DECK,
             ShipType.TWO_DECK, ShipType.TWO_DECK, ShipType.TWO_DECK,
             ShipType.ONE_DECK, ShipType.ONE_DECK, ShipType.ONE_DECK, ShipType.ONE_DECK};
-    public static int currentShipType = 0;
+
 
 
 
@@ -50,12 +49,12 @@ public class ShipsCreator {
                 field[y + 1][x - 1 + i].setStatus(CellStatus.NOT_ALLOWED);
             }catch (IndexOutOfBoundsException ignored) {
             }
-            ;
+
             try {
                 field[y - 1][x - 1 + i].setStatus(CellStatus.NOT_ALLOWED);
             } catch (IndexOutOfBoundsException ignored) {
             }
-            ;
+
         }
         try {
             field[y][x - 1].setStatus(CellStatus.NOT_ALLOWED);
@@ -66,7 +65,7 @@ public class ShipsCreator {
             field[y][x + ship.getType().getSize()].setStatus(CellStatus.NOT_ALLOWED);
         } catch (IndexOutOfBoundsException ignored) {
         }
-        ;
+
 
         ship.setCells(shipCells);
         ship.setX(shipCells[0].getX());

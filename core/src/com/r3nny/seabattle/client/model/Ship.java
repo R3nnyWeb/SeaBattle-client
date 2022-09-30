@@ -11,9 +11,9 @@ import com.r3nny.seabattle.client.controller.ShipsCreator;
 
 public class Ship extends Actor {
     private Cell[] cells;
-    private ShipType type;
+    private final ShipType type;
 
-    private ShapeRenderer shape;
+    private final ShapeRenderer shape;
 
 
 
@@ -89,9 +89,7 @@ public class Ship extends Actor {
         return type;
     }
 
-    public Cell[] getCells() {
-        return cells;
-    }
+
 
     public void setCells(Cell[] cells) {
         this.cells = cells;
