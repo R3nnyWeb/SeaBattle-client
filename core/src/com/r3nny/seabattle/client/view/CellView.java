@@ -25,7 +25,6 @@ public class CellView extends Actor {
     private Cell cell;
     private float x;
     private float y;
-    private ShipView shipPreview;
 
     private ShapeRenderer shape;
 
@@ -38,31 +37,33 @@ public class CellView extends Actor {
         cellController = new CellController();
 
         this.addListener(new InputListener() {
+
+
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                     cellController.handleCellClick(cell);
+                    Game.playerView.removeShipPreview();
 
                 }
-
-
-                Game.playerView.removeShipPreview(shipPreview);
+                Game.playerView.removeShipPreview();
                 return true;
             }
+
+
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if ((Game.status == GameStatus.SHIPS_STAGE) && (ShipsCreator.canCreateShipHere(cell, Game.playerField.getField()))) {
                     Cell[] temp = {cell};
-                    shipPreview = Game.playerView.addPreViewShip(new Ship(temp, ShipsCreator.shipTypes[currentShipType]));
+                    Game.playerView.addPreViewShip(new Ship(temp, ShipsCreator.shipTypes[currentShipType]));
                 }
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 if (Game.status == GameStatus.SHIPS_STAGE) {
-                    Game.playerView.removeShipPreview(shipPreview);
+                    Game.playerView.removeShipPreview();
                 }
-                shipPreview = null;
             }
         });
         shape = new ShapeRenderer();

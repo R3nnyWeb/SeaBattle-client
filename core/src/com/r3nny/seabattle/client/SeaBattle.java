@@ -16,7 +16,7 @@ import com.r3nny.seabattle.client.view.GameFieldView;
 
 public class SeaBattle extends ApplicationAdapter {
 
-	//TODO: Добавить ограничение на два обьекта класса GameField
+	//TODO: Добавить ограничение на два обьекта класса GameField, а то лохануся и получилось два gameField игрока.
 	public static final float WORLD_WIDTH = 1024;
 	public static final float WORLD_HEIGHT = 576;
 	SpriteBatch batch;

@@ -13,6 +13,8 @@ public class GameFieldView extends Group {
     private GameField gameField;
     private final CellView[][] fieldView;
     private final List<ShipView> ships;
+    private ShipView shipPreview;
+
     private final float x;
     private final float y;
 
@@ -50,15 +52,16 @@ public class GameFieldView extends Group {
         super.addActor(shipV);
     }
 
-    public ShipView addPreViewShip(Ship ship) {
-        ShipView shipV = new ShipView(x + ship.getCells()[0].getFieldX() * CellView.SIZE, y - ship.getCells()[0].getFieldY() * CellView.SIZE, ship);
-        super.addActor(shipV);
-        return shipV;
+    public void addPreViewShip(Ship ship) {
+        removeShipPreview();
+        shipPreview = new ShipView(x + ship.getCells()[0].getFieldX() * CellView.SIZE, y - ship.getCells()[0].getFieldY() * CellView.SIZE, ship);
+        super.addActor(shipPreview);
+
     }
 
 
-    public void removeShipPreview(ShipView ship) {
-        super.removeActor(ship);
+    public void removeShipPreview() {
+        super.removeActor(shipPreview);
     }
 }
 
