@@ -9,9 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.r3nny.seabattle.client.model.*;
-import com.r3nny.seabattle.client.view.ShipView;
-
-import static com.r3nny.seabattle.client.Game.playerField;
 
 
 public class SeaBattle extends ApplicationAdapter {
@@ -27,13 +24,14 @@ public class SeaBattle extends ApplicationAdapter {
 	public void create () {
 		stage = new Stage(new FitViewport(WORLD_WIDTH,WORLD_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
-		GameField playerField = new GameField(100,400);
-		ShipView sh = new ShipView(100,100,new Ship(null, ShipType.FOUR_DECK));
-		stage.addActor(sh);
-		stage.addActor(playerField);
-		Cell cell = new Cell(100,400,0,0,null,CellStatus.HEALTHY);
-		stage.addActor(cell);
-		System.out.println("f");
+		Game.playerField = new GameField(100,400);
+
+
+		stage.addActor(Game.playerField);
+
+
+		System.out.println(CellsController.getCellByCoord(105,305));
+
 
 
 

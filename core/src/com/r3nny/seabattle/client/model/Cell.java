@@ -85,4 +85,12 @@ public class Cell extends Actor {
     public void setStatus(CellStatus status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "column=" + column +
+                ", row=" + row +
+                '}';
+    }
 }
