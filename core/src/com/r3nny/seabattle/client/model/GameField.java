@@ -31,11 +31,6 @@ public class GameField extends Group {
         }
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-        super.drawChildren(batch, parentAlpha);
-    }
 
 
 }

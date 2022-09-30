@@ -33,7 +33,7 @@ public class Cell extends Actor {
         shape.setAutoShapeType(true);
         this.setBounds(x, y, SIZE, SIZE);
 
-        this.addListener(new InputListener() {
+        System.out.println( this.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("down");
                 return true;
@@ -42,7 +42,7 @@ public class Cell extends Actor {
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("up");
             }
-        });
+        }));
 
     }
 
