@@ -2,6 +2,7 @@ package com.r3nny.seabattle.client;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.*;
@@ -15,13 +16,11 @@ import com.r3nny.seabattle.client.view.GameFieldView;
 
 public class SeaBattle extends ApplicationAdapter {
 
+	//TODO: Добавить ограничение на два обьекта класса GameField
 	public static final float WORLD_WIDTH = 1024;
 	public static final float WORLD_HEIGHT = 576;
 	SpriteBatch batch;
 	Texture img;
-
-
-
 	Stage stage;
 	
 	@Override
@@ -44,7 +43,7 @@ public class SeaBattle extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(1f, 1f, 1f, 1);
+		ScreenUtils.clear(new Color(Color.LIGHT_GRAY));
 		stage.act();
 		stage.draw();
 

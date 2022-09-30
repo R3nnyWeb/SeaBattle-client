@@ -2,9 +2,8 @@ package com.r3nny.seabattle.client.view;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.r3nny.seabattle.client.controller.ShipsCreator;
-import com.r3nny.seabattle.client.model.Ship;
 import com.r3nny.seabattle.client.model.GameField;
+import com.r3nny.seabattle.client.model.Ship;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,14 +11,14 @@ import java.util.List;
 public class GameFieldView extends Group {
 
     private GameField gameField;
-    private CellView[][] fieldView;
-    private List<ShipView> ships;
-    private float x;
-    private float y;
+    private final CellView[][] fieldView;
+    private final List<ShipView> ships;
+    private final float x;
+    private final float y;
 
 
     public GameFieldView(float x, float y, GameField gameField) {
-        this.gameField = new GameField();
+        this.gameField = gameField;
         ships = new LinkedList<>();
         this.x = x;
         this.y = y;
@@ -42,12 +41,8 @@ public class GameFieldView extends Group {
         }
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        drawChildren(batch, parentAlpha);
 
-    }
-    //TODO: REWORK
+
 
     public void addShipView(Ship ship) {
         ShipView shipV = new ShipView(x + ship.getCells()[0].getFieldX() * CellView.SIZE, y - ship.getCells()[0].getFieldY() * CellView.SIZE, ship);
@@ -55,14 +50,14 @@ public class GameFieldView extends Group {
         super.addActor(shipV);
     }
 
-    public ShipView addPreViewShip(Ship ship){
+    public ShipView addPreViewShip(Ship ship) {
         ShipView shipV = new ShipView(x + ship.getCells()[0].getFieldX() * CellView.SIZE, y - ship.getCells()[0].getFieldY() * CellView.SIZE, ship);
         super.addActor(shipV);
         return shipV;
     }
 
 
-    public void removeShipPreview(ShipView ship){
+    public void removeShipPreview(ShipView ship) {
         super.removeActor(ship);
     }
 }

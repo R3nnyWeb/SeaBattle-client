@@ -24,7 +24,7 @@ public class ShipView extends Actor {
 
         shape.setProjectionMatrix(batch.getProjectionMatrix());
         shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.setColor(Color.RED);
+        shape.setColor(Color.NAVY);
         shape.rect(x +2 , y + 2, ship.getType().getSize() * CellView.SIZE - 4, CellView.SIZE -4);
         shape.end();
     }
