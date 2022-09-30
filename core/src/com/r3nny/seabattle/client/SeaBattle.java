@@ -8,10 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.r3nny.seabattle.client.controller.GameFieldController;
+import com.r3nny.seabattle.client.model.Cell;
+import com.r3nny.seabattle.client.model.CellStatus;
 import com.r3nny.seabattle.client.model.GameField;
-import com.r3nny.seabattle.client.view.GameFieldView;
 
+import static com.r3nny.seabattle.client.Game.playerField;
 
 
 public class SeaBattle extends ApplicationAdapter {
@@ -26,14 +27,15 @@ public class SeaBattle extends ApplicationAdapter {
 	@Override
 	public void create () {
 		stage = new Stage(new FitViewport(WORLD_WIDTH,WORLD_HEIGHT));
+
+
+
+		playerField = new GameField(100,400);
+
+
+//
+		stage.addActor(Game.playerField);
 		Gdx.input.setInputProcessor(stage);
-
-
-		Game.playerField = new GameField();
-		Game.playerView = new GameFieldView(100,500, Game.playerField);
-		GameFieldController playerFieldController = new GameFieldController( Game.playerField,Game.playerView);
-		stage.addActor(Game.playerView);
-
 	}
 
 	public void resize (int width, int height) {
