@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import java.util.LinkedList;
 import java.util.List;
 
-public class GameField extends Group {
+public class GameField extends Group{
     public static final int FIELD_SIZE = 10;
     private Cell[][] field;
     private List<Ship> ships;

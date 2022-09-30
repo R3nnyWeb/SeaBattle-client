@@ -27,10 +27,12 @@ public class SeaBattle extends ApplicationAdapter {
 	public void create () {
 		stage = new Stage(new FitViewport(WORLD_WIDTH,WORLD_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
-		playerField = new GameField(100,400);
+		GameField playerField = new GameField(100,400);
 		ShipView sh = new ShipView(100,100,new Ship(null, ShipType.FOUR_DECK));
 		stage.addActor(sh);
 		stage.addActor(playerField);
+		Cell cell = new Cell(100,400,0,0,null,CellStatus.HEALTHY);
+		stage.addActor(cell);
 		System.out.println("f");
 
 
