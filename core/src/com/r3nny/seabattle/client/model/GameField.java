@@ -90,4 +90,8 @@ public class GameField extends Group {
     public Cell[][] getField() {
         return field;
     }
+
+    public List<Ship> getShips() {
+        return ships;
+    }
 }
