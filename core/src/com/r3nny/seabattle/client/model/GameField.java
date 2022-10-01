@@ -32,8 +32,8 @@ public class GameField extends Group {
 
     private List<Ship> initShips() {
         List<Ship> ships = new LinkedList<>();
-        float startX = 100;
-        float startY = 100;
+        float startX = this.x;
+        float startY = 50;
         for (int i = 0; i < shipTypes.length; i++) {
             Ship ship = new Ship(startX, startY, null, ShipsCreator.shipTypes[i]);
             ships.add(ship);
@@ -42,8 +42,8 @@ public class GameField extends Group {
             startX += ShipsCreator.shipTypes[i].getSize() * Cell.SIZE + 20;
 
             if (i == 2) {
-                startY -= 30;
-                startX = 100;
+                startY -= 40;
+                startX = this.x;
             }
         }
         for (Ship ship : ships

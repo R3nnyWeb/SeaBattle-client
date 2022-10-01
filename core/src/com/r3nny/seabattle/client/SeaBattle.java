@@ -25,7 +25,7 @@ public class SeaBattle extends ApplicationAdapter {
 	public void create () {
 		stage = new Stage(new FitViewport(WORLD_WIDTH,WORLD_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
-		Game.playerField = new GameField(100,400);
+		Game.playerField = new GameField(89,WORLD_HEIGHT -175);
 
 
 		stage.addActor(Game.playerField);
