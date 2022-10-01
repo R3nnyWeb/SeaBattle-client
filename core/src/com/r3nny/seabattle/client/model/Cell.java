@@ -1,5 +1,6 @@
 package com.r3nny.seabattle.client.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -50,7 +51,8 @@ public class Cell extends Actor {
         shape.setProjectionMatrix(batch.getProjectionMatrix());
 
         shape.begin();
-        shape.setColor(Color.BLACK);
+        Gdx.gl20.glLineWidth(3);
+        shape.setColor(Color.WHITE);
         shape.rect(getX(), getY(), SIZE, SIZE);
 
         if (status == CellStatus.NOT_ALLOWED) {

@@ -11,20 +11,28 @@ public class ShipsCreator {
             ShipType.ONE_DECK, ShipType.ONE_DECK, ShipType.ONE_DECK, ShipType.ONE_DECK};
 
 
-
-
-
-    //TODO: Можно сделать приватным. Типо у нас же create и как возвраает false
-    public static boolean canCreateShipHere(Cell cell, Ship ship, Cell[][] field) {
+    private static boolean canCreateShipHere(Cell cell, Ship ship, Cell[][] field) {
         int x = cell.getColumn();
         int y = cell.getRow();
         for (int i = 0; i < ship.getType().getSize(); i++) {
-            if (cell.getColumn() + i >= GameField.FIELD_SIZE) {
-                return false;
+
+            if (ship.isVertical()) {
+                if (cell.getRow() - i < 0) {
+                    return false;
+                }
+                if (field[y - i][x].getStatus() != CellStatus.SEA) {
+                    return false;
+                }
+            } else {
+                if (cell.getColumn() + i >= GameField.FIELD_SIZE) {
+                    return false;
+                }
+                if (field[y][x + i].getStatus() != CellStatus.SEA) {
+                    return false;
+                }
             }
-            if (field[y][x + i].getStatus() != CellStatus.SEA) {
-                return false;
-            }
+
+
         }
         return true;
     }
@@ -34,36 +42,67 @@ public class ShipsCreator {
         int x = cell.getColumn();
         int y = cell.getRow();
         Cell[][] field = Game.playerField.getField();
-        if (!canCreateShipHere(cell, ship,field)) {
+        Cell[] shipCells = new Cell[ship.getType().getSize()];
+
+        if (!canCreateShipHere(cell, ship, field)) {
             return false;
         }
-        Cell[] shipCells = new Cell[ship.getType().getSize()];
-        for (int i = 0; i < shipCells.length; i++) {
-            field[y][x + i].setStatus(CellStatus.HEALTHY);
-            shipCells[i] = field[y][x + i];
-        }
 
-        for (int i = 0; i < ship.getType().getSize() + 2; i++) {
-            //TODO: Rework try try catch
-            try {
-                field[y + 1][x - 1 + i].setStatus(CellStatus.NOT_ALLOWED);
-            }catch (IndexOutOfBoundsException ignored) {
+        if (ship.isVertical()) {
+            for (int i = 0; i < shipCells.length; i++) {
+                field[y - i][x].setStatus(CellStatus.HEALTHY);
+                shipCells[i] = field[y - i][x];
             }
+            for (int i = 0; i < ship.getType().getSize() + 2; i++) {
+                //TODO: Rework try try catch
+                try {
+                    field[y - i + 1][x + 1].setStatus(CellStatus.NOT_ALLOWED);
+                } catch (IndexOutOfBoundsException ignored) {
+                }
 
+                try {
+                    field[y - i + 1][x - 1].setStatus(CellStatus.NOT_ALLOWED);
+                } catch (IndexOutOfBoundsException ignored) {
+                }
+
+            }
             try {
-                field[y - 1][x - 1 + i].setStatus(CellStatus.NOT_ALLOWED);
+                field[y+1][x].setStatus(CellStatus.NOT_ALLOWED);
             } catch (IndexOutOfBoundsException ignored) {
             }
 
-        }
-        try {
-            field[y][x - 1].setStatus(CellStatus.NOT_ALLOWED);
-        } catch (IndexOutOfBoundsException ignored) {
-        }
-        ;
-        try {
-            field[y][x + ship.getType().getSize()].setStatus(CellStatus.NOT_ALLOWED);
-        } catch (IndexOutOfBoundsException ignored) {
+            try {
+                field[y - ship.getType().getSize()][x].setStatus(CellStatus.NOT_ALLOWED);
+            } catch (IndexOutOfBoundsException ignored) {
+            }
+        } else {
+            for (int i = 0; i < shipCells.length; i++) {
+                field[y][x + i].setStatus(CellStatus.HEALTHY);
+                shipCells[i] = field[y][x + i];
+            }
+
+            for (int i = 0; i < ship.getType().getSize() + 2; i++) {
+                //TODO: Rework try try catch
+                try {
+                    field[y + 1][x - 1 + i].setStatus(CellStatus.NOT_ALLOWED);
+                } catch (IndexOutOfBoundsException ignored) {
+                }
+
+                try {
+                    field[y - 1][x - 1 + i].setStatus(CellStatus.NOT_ALLOWED);
+                } catch (IndexOutOfBoundsException ignored) {
+                }
+
+            }
+            try {
+                field[y][x - 1].setStatus(CellStatus.NOT_ALLOWED);
+            } catch (IndexOutOfBoundsException ignored) {
+            }
+
+            try {
+                field[y][x + ship.getType().getSize()].setStatus(CellStatus.NOT_ALLOWED);
+            } catch (IndexOutOfBoundsException ignored) {
+            }
         }
 
 
@@ -73,10 +112,6 @@ public class ShipsCreator {
         for (Cell shipCell : shipCells) {
             shipCell.setShip(ship);
         }
-
-
-
-
 
 
         return true;

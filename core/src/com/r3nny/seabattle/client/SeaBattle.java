@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.r3nny.seabattle.client.controller.CellsController;
 import com.r3nny.seabattle.client.model.*;
 
 
@@ -28,7 +29,7 @@ public class SeaBattle extends ApplicationAdapter {
 
 
 		stage.addActor(Game.playerField);
-
+		stage.setDebugAll(true);
 
 		System.out.println(CellsController.getCellByCoord(105,305));
 
@@ -44,7 +45,7 @@ public class SeaBattle extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(new Color(Color.LIGHT_GRAY));
+		ScreenUtils.clear(new Color(Color.BLACK));
 		stage.act();
 		stage.draw();
 
