@@ -3,6 +3,7 @@ package com.r3nny.seabattle.client.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -18,6 +19,7 @@ public class Ship extends Actor {
     private float startX;
     private float startY;
     private boolean isVertical;
+    Texture texture;
 
 
     public Ship(float x, float y, Cell[] cells, ShipType type) {
@@ -25,17 +27,18 @@ public class Ship extends Actor {
         this.type = type;
         super.setX(x);
         super.setY(y);
-
+        texture = new Texture(Gdx.files.internal("cell.png"));
         shape = new ShapeRenderer();
         updateBounds();
 
         this.addListener(new InputListener() {
 
-
+            //TODO: При отпускании ивенте на пкм срабатывает touchUp надо исправить
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(Ship.this.cells == null){
-                    if(Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+                if ((Ship.this.cells == null)) {
+                    if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+
                         setVertical(!isVertical());
                     }
                     updateBounds();
@@ -46,12 +49,14 @@ public class Ship extends Actor {
 
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                if (Ship.this.cells == null) {
-                    setX(event.getStageX() - 10);
-                    setY(event.getStageY() - 10);
+                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                    if (Ship.this.cells == null) {
+                        setX(event.getStageX() - 10);
+                        setY(event.getStageY() - 10);
 
 
-                    updateBounds();
+                        updateBounds();
+                    }
                 }
 
 
@@ -59,14 +64,16 @@ public class Ship extends Actor {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+
                 if (Ship.this.cells == null) {
                     Cell currentCell = CellsController.getCellByCoord(event.getStageX() - 5, event.getStageY() - 5);
                     setX(getStartX());
                     setY(getStartY());
                     if (currentCell != null) {
-                        System.out.println( ShipsCreator.createShip(currentCell, Ship.this));
+                        System.out.println(ShipsCreator.createShip(currentCell, Ship.this));
                     }
                 }
+                updateBounds();
 
 
             }
@@ -76,7 +83,7 @@ public class Ship extends Actor {
     }
 
     private void updateBounds() {
-        if(isVertical){
+        if (isVertical) {
             this.setBounds(getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
         } else {
             this.setBounds(getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);
@@ -87,18 +94,17 @@ public class Ship extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
 
-        shape.setProjectionMatrix(batch.getProjectionMatrix());
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.setColor(Color.NAVY);
+
         if (isVertical) {
-            shape.rect(getX(), getY(), Cell.SIZE,type.getSize() * Cell.SIZE);
+            batch.draw(texture, getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
+
 
         } else {
-            shape.rect(getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);
+            batch.draw(texture, getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);
         }
 
 
-        shape.end();
+
     }
 
     @Override
@@ -106,7 +112,7 @@ public class Ship extends Actor {
 
         shapes.setColor(Color.RED);
         if (isVertical) {
-            shapes.rect(getX(), getY(), Cell.SIZE,type.getSize() * Cell.SIZE);
+            shapes.rect(getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
 
         } else {
             shapes.rect(getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);

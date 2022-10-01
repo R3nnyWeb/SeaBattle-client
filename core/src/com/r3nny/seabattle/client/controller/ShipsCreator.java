@@ -1,7 +1,11 @@
 package com.r3nny.seabattle.client.controller;
 
 import com.r3nny.seabattle.client.Game;
+import com.r3nny.seabattle.client.GameStatus;
 import com.r3nny.seabattle.client.model.*;
+
+import java.util.List;
+import java.util.Random;
 
 
 public class ShipsCreator {
@@ -67,7 +71,7 @@ public class ShipsCreator {
 
             }
             try {
-                field[y+1][x].setStatus(CellStatus.NOT_ALLOWED);
+                field[y + 1][x].setStatus(CellStatus.NOT_ALLOWED);
             } catch (IndexOutOfBoundsException ignored) {
             }
 
@@ -118,4 +122,26 @@ public class ShipsCreator {
     }
 
 
+    public static void autoCreateShips(GameField gf) {
+        Random rd = new Random();
+        Cell[][] field = gf.getField();
+        List<Ship> ships = gf.getShips();
+        int i = 0;
+        while(i < shipTypes.length){
+            int row = rd.nextInt(10);
+            int column = rd.nextInt(10);
+            Ship ship = ships.get(i);
+            //TODO: Разобратся с рандомом. Без sleep не работает
+            ship.setVertical(rd.nextBoolean());
+            try {
+                Thread.sleep(4);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            if(createShip(field[row][column], ships.get(i))){
+                System.out.println("Created");
+                i++;
+            }
+        }
+     }
 }

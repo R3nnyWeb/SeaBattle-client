@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static com.r3nny.seabattle.client.controller.ShipsCreator.shipTypes;
+import static com.r3nny.seabattle.client.model.CellStatus.NOT_ALLOWED;
+import static com.r3nny.seabattle.client.model.CellStatus.SEA;
 
 public class GameField extends Group {
     public static final int FIELD_SIZE = 10;
@@ -67,9 +69,34 @@ public class GameField extends Group {
         return field;
     }
 
+    public void initAutoShips() {
+        for (Ship ship : ships
+        ) {
+            super.removeActor(ship);
+        }
+        for (int i = 0; i <field.length ; i++) {
+            for (int j = 0; j < field.length ; j++) {
+                field[i][j].setStatus(CellStatus.SEA);
+            }
+        }
+        ShipsCreator.autoCreateShips(this);
+        for (Ship ship : ships
+        ) {
+            super.addActor(ship);
+        }
+        for (int i = 0; i <field.length ; i++) {
+            for (int j = 0; j < field.length ; j++) {
+                 if(field[i][j].getStatus() == NOT_ALLOWED){
+                     field[i][j].setStatus(SEA);
+                 }
+            }
+        }
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+        super.drawChildren(batch,1);
     }
 
     @Override

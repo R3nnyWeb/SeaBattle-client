@@ -1,6 +1,5 @@
 package com.r3nny.seabattle.client.controller;
 
-import com.badlogic.gdx.utils.Null;
 import com.r3nny.seabattle.client.Game;
 import com.r3nny.seabattle.client.model.Cell;
 

@@ -2,14 +2,22 @@ package com.r3nny.seabattle.client;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.r3nny.seabattle.client.controller.CellsController;
 import com.r3nny.seabattle.client.model.*;
+
+import java.security.Key;
+
+import static com.r3nny.seabattle.client.Game.playerField;
 
 
 public class SeaBattle extends ApplicationAdapter {
@@ -25,11 +33,14 @@ public class SeaBattle extends ApplicationAdapter {
 	public void create () {
 		stage = new Stage(new FitViewport(WORLD_WIDTH,WORLD_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
-		Game.playerField = new GameField(89,WORLD_HEIGHT -175);
+		playerField = new GameField(89,WORLD_HEIGHT -175);
+		batch = new SpriteBatch();
 
+		Ship ship = new Ship(500,500,null,ShipType.ONE_DECK);
 
-		stage.addActor(Game.playerField);
-		stage.setDebugAll(true);
+		playerField.addActor(ship);
+		stage.addActor(playerField);
+//		stage.setDebugAll(true);
 
 		System.out.println(CellsController.getCellByCoord(105,305));
 
@@ -48,6 +59,10 @@ public class SeaBattle extends ApplicationAdapter {
 		ScreenUtils.clear(new Color(Color.BLACK));
 		stage.act();
 		stage.draw();
+		if(Gdx.input.isKeyPressed(Input.Keys.A)){
+			playerField.initAutoShips();
+		}
+
 
 	}
 	
