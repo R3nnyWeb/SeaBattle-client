@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 public class Cell extends Actor {
 
 //    public static final float SIZE = 31.37f;
-   public static final float SIZE = 45f;
+   public static final float SIZE = 32f;
 
     private final int column;
     private final int row;

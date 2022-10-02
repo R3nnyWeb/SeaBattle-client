@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.r3nny.seabattle.client.controller.CellsController;
 import com.r3nny.seabattle.client.model.*;
@@ -26,7 +27,7 @@ public class SeaBattle extends ApplicationAdapter {
 	public static final float WORLD_WIDTH = 1024;
 	public static final float WORLD_HEIGHT = 576;
 	SpriteBatch batch;
-	Texture img;
+	Texture bg;
 	Stage stage;
 	
 	@Override
@@ -35,16 +36,14 @@ public class SeaBattle extends ApplicationAdapter {
 		Gdx.input.setInputProcessor(stage);
 		playerField = new GameField(89,WORLD_HEIGHT -100);
 		batch = new SpriteBatch();
-
+	 bg = new Texture("bg.jpg");
 
 
 
 		stage.addActor(playerField);
-		stage.setDebugAll(true);
+//		stage.setDebugAll(true);
 		//stage.setDebugUnderMouse(true);
 
-
-		System.out.println(CellsController.getCellByCoord(105,305));
 
 
 
@@ -59,6 +58,12 @@ public class SeaBattle extends ApplicationAdapter {
 	@Override
 	public void render () {
 		ScreenUtils.clear(new Color(Color.BLACK));
+
+		batch.begin();
+
+		batch.setProjectionMatrix(stage.getBatch().getProjectionMatrix());
+		batch.draw(bg,0,0,WORLD_WIDTH,WORLD_HEIGHT);
+		batch.end();
 		stage.act();
 		stage.draw();
 		if(Gdx.input.isKeyPressed(Input.Keys.A)){
@@ -71,7 +76,7 @@ public class SeaBattle extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		img.dispose();
+		bg.dispose();
 		stage.dispose();
 	}
 }
