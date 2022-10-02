@@ -93,26 +93,7 @@ public class GameField extends Group {
         }
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-        super.drawChildren(batch,1);
-    }
 
-    @Override
-    protected void drawChildren(Batch batch, float parentAlpha) {
-        super.drawChildren(batch, parentAlpha);
-    }
-
-    @Override
-    public void drawDebug(ShapeRenderer shapes) {
-        super.drawDebug(shapes);
-    }
-
-    @Override
-    protected void drawDebugChildren(ShapeRenderer shapes) {
-        super.drawDebugChildren(shapes);
-    }
 
     public Cell[][] getField() {
         return field;

@@ -33,14 +33,16 @@ public class SeaBattle extends ApplicationAdapter {
 	public void create () {
 		stage = new Stage(new FitViewport(WORLD_WIDTH,WORLD_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
-		playerField = new GameField(89,WORLD_HEIGHT -175);
+		playerField = new GameField(89,WORLD_HEIGHT -100);
 		batch = new SpriteBatch();
 
-		Ship ship = new Ship(500,500,null,ShipType.ONE_DECK);
 
-		playerField.addActor(ship);
+
+
 		stage.addActor(playerField);
-//		stage.setDebugAll(true);
+		stage.setDebugAll(true);
+		//stage.setDebugUnderMouse(true);
+
 
 		System.out.println(CellsController.getCellByCoord(105,305));
 

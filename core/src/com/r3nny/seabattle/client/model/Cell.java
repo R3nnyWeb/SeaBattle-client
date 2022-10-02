@@ -2,6 +2,7 @@ package com.r3nny.seabattle.client.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -10,7 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public class Cell extends Actor {
 
-    public static final float SIZE = 31.37f;
+//    public static final float SIZE = 31.37f;
+   public static final float SIZE = 45f;
 
     private final int column;
     private final int row;
@@ -48,6 +50,7 @@ public class Cell extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        batch.end();
         shape.setProjectionMatrix(batch.getProjectionMatrix());
 
         shape.begin();
@@ -60,6 +63,8 @@ public class Cell extends Actor {
             shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
         }
         shape.end();
+        batch.begin();
+//        batch.draw(new Texture("cell.png"),getX(),getY(),Cell.SIZE,Cell.SIZE);
 
     }
     public int getColumn() {

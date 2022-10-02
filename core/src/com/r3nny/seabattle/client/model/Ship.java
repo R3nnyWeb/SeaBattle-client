@@ -21,13 +21,25 @@ public class Ship extends Actor {
     private boolean isVertical;
     Texture texture;
 
+    public void setTexture(Texture texture) {
+        this.texture = texture;
+    }
 
     public Ship(float x, float y, Cell[] cells, ShipType type) {
         this.cells = cells;
         this.type = type;
         super.setX(x);
         super.setY(y);
-        texture = new Texture(Gdx.files.internal("cell.png"));
+        //TODO: Кейс сделай, балбес
+        texture = new Texture(Gdx.files.internal("1xShip.png"));
+        if( type == ShipType.THREE_DECK) {
+            texture = new Texture(Gdx.files.internal("4xShip.png"));
+        }
+        if( type == ShipType.FOUR_DECK) {
+            texture = new Texture(Gdx.files.internal("4xShip.png"));
+        }
+
+
         shape = new ShapeRenderer();
         updateBounds();
 
@@ -96,6 +108,7 @@ public class Ship extends Actor {
 
 
         if (isVertical) {
+
             batch.draw(texture, getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
 
 
