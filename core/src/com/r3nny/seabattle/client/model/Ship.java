@@ -33,8 +33,10 @@ public class Ship extends Actor {
         super.setY(y);
         //TODO: Кейс сделай, балбес
         texture = new Sprite(new Texture("1xShip.png"));
-        texture.rotate(190);
+        if(type == ShipType.FOUR_DECK){
+            texture = new Sprite(new Texture("4xShip.png"));
 
+        }
 
 
         shape = new ShapeRenderer();
@@ -93,6 +95,7 @@ public class Ship extends Actor {
 
     private void updateBounds() {
         if (isVertical) {
+
             this.setBounds(getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
         } else {
             this.setBounds(getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);
@@ -105,8 +108,10 @@ public class Ship extends Actor {
 
 
         if (isVertical) {
-            texture.rotate(190);
-            batch.draw(texture, getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
+            texture.setPosition(getX(),getY());
+            texture.setSize(Cell.SIZE, type.getSize() * Cell.SIZE);
+            texture.draw(batch);
+//            batch.draw(texture, getX(), getY(), Cell.SIZE, Cell.SIZE);
 
 
         } else {
@@ -140,6 +145,7 @@ public class Ship extends Actor {
     }
 
     public void setVertical(boolean vertical) {
+        texture.rotate90(vertical);
         isVertical = vertical;
     }
 
