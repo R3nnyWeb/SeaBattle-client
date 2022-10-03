@@ -8,11 +8,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.r3nny.seabattle.client.Game;
+import com.r3nny.seabattle.client.GameStatus;
+import com.r3nny.seabattle.client.controller.GameController;
 
 public class Cell extends Actor {
 
-//    public static final float SIZE = 31.37f;
-   public static final float SIZE = 32f;
+    public static final float SIZE = 31.37f;
+//   public static final float SIZE = 32f;
 
     private final int column;
     private final int row;
@@ -36,7 +39,9 @@ public class Cell extends Actor {
 
         System.out.println( this.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("down");
+               if(Game.status == GameStatus.PLAYER_TURN){
+                   System.out.println( GameController.shoot(Cell.this));
+               }
                 return true;
             }
 
@@ -47,6 +52,10 @@ public class Cell extends Actor {
 
     }
 
+
+    public Ship getShip() {
+        return ship;
+    }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {

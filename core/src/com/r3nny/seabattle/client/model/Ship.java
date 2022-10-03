@@ -5,10 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.r3nny.seabattle.client.Game;
 import com.r3nny.seabattle.client.controller.CellsController;
 import com.r3nny.seabattle.client.controller.ShipsCreator;
 
@@ -82,7 +84,7 @@ public class Ship extends Actor {
                     setX(getStartX());
                     setY(getStartY());
                     if (currentCell != null) {
-                        System.out.println(ShipsCreator.createShip(currentCell, Ship.this));
+                        System.out.println(ShipsCreator.createShip(currentCell, Ship.this, Game.playerField));
                     }
                 }
                 updateBounds();
@@ -108,7 +110,6 @@ public class Ship extends Actor {
 
 
         if (isVertical) {
-
             batch.draw(texture, getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
 
 

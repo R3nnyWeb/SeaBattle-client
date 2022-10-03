@@ -41,11 +41,11 @@ public class ShipsCreator {
         return true;
     }
 
-    public static boolean createShip(Cell cell, Ship ship) {
+    public static boolean createShip(Cell cell, Ship ship, GameField gf) {
         System.out.println("I must create sheep on:  " + cell);
         int x = cell.getColumn();
         int y = cell.getRow();
-        Cell[][] field = Game.playerField.getField();
+        Cell[][] field = gf.getField();
         Cell[] shipCells = new Cell[ship.getType().getSize()];
 
         if (!canCreateShipHere(cell, ship, field)) {
@@ -138,10 +138,12 @@ public class ShipsCreator {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            if(createShip(field[row][column], ships.get(i))){
+            if(createShip(field[row][column], ships.get(i), gf)){
                 System.out.println("Created");
                 i++;
             }
         }
+
+
      }
 }

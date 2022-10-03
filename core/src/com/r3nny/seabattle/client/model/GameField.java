@@ -3,6 +3,9 @@ package com.r3nny.seabattle.client.model;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.r3nny.seabattle.client.Game;
+import com.r3nny.seabattle.client.GameStatus;
+import com.r3nny.seabattle.client.SeaBattle;
 import com.r3nny.seabattle.client.controller.ShipsCreator;
 
 import java.util.LinkedList;
@@ -16,19 +19,30 @@ public class GameField extends Group {
     public static final int FIELD_SIZE = 10;
     private final float x;
     private final float y;
+    private boolean isPlayer;
     private final Cell[][] field;
     private final List<Ship> ships;
 
-    public GameField(float x, float y) {
-
+    public GameField(float x, float y, boolean isPlayer) {
+        this.isPlayer = isPlayer;
         this.x = x;
         this.y = y;
 
         field = initCells();
         ships = initShips();
+        if(!isPlayer){
+            initAutoShips();
+        }
+
+//TODO: Надо будет рандомно. Не работает вообще, епт
+        // Game.status = GameStatus.PLAYER_TURN;
+
+
 
 
     }
+
+
 
     //TODO: Оптимизировать, Сделать так, чтобы когда отпускаешь, люой корабль вернулся на свое место.
 
@@ -53,6 +67,7 @@ public class GameField extends Group {
             super.addActor(ship);
 
         }
+
 
         return ships;
     }
@@ -80,10 +95,14 @@ public class GameField extends Group {
             }
         }
         ShipsCreator.autoCreateShips(this);
-        for (Ship ship : ships
-        ) {
-            super.addActor(ship);
+        if (isPlayer || SeaBattle.debug) {
+            for (Ship ship : ships
+            ) {
+                super.addActor(ship);
+            }
+
         }
+
         for (int i = 0; i <field.length ; i++) {
             for (int j = 0; j < field.length ; j++) {
                  if(field[i][j].getStatus() == NOT_ALLOWED){
@@ -91,6 +110,7 @@ public class GameField extends Group {
                  }
             }
         }
+
     }
 
 

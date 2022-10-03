@@ -3,8 +3,15 @@ package com.r3nny.seabattle.client;
 import com.r3nny.seabattle.client.model.GameField;
 
 public class Game {
-    public  static GameStatus status = GameStatus.SHIPS_STAGE;
+    protected static final int FIELD_Y = 476;
+    protected static final int PLAYER_FIELD_X = 89;
+    protected static final int ENEMY_FIELD_X = 633;
+
+
+    public  static  GameStatus status = GameStatus.SHIPS_STAGE;
     public static GameField playerField;
 
     public static GameField enemy;
+
+
 }
