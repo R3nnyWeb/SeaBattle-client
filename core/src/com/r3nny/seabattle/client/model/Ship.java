@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -21,11 +22,9 @@ public class Ship extends Actor {
     private float startX;
     private float startY;
     private boolean isVertical;
-    Texture texture;
+    private Sprite texture;
 
-    public void setTexture(Texture texture) {
-        this.texture = texture;
-    }
+
 
     public Ship(float x, float y, Cell[] cells, ShipType type) {
         this.cells = cells;
@@ -33,13 +32,9 @@ public class Ship extends Actor {
         super.setX(x);
         super.setY(y);
         //TODO: Кейс сделай, балбес
-        texture = new Texture(Gdx.files.internal("1xShip.png"));
-        if( type == ShipType.THREE_DECK) {
-            texture = new Texture(Gdx.files.internal("4xShip.png"));
-        }
-        if( type == ShipType.FOUR_DECK) {
-            texture = new Texture(Gdx.files.internal("4xShip.png"));
-        }
+        texture = new Sprite(new Texture("1xShip.png"));
+        texture.rotate(190);
+
 
 
         shape = new ShapeRenderer();
@@ -110,6 +105,7 @@ public class Ship extends Actor {
 
 
         if (isVertical) {
+            texture.rotate(190);
             batch.draw(texture, getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
 
 

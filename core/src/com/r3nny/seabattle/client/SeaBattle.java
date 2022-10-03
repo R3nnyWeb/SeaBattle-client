@@ -21,7 +21,7 @@ public class SeaBattle extends ApplicationAdapter {
 	public static final float WORLD_WIDTH = 1024;
 	public static final float WORLD_HEIGHT = 576;
 
-	public static boolean debug = false;
+	public static boolean debug = true;
 	SpriteBatch batch;
 	Texture bg;
 	Stage stage;
