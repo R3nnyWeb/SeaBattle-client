@@ -134,7 +134,7 @@ public class ShipsCreator {
             //TODO: Разобратся с рандомом. Без sleep не работает
             ship.setVertical(rd.nextBoolean());
             try {
-                Thread.sleep(4);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
