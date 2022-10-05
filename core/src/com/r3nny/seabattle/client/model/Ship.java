@@ -35,7 +35,9 @@ public class Ship extends Actor {
         texture = new Sprite(new Texture("1xShip.png"));
         if(type == ShipType.FOUR_DECK){
             texture = new Sprite(new Texture("4xShip.png"));
-
+        }
+        if(type == ShipType.THREE_DECK){
+            texture = new Sprite(new Texture("3xShip.png"));
         }
 
 
