@@ -1,0 +1,16 @@
+com\r3nny\seabatlle\client\core\SingleGame.class
+com\r3nny\seabatlle\client\core\controller\GameController.class
+com\r3nny\seabatlle\client\DesktopLauncher.class
+com\r3nny\seabatlle\client\core\screen\GameScreen.class
+com\r3nny\seabatlle\client\core\model\Ship$1.class
+com\r3nny\seabatlle\client\core\Game.class
+com\r3nny\seabatlle\client\core\model\Ship.class
+com\r3nny\seabatlle\client\core\controller\CellsController.class
+com\r3nny\seabatlle\client\core\SeaBattle.class
+com\r3nny\seabatlle\client\core\model\CellStatus.class
+com\r3nny\seabatlle\client\core\model\Cell$1.class
+com\r3nny\seabatlle\client\core\GameStatus.class
+com\r3nny\seabatlle\client\core\model\Cell.class
+com\r3nny\seabatlle\client\core\model\ShipType.class
+com\r3nny\seabatlle\client\core\model\GameField.class
+com\r3nny\seabatlle\client\core\controller\ShipsCreator.class
