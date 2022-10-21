@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="SeaBattle-client.desktop.test" target="1.8" />
+      <module name="SeaBattle-client.desktop" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
