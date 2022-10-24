@@ -1,5 +1,7 @@
 package com.r3nny.seabatlle.client.core.controller;
 
+import com.r3nny.seabatlle.client.core.Game;
+import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.model.*;
 
 import java.util.List;

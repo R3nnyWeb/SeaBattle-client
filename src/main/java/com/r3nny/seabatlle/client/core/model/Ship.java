@@ -25,7 +25,6 @@ public class Ship extends Actor {
     private Sprite texture;
 
 
-
     public Ship(float x, float y, Cell[] cells, ShipType type) {
         this.cells = cells;
         this.type = type;
@@ -33,10 +32,10 @@ public class Ship extends Actor {
         super.setY(y);
         //TODO: Кейс сделай, балбес
         texture = new Sprite(new Texture("1xShip.png"));
-        if(type == ShipType.FOUR_DECK){
+        if (type == ShipType.FOUR_DECK) {
             texture = new Sprite(new Texture("4xShip.png"));
         }
-        if(type == ShipType.THREE_DECK){
+        if (type == ShipType.THREE_DECK) {
             texture = new Sprite(new Texture("3xShip.png"));
         }
 
@@ -51,11 +50,9 @@ public class Ship extends Actor {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if ((Ship.this.cells == null)) {
                     if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
-
                         setVertical(!isVertical());
                     }
                     updateBounds();
-
                 }
                 return true;
             }
@@ -66,8 +63,6 @@ public class Ship extends Actor {
                     if (Ship.this.cells == null) {
                         setX(event.getStageX() - 10);
                         setY(event.getStageY() - 10);
-
-
                         updateBounds();
                     }
                 }
@@ -110,7 +105,7 @@ public class Ship extends Actor {
 
 
         if (isVertical) {
-            texture.setPosition(getX(),getY());
+            texture.setPosition(getX(), getY());
             texture.setSize(Cell.SIZE, type.getSize() * Cell.SIZE);
             texture.draw(batch);
 //            batch.draw(texture, getX(), getY(), Cell.SIZE, Cell.SIZE);
@@ -119,7 +114,6 @@ public class Ship extends Actor {
         } else {
             batch.draw(texture, getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);
         }
-
 
 
     }
@@ -142,6 +136,10 @@ public class Ship extends Actor {
         return startX;
     }
 
+    public void setStartX(float startX) {
+        this.startX = startX;
+    }
+
     public boolean isVertical() {
         return isVertical;
     }
@@ -149,10 +147,6 @@ public class Ship extends Actor {
     public void setVertical(boolean vertical) {
         texture.rotate90(vertical);
         isVertical = vertical;
-    }
-
-    public void setStartX(float startX) {
-        this.startX = startX;
     }
 
     public float getStartY() {

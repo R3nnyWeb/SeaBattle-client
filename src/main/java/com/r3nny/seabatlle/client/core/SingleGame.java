@@ -10,4 +10,6 @@ public class SingleGame extends Game{
        enemy = new GameField(ENEMY_FIELD_X, FIELD_Y, false);
 
     }
+
+
 }

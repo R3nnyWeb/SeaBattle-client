@@ -5,11 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import static com.r3nny.seabatlle.client.core.Game.playerField;
 
 
@@ -19,7 +21,10 @@ public class SeaBattle extends ApplicationAdapter {
     public static final float WORLD_WIDTH = 1024;
     public static final float WORLD_HEIGHT = 576;
 
-    public static boolean debug = false;
+    public static final String RUSSIAN_CHARACTERS = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+            + "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+            + "1234567890.,:;_¡!¿?\"'+-*/()[]={}STARW";
+    public static boolean debug = true;
     SpriteBatch batch;
     Texture bg;
     Stage stage;
@@ -29,7 +34,18 @@ public class SeaBattle extends ApplicationAdapter {
 
         stage = new Stage(new FitViewport(WORLD_WIDTH, WORLD_HEIGHT));
         Gdx.input.setInputProcessor(stage);
+        Label.LabelStyle label1Style = new Label.LabelStyle();
 
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font.ttf"));
+       FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 26;
+        parameter.characters = RUSSIAN_CHARACTERS;
+        label1Style.font = generator.generateFont(parameter); ;
+        label1Style.fontColor = Color.WHITE;
+
+        Label label1 = new Label(" круто   STAR WARS",label1Style);
+        label1.setPosition(0,0);
+        stage.addActor(label1);
         batch = new SpriteBatch();
         bg = new Texture("bg.jpg");
         Game game = new SingleGame();
@@ -63,6 +79,8 @@ public class SeaBattle extends ApplicationAdapter {
 
 
 
+
+
     }
 
     @Override
@@ -70,5 +88,6 @@ public class SeaBattle extends ApplicationAdapter {
         batch.dispose();
         bg.dispose();
         stage.dispose();
+
     }
 }

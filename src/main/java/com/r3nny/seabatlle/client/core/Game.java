@@ -1,7 +1,8 @@
 package com.r3nny.seabatlle.client.core;
 
-
 import com.r3nny.seabatlle.client.core.model.GameField;
+
+
 
 public class Game {
     protected static final int FIELD_Y = 476;

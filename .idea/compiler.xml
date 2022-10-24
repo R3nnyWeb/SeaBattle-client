@@ -6,12 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SeaBattle-client" />
-        <module name="untitled" />
+        <module name="Seabatlle-Client" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="SeaBattle-client.desktop" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
