@@ -15,7 +15,7 @@ public class DesktopLauncher {
         config.useVsync(true);
         config.setForegroundFPS(60);
         config.setTitle("SeaBattle-client");
-
         new Lwjgl3Application(new SeaBattle(), config);
+
     }
 }

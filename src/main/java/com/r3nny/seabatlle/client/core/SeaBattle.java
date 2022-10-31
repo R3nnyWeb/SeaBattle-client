@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import static com.r3nny.seabatlle.client.core.Game.playerField;
 
 
@@ -28,6 +30,8 @@ public class SeaBattle extends ApplicationAdapter {
     SpriteBatch batch;
     Texture bg;
     Stage stage;
+
+
 
     @Override
     public void create() {
