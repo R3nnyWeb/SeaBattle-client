@@ -13,13 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.controller.CellsController;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 
 
 
-@Slf4j
+
 public class Ship extends Actor {
     private final ShipType type;
     private final ShapeRenderer shape;
@@ -32,6 +31,7 @@ public class Ship extends Actor {
 
 
     public Ship(float x, float y, Cell[] cells, ShipType type) {
+
         this.cells = cells;
         this.type = type;
         super.setX(x);

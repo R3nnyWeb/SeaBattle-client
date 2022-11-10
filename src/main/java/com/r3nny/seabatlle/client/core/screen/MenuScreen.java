@@ -1,46 +1,47 @@
 package com.r3nny.seabatlle.client.core.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.r3nny.seabatlle.client.core.Game;
+import com.github.acanthite.gdx.graphics.g2d.FreeTypeSkinLoader;
 import com.r3nny.seabatlle.client.core.SeaBattle;
-import com.r3nny.seabatlle.client.core.SingleGame;
-
-import static com.r3nny.seabatlle.client.core.Game.playerField;
 
 
+public class MenuScreen implements Screen {
 
-public class SingleGameScreen implements Screen {
-
-
-
-    private final SingleGame game;
+    //TODO: Dынести все??
+    private final Stage stage;
     private final SpriteBatch batch;
     private final Texture bg;
-    public final Stage stage;
 
-    public SingleGameScreen(Stage stage) {
+    public MenuScreen(Stage stage){
         this.stage = stage;
-
-
-
-
         batch = new SpriteBatch();
-        bg = new Texture("bg.jpg");
-        game = new SingleGame();
-        stage.addActor(playerField);
-        stage.addActor(Game.enemy);
-        stage.setDebugAll(SeaBattle.DEBUG);
+        bg = new Texture("menu_bg.png");
+
+
+
+
+        //TODO: Убери к черту
+        AssetManager assetManager = new AssetManager();
+        assetManager.setLoader(Skin.class, new FreeTypeSkinLoader(assetManager.getFileHandleResolver()));
+        assetManager.load("button/skin.json", Skin.class);
+
+        Skin skin = assetManager.get("button/skin.json");
+        skin.addRegions(new TextureAtlas("button/skin.atlas"));
+
     }
 
     @Override
     public void show() {
+        Gdx.app.log( "Showing Game Screen", "screen");
 
     }
 
@@ -53,20 +54,13 @@ public class SingleGameScreen implements Screen {
         batch.end();
         stage.act();
         stage.draw();
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            Gdx.app.log( "SingleGameScreen", "Autocreating Player ships");
-
-            playerField.initAutoShips();
-        }
-        if(game.isShipsReady()){
-            Gdx.app.log( "SingleGameScreen", "Both players are ready");
-        }
     }
 
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
+
 
     @Override
     public void pause() {
@@ -80,13 +74,11 @@ public class SingleGameScreen implements Screen {
 
     @Override
     public void hide() {
-        stage.clear();
+
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
-        bg.dispose();
-        stage.dispose();
+
     }
 }

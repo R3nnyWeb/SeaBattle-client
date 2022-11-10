@@ -1,16 +1,15 @@
 package com.r3nny.seabatlle.client.core.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.r3nny.seabatlle.client.core.model.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Random;
 
 
-@Slf4j
 public class ShipsCreator {
 
-    public static  int createdPlayerShips = 0;
+    public static int createdPlayerShips = 0;
 
     public static ShipType[] shipTypes = {ShipType.FOUR_DECK,
             ShipType.THREE_DECK, ShipType.THREE_DECK,
@@ -40,20 +39,20 @@ public class ShipsCreator {
             }
 
 
-
         }
 
         return true;
     }
 
     public static boolean addShipToGameField(Cell startCell, Ship ship, GameField gf) {
-        log.info("Creating ship on {}", startCell);
+        Gdx.app.log("ShipsCreator", "Trying create ship on " + startCell);
         int x = startCell.getColumn();
         int y = startCell.getRow();
         Cell[][] field = gf.getField();
         Cell[] shipCells = new Cell[ship.getType().getSize()];
 
         if (!canCreateShipHere(startCell, ship, field)) {
+            Gdx.app.log("ShipsCreator auto", "Cannot create ship on  Cell{column=" + startCell);
             return false;
         }
 
@@ -67,6 +66,7 @@ public class ShipsCreator {
                 try {
                     field[y - i + 1][x + 1].setStatus(CellStatus.NOT_ALLOWED);
                 } catch (IndexOutOfBoundsException ignored) {
+
                 }
 
                 try {
@@ -121,7 +121,7 @@ public class ShipsCreator {
         for (Cell shipCell : shipCells) {
             shipCell.setShip(ship);
         }
-
+        Gdx.app.log("ShipsCreator", "Ship created " + ship);
         return true;
     }
 
@@ -143,13 +143,11 @@ public class ShipsCreator {
                 throw new RuntimeException(e);
             }
             if (addShipToGameField(field[row][column], ships.get(i), gf)) {
-                log.info("Ship created {}", ship );
                 i++;
-            } else {
-                log.info("Cannot create ship here");
             }
         }
-        log.warn("All ships created");
+        Gdx.app.log("ShipsCreator", "All ships automatically created");
+
 
     }
 }

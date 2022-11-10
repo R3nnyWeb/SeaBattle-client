@@ -1,10 +1,9 @@
 package com.r3nny.seabatlle.client.core.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
-import lombok.extern.slf4j.Slf4j;
-
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +13,7 @@ import static com.r3nny.seabatlle.client.core.model.CellStatus.NOT_ALLOWED;
 import static com.r3nny.seabatlle.client.core.model.CellStatus.SEA;
 
 
-@Slf4j
+
 public class GameField extends Group {
     public static final int FIELD_SIZE = 10;
     private final float x;
@@ -32,7 +31,8 @@ public class GameField extends Group {
         field = initCells();
         ships = initShips();
         if (!isPlayer) {
-            log.info("Autocreating enemy ships");
+            Gdx.app.log( "GameField", " Autocreating enemy ships ");
+
             initAutoShips();
         }
 
