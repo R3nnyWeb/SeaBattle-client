@@ -1,7 +1,6 @@
 package com.r3nny.seabatlle.client.core.model;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 import lombok.extern.slf4j.Slf4j;
@@ -88,7 +87,7 @@ public class GameField extends Group {
             }
         }
         ShipsCreator.autoCreateShips(this);
-        if (isPlayer || SeaBattle.debug) {
+        if (isPlayer || SeaBattle.DEBUG) {
             for (Ship ship : ships
             ) {
                 super.addActor(ship);
