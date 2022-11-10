@@ -27,9 +27,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.acanthite</groupId>
-            <artifactId>freetype-skin</artifactId>
-            <version>0.4</version>
+            <groupId>com.github.raeleus.stripe</groupId>
+            <artifactId>freetype</artifactId>
+            <version>1.4.1</version>
 
         </dependency>
 

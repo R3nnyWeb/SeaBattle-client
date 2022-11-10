@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.r3nny.seabatlle.client.core.Game;
+import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.SingleGame;
 
@@ -26,6 +27,8 @@ public class SingleGameScreen implements Screen {
     public final Stage stage;
 
     public SingleGameScreen(Stage stage) {
+        //TODO: GSM????
+        Game.status = GameStatus.SHIPS_STAGE;
         this.stage = stage;
 
 

@@ -12,7 +12,7 @@ public class SeaBattle extends com.badlogic.gdx.Game {
     public static final float WORLD_WIDTH = 1024;
     public static final float WORLD_HEIGHT = 576;
 
-    Stage stage;
+   public Stage stage;
 
     SingleGame game;
     public static final String RUSSIAN_CHARACTERS = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
@@ -23,11 +23,13 @@ public class SeaBattle extends com.badlogic.gdx.Game {
 
 
 
+
+
     @Override
     public void create() {
         stage = new Stage(new FitViewport(SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT));
         Gdx.input.setInputProcessor(stage);
-        this.setScreen(new MenuScreen(stage));
+        this.setScreen(new MenuScreen(this));
 
 
 

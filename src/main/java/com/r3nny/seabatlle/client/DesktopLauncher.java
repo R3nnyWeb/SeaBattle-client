@@ -10,8 +10,8 @@ public class DesktopLauncher {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
 
-//        config.setWindowedMode(1280, 720);
-        config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+        config.setWindowedMode(1280, 720);
+//        config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
         config.useVsync(true);
         config.setForegroundFPS(60);
         config.setTitle("SeaBattle-client");
