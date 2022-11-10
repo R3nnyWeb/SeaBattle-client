@@ -38,7 +38,7 @@ public class MenuScreen implements Screen {
 
         Label.LabelStyle label1Style = new Label.LabelStyle();
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("button/minecraft.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("buttons/minecraft.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 26;
         parameter.characters = "круто   STAR WARS";
@@ -57,6 +57,7 @@ public class MenuScreen implements Screen {
         TextButton start = new TextButton("New game", skin);
         start.setX(SeaBattle.WORLD_WIDTH - 350);
         start.setY(100);
+        //TODO: Listeners
         start.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
