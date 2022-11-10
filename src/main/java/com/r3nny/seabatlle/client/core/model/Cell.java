@@ -30,13 +30,12 @@ public class Cell extends Actor {
         this.ship = ship;
         super.setX(x);
         super.setY(y);
-
         this.status = status;
         shape = new ShapeRenderer();
         shape.setAutoShapeType(true);
         this.setBounds(x, y, SIZE, SIZE);
 
-        System.out.println( this.addListener(new InputListener() {
+        this.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                if(Game.status == GameStatus.PLAYER_TURN){
                    System.out.println( GameController.shoot(Cell.this));
@@ -47,7 +46,7 @@ public class Cell extends Actor {
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("up");
             }
-        }));
+        });
 
     }
 

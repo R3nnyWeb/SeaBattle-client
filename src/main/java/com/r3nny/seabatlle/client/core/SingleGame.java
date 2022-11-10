@@ -11,5 +11,8 @@ public class SingleGame extends Game{
 
     }
 
+    public  boolean isShipsReady(){
+        return playerField.isShipsReady() && enemy.isShipsReady();
+    }
 
 }

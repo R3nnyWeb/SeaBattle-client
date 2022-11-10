@@ -1,14 +1,17 @@
 package com.r3nny.seabatlle.client.core.controller;
 
-import com.r3nny.seabatlle.client.core.Game;
-import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.model.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Random;
 
 
+@Slf4j
 public class ShipsCreator {
+
+    public static  int createdPlayerShips = 0;
+
     public static ShipType[] shipTypes = {ShipType.FOUR_DECK,
             ShipType.THREE_DECK, ShipType.THREE_DECK,
             ShipType.TWO_DECK, ShipType.TWO_DECK, ShipType.TWO_DECK,
@@ -37,18 +40,20 @@ public class ShipsCreator {
             }
 
 
+
         }
+
         return true;
     }
 
-    public static boolean createShip(Cell cell, Ship ship, GameField gf) {
-        System.out.println("I must create sheep on:  " + cell);
-        int x = cell.getColumn();
-        int y = cell.getRow();
+    public static boolean addShipToGameField(Cell startCell, Ship ship, GameField gf) {
+        log.info("Creating ship on {}", startCell);
+        int x = startCell.getColumn();
+        int y = startCell.getRow();
         Cell[][] field = gf.getField();
         Cell[] shipCells = new Cell[ship.getType().getSize()];
 
-        if (!canCreateShipHere(cell, ship, field)) {
+        if (!canCreateShipHere(startCell, ship, field)) {
             return false;
         }
 
@@ -117,7 +122,6 @@ public class ShipsCreator {
             shipCell.setShip(ship);
         }
 
-
         return true;
     }
 
@@ -127,7 +131,7 @@ public class ShipsCreator {
         Cell[][] field = gf.getField();
         List<Ship> ships = gf.getShips();
         int i = 0;
-        while(i < shipTypes.length){
+        while (i < shipTypes.length) {
             int row = rd.nextInt(10);
             int column = rd.nextInt(10);
             Ship ship = ships.get(i);
@@ -138,12 +142,14 @@ public class ShipsCreator {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            if(createShip(field[row][column], ships.get(i), gf)){
-                System.out.println("Created");
+            if (addShipToGameField(field[row][column], ships.get(i), gf)) {
+                log.info("Ship created {}", ship );
                 i++;
+            } else {
+                log.info("Cannot create ship here");
             }
         }
+        log.warn("All ships created");
 
-
-     }
+    }
 }

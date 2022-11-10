@@ -13,8 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.controller.CellsController;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Arrays;
 
 
+
+@Slf4j
 public class Ship extends Actor {
     private final ShipType type;
     private final ShapeRenderer shape;
@@ -23,6 +28,7 @@ public class Ship extends Actor {
     private float startY;
     private boolean isVertical;
     private Sprite texture;
+
 
 
     public Ship(float x, float y, Cell[] cells, ShipType type) {
@@ -44,6 +50,8 @@ public class Ship extends Actor {
         updateBounds();
 
         this.addListener(new InputListener() {
+
+
 
             //TODO: При отпускании ивенте на пкм срабатывает touchUp надо исправить
             @Override
@@ -78,7 +86,10 @@ public class Ship extends Actor {
                     setX(getStartX());
                     setY(getStartY());
                     if (currentCell != null) {
-                        System.out.println(ShipsCreator.createShip(currentCell, Ship.this, Game.playerField));
+                      if( ShipsCreator.addShipToGameField(currentCell, Ship.this, Game.playerField)){
+                          ShipsCreator.createdPlayerShips++;
+                      }
+                      Game.playerField.setShipsReady(ShipsCreator.createdPlayerShips == ShipsCreator.shipTypes.length);
                     }
                 }
                 updateBounds();
@@ -164,5 +175,14 @@ public class Ship extends Actor {
 
     public void setCells(Cell[] cells) {
         this.cells = cells;
+    }
+
+    @Override
+    public String toString() {
+        return "Ship{" +
+                "type=" + type +
+                ", cells=" + Arrays.toString(cells) +
+                ", isVertical=" + isVertical +
+                '}';
     }
 }
