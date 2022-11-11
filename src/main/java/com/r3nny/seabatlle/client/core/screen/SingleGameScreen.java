@@ -26,10 +26,10 @@ public class SingleGameScreen implements Screen {
     private final Texture bg;
     public final Stage stage;
 
-    public SingleGameScreen(Stage stage) {
+    public SingleGameScreen() {
         //TODO: GSM????
         Game.status = GameStatus.SHIPS_STAGE;
-        this.stage = stage;
+        this.stage = SeaBattle.setUpStage();
 
 
 
