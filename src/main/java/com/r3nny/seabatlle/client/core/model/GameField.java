@@ -87,7 +87,7 @@ public class GameField extends Group {
             }
         }
         ShipsCreator.autoCreateShips(this);
-        if (isPlayer || SeaBattle.DEBUG) {
+        if (isPlayer) {
             for (Ship ship : ships
             ) {
                 super.addActor(ship);
@@ -95,6 +95,12 @@ public class GameField extends Group {
 
         }
 
+        clearAllNotAllowed();
+
+        this.isShipsReady = true;
+    }
+
+    public void clearAllNotAllowed() {
         for (Cell[] cells : field) {
             for (int j = 0; j < field.length; j++) {
                 if (cells[j].getStatus() == NOT_ALLOWED) {
@@ -102,10 +108,7 @@ public class GameField extends Group {
                 }
             }
         }
-
-        this.isShipsReady = true;
     }
-
 
     public boolean isShipsReady() {
         return isShipsReady;

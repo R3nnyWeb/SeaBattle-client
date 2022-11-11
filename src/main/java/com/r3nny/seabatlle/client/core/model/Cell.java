@@ -38,7 +38,7 @@ public class Cell extends Actor {
         this.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                if(Game.status == GameStatus.PLAYER_TURN){
-                   System.out.println( GameController.shoot(Cell.this));
+                   System.out.println(Cell.this.status=GameController.shoot(Cell.this));
                }
                 return true;
             }
@@ -69,11 +69,36 @@ public class Cell extends Actor {
             shape.setColor(Color.RED);
             shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
         }
+        if (status == CellStatus.KILLED) {
+            shape.setColor(Color.RED);
+            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
+        }
+        if (status == CellStatus.MISS) {
+            shape.setColor(Color.CYAN);
+            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
+        }
+        if (status == CellStatus.INJURED) {
+            shape.setColor(Color.YELLOW);
+            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
+        }
+
         shape.end();
         batch.begin();
 //        batch.draw(new Texture("cell.png"),getX(),getY(),Cell.SIZE,Cell.SIZE);
 
     }
+
+    @Override
+    public void drawDebug(ShapeRenderer shapes) {
+
+
+        if (status == CellStatus.HEALTHY) {
+            shapes.setColor(Color.GREEN);
+            shapes.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
+        }
+
+    }
+
     public int getColumn() {
         return column;
     }

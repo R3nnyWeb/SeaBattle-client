@@ -61,9 +61,14 @@ public class SingleGameScreen implements Screen {
 
             playerField.initAutoShips();
         }
+        //TODO: Вынести в update у single
         if(game.isShipsReady()){
-            Gdx.app.log( "SingleGameScreen", "Both players are ready");
+            playerField.clearAllNotAllowed();
+            //TODO: Сейчас каждый раз врубает нужно типо метода старт, который один раз вызовется или отельный скрин с игрой. (Весьма логично)
+            Game.status = GameStatus.PLAYER_TURN;
         }
+
+
     }
 
     @Override

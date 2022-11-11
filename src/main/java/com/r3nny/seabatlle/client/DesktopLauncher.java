@@ -8,10 +8,11 @@ import com.r3nny.seabatlle.client.core.SeaBattle;
 public class DesktopLauncher {
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-
-
-//        config.setWindowedMode(1280, 720);
-        config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+        if (SeaBattle.DEBUG) {
+            config.setWindowedMode(1280, 720);
+        } else {
+            config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+        }
         config.useVsync(true);
         config.setForegroundFPS(60);
         config.setTitle("Star Battle");
