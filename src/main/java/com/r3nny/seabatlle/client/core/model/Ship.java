@@ -3,7 +3,6 @@ package com.r3nny.seabatlle.client.core.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -38,12 +37,12 @@ public class Ship extends Actor {
         super.setX(x);
         super.setY(y);
         //TODO: Кейс сделай, балбес
-        texture = new Sprite(SeaBattle.manager.getOneDeckShip());
+        texture = new Sprite(SeaBattle.assetsManager.getOneDeckShip());
         if (type == ShipType.FOUR_DECK) {
-            texture = new Sprite(SeaBattle.manager.getFourDeckShip());
+            texture = new Sprite(SeaBattle.assetsManager.getFourDeckShip());
         }
         if (type == ShipType.THREE_DECK) {
-            texture = new Sprite(SeaBattle.manager.getThreeDeckShip());
+            texture = new Sprite(SeaBattle.assetsManager.getThreeDeckShip());
         }
 
 

@@ -14,8 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 
-import java.awt.*;
-
 public class ChooseScreen implements Screen {
     private Image bgImage;
     private ImageButton singleGame;
@@ -27,30 +25,29 @@ public class ChooseScreen implements Screen {
     public ChooseScreen() {
         game = ((SeaBattle) Gdx.app.getApplicationListener());
         stage = SeaBattle.setUpStage();
-        bgImage =new Image( SeaBattle.manager.getMenuBackground());
+        bgImage = new Image(SeaBattle.assetsManager.getMenuBackground());
         bgImage.setSize(SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT);
 
-        singleGame = new ImageButton(SeaBattle.manager.getChooseButtonSkin());
-        multiGame = new ImageButton(SeaBattle.manager.getChooseButtonSkin(), "multiPlayer");
+        singleGame = new ImageButton(SeaBattle.assetsManager.getChooseButtonSkin());
+        multiGame = new ImageButton(SeaBattle.assetsManager.getChooseButtonSkin(), "multiPlayer");
 
 
-        singleGame.setSize(261,257);
+        singleGame.setSize(261, 257);
         multiGame.setSize(singleGame.getWidth(), singleGame.getHeight());
         //TODO: Вынести анимации
         Action fadeInAction = Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F));
 
 
-
-        singleGame.setX(SeaBattle.WORLD_WIDTH / 2 - 25  - singleGame.getWidth());
+        singleGame.setX(SeaBattle.WORLD_WIDTH / 2 - 25 - singleGame.getWidth());
         multiGame.setX(SeaBattle.WORLD_WIDTH / 2 + 25);
 
         singleGame.setY(SeaBattle.WORLD_HEIGHT / 2 - singleGame.getHeight() / 2);
         multiGame.setY(SeaBattle.WORLD_HEIGHT / 2 - singleGame.getHeight() / 2);
 
-        TextButton backButton = new TextButton("Back to menu", SeaBattle.manager.getMenuButtonSkin());
+        TextButton backButton = new TextButton("Back to menu", SeaBattle.assetsManager.getMenuButtonSkin());
         backButton.setX(10);
-        backButton.setSize(200,50);
-        backButton.setY(SeaBattle.WORLD_HEIGHT -10 - backButton.getHeight());
+        backButton.setSize(200, 50);
+        backButton.setY(SeaBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
 
 
         backButton.addListener(new ClickListener() {
@@ -59,19 +56,20 @@ public class ChooseScreen implements Screen {
                 multiGame.addAction(Actions.fadeOut(0.5F));
                 backButton.addAction(Actions.fadeOut(0.5F));
                 //TODO: Использовать фунцкионгальный интерфейс для анимации при любом перееходе
-                singleGame.addAction(Actions.sequence(Actions.fadeOut(0.5F), Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        stage.clear();
-                        game.setScreen(new MenuScreen());
-                    }
-                })));
+                singleGame.addAction(Actions.sequence(
+                        Actions.fadeOut(0.5F),
+                        Actions.run(() -> {
+                            stage.clear();
+                            game.setScreen(new MenuScreen());
+                        })));
             }
         });
 
-        singleGame.addListener(new ClickListener(){
+        singleGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                SeaBattle.soundManager.stopMainMusic();
+                SeaBattle.soundManager.playNewGameSound();
                 game.setScreen(new SingleGameScreen());
             }
         });
@@ -82,8 +80,6 @@ public class ChooseScreen implements Screen {
         stage.addActor(singleGame);
         stage.addActor(multiGame);
         stage.addActor(backButton);
-
-
 
 
     }

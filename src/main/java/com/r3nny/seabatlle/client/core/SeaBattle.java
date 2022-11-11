@@ -3,18 +3,20 @@ package com.r3nny.seabatlle.client.core;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.r3nny.seabatlle.client.core.screen.MenuScreen;
-import com.r3nny.seabatlle.client.core.screen.SingleGameScreen;
 import com.r3nny.seabatlle.client.core.screen.SplashScreen;
 import com.r3nny.seabatlle.client.core.utils.Assets;
+import com.r3nny.seabatlle.client.core.utils.SoundManager;
 
 
 public class SeaBattle extends com.badlogic.gdx.Game {
 
-    public static Assets manager;
+    public static Assets assetsManager;
+
+    public static SoundManager soundManager;
 
     public static final float WORLD_WIDTH = 1024;
     public static final float WORLD_HEIGHT = 576;
+
 
 
 

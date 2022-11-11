@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.utils.Assets;
+import com.r3nny.seabatlle.client.core.utils.SoundManager;
 
 public class SplashScreen implements Screen {
 
@@ -24,21 +25,22 @@ public class SplashScreen implements Screen {
     @Override
     public void show() {
         stage = SeaBattle.setUpStage();
-        SeaBattle.manager = new Assets();
-        this.manager = SeaBattle.manager;
+        SeaBattle.assetsManager = new Assets();
+        this.manager = SeaBattle.assetsManager;
         game = ((SeaBattle) Gdx.app.getApplicationListener());
-        splashTexture = new Texture(Gdx.files.internal("splashLogo.png"));
+        splashTexture = new Texture(Gdx.files.internal("gameLogo.png"));
         splashImage = new Image(splashTexture);
-        splashImage.setWidth(600);
-        splashImage.setX(SeaBattle.WORLD_WIDTH / 2 - 600 / 2);
-        splashImage.setY(SeaBattle.WORLD_HEIGHT / 2 - splashImage.getHeight() / 2);
-        splashImage.addAction(Actions.sequence(Actions.alpha(0.0F), Actions.fadeIn(1.25F), Actions.delay(1F), Actions.run(new Runnable() {
-            @Override
-            public void run() {
+        splashImage.setSize(620, 55);
+        splashImage.setX(SeaBattle.WORLD_WIDTH / 2 - splashImage.getWidth() / 2);
+        splashImage.setY(SeaBattle.WORLD_HEIGHT / 2);
+        splashImage.addAction(Actions.sequence(
+            Actions.alpha(0.0F),
+            Actions.fadeIn(1.25F),
+            Actions.delay(1F),
+            Actions.run(() -> {
                 manager.loadAllAssets();
                 startLoading = true;
-            }
-        })));
+            })));
 
         stage.addActor(splashImage);
     }
@@ -49,16 +51,14 @@ public class SplashScreen implements Screen {
         stage.act();
         stage.draw();
         if (manager.update() && startLoading) {
-            stage.addAction(Actions.sequence(Actions.fadeOut(0.5F), Actions.run(new Runnable() {
-                @Override
-                public void run() {
+            SeaBattle.soundManager = new SoundManager();
+            stage.addAction(Actions.sequence(
+                Actions.fadeOut(0.5F),
+                Actions.run(() -> {
                     stage.clear();
                     game.setScreen(new MenuScreen());
-                }
-            })));
-
+                })));
         }
-
     }
 
     @Override

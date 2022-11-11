@@ -35,7 +35,7 @@ public class SingleGameScreen implements Screen {
 
 
         batch = new SpriteBatch();
-        bg = SeaBattle.manager.getInGameBackground();
+        bg = SeaBattle.assetsManager.getInGameBackground();
         game = new SingleGame();
         stage.addActor(playerField);
         stage.addActor(Game.enemy);
@@ -44,7 +44,7 @@ public class SingleGameScreen implements Screen {
 
     @Override
     public void show() {
-
+        SeaBattle.soundManager.playBattleMusic();
     }
 
     @Override

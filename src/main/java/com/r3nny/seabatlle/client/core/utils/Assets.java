@@ -1,6 +1,9 @@
 package com.r3nny.seabatlle.client.core.utils;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.backends.lwjgl3.audio.Wav;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -14,10 +17,17 @@ public class Assets {
     private final String FOUR_DECK_SHIP_PATH = "ships/4xShip.png";
     private final String IN_GAME_BACKGROUND = "inGame/bg.jpg";
 
+    private final String GAME_LOGO = "gameLogo.png";
+
     private final String MENU_BUTTON_SKIN = "menuButtons/skin.json";
     private final String CHOOSE_BUTTON_SKIN = "chooseButton/button.json";
     private final String MENU_BUTTON_ATLAS = "menuButtons/skin.atlas";
     private final String CHOOSE_BUTTON_ATLAS = "chooseButton/button.atlas";
+
+    private final String MAIN_MUSIC = "sounds/mainMusic.mp3";
+    private final String BATTLE_MUSIC = "sounds/battleMusic.mp3";
+
+    private final String NEW_GAME_CLICK = "sounds/newGameClick.mp3";
 
 
     private final AssetManager manager;
@@ -35,6 +45,7 @@ public class Assets {
         manager.load(THREE_DECK_SHIP_PATH, Texture.class);
         manager.load(FOUR_DECK_SHIP_PATH, Texture.class);
         manager.load(IN_GAME_BACKGROUND, Texture.class);
+        manager.load(GAME_LOGO, Texture.class);
 
 
         manager.load(MENU_BUTTON_SKIN, Skin.class);
@@ -43,6 +54,12 @@ public class Assets {
 
         manager.load(MENU_BUTTON_ATLAS, TextureAtlas.class);
         manager.load(CHOOSE_BUTTON_ATLAS, TextureAtlas.class);
+
+        manager.load(MAIN_MUSIC, Music.class);
+        manager.load(BATTLE_MUSIC, Music.class);
+
+        manager.load(NEW_GAME_CLICK, Sound.class);
+
     }
 
     public void unloadMenuAssets() {
@@ -78,16 +95,34 @@ public class Assets {
         return manager.get(IN_GAME_BACKGROUND);
     }
 
+    public Texture getMenuLogo() {
+        return manager.get(GAME_LOGO);
+    }
+
     public Skin getMenuButtonSkin() {
         Skin skin = manager.get(MENU_BUTTON_SKIN);
         skin.addRegions(manager.get(MENU_BUTTON_ATLAS));
         return skin;
     }
+
     public Skin getChooseButtonSkin() {
         Skin skin = manager.get(CHOOSE_BUTTON_SKIN);
         skin.addRegions(manager.get(CHOOSE_BUTTON_ATLAS));
         return skin;
     }
+
+    public Music getMainMusic() {
+        return manager.get(MAIN_MUSIC);
+    }
+
+    public Music getBattleMusic() {
+        return manager.get(BATTLE_MUSIC);
+    }
+
+    public Sound getNewGameClickSound() {
+        return manager.get(NEW_GAME_CLICK);
+    }
+
 
     public boolean update() {
         return manager.update();
