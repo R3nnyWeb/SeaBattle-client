@@ -24,7 +24,8 @@ public class SplashScreen implements Screen {
     @Override
     public void show() {
         stage = SeaBattle.setUpStage();
-        manager = new Assets();
+        SeaBattle.manager = new Assets();
+        this.manager = SeaBattle.manager;
         game = ((SeaBattle) Gdx.app.getApplicationListener());
         splashTexture = new Texture(Gdx.files.internal("splashLogo.png"));
         splashImage = new Image(splashTexture);

@@ -35,7 +35,7 @@ public class SingleGameScreen implements Screen {
 
 
         batch = new SpriteBatch();
-        bg = new Texture("bg.jpg");
+        bg = SeaBattle.manager.getInGameBackground();
         game = new SingleGame();
         stage.addActor(playerField);
         stage.addActor(Game.enemy);

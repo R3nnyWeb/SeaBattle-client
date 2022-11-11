@@ -44,7 +44,7 @@ public class Cell extends Actor {
             }
 
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("up");
+                System.out.println("up " + Cell.this);
             }
         });
 
@@ -101,6 +101,7 @@ public class Cell extends Actor {
         return "Cell{" +
                 "column=" + column +
                 ", row=" + row +
+                ", status=" + status +
                 '}';
     }
 }

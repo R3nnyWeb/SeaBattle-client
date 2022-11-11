@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -20,8 +20,6 @@ import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.utils.Assets;
 import com.ray3k.stripe.FreeTypeSkin;
-
-import static com.badlogic.gdx.scenes.scene2d.InputEvent.Type.exit;
 
 
 public class MenuScreen implements Screen {
@@ -33,14 +31,15 @@ public class MenuScreen implements Screen {
     private final Image bgImage;
 
     private final SeaBattle game;
+    private final Assets manager;
 
     public MenuScreen() {
-
+        this.manager = SeaBattle.manager;
         game = ((SeaBattle) Gdx.app.getApplicationListener());
         Game.status = GameStatus.MENU;
         this.stage = SeaBattle.setUpStage();
         batch = new SpriteBatch();
-        bgTexture = new Texture("mainMenu/bg.png");
+        bgTexture = manager.getMenuBackground();
         bgImage = new Image(bgTexture);
         bgImage.setSize(SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT);
 //        //TODO: Убери к черту
@@ -60,12 +59,14 @@ public class MenuScreen implements Screen {
 
 
 
-        Skin skin = new FreeTypeSkin(Gdx.files.internal("buttons/skin.json"));
-        skin.addRegions(new TextureAtlas("buttons/skin.atlas"));
-        TextButton start = new TextButton("New game", skin);
-        TextButton end = new TextButton("Exit", skin);
+
+
+        TextButton start = new TextButton("New game", SeaBattle.manager.getMenuButtonSkin());
+        TextButton end = new TextButton("Exit", SeaBattle.manager.getMenuButtonSkin());
 
         start.setX(SeaBattle.WORLD_WIDTH - 350);
+        start.setSize(300, 50);
+        end.setSize(300, 50);
         end.setX(start.getX());
         start.setY(100);
         end.setY(start.getY() - 60);
@@ -73,8 +74,14 @@ public class MenuScreen implements Screen {
         start.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                stage.clear();
-                game.setScreen(new SingleGameScreen());
+                start.addAction(Actions.fadeOut(0.5F));
+                end.addAction(Actions.sequence(Actions.fadeOut(0.5F), Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+//                        stage.clear();
+                        game.setScreen(new ChooseScreen());
+                    }
+                })));
             }
         });
         end.addListener(new ClickListener(){
@@ -87,6 +94,7 @@ public class MenuScreen implements Screen {
         //TODO: Плавные переходы. Разделить stage
         stage.addAction(Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F)));
         stage.addActor(bgImage);
+
         stage.addActor(start);
         stage.addActor(end);
     }

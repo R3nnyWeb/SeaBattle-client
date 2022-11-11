@@ -1,0 +1,27 @@
+{
+BitmapFont: {
+	minecraft: {
+		file: minecraft.fnt
+	}
+}
+Color: {
+	black: {
+		hex: 000000ff
+	}
+	white: {
+		hex: ffffffff
+	}
+}
+TextButtonStyle: {
+	default: {
+		font: minecraft
+		fontColor: black
+		downFontColor: white
+		overFontColor: white
+		focusedFontColor: white
+		up: button-up
+		down: button-down
+		over: button-down
+	}
+}
+}

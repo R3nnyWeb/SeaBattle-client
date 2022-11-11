@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.r3nny.seabatlle.client.core.Game;
+import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.controller.CellsController;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 
@@ -37,12 +38,12 @@ public class Ship extends Actor {
         super.setX(x);
         super.setY(y);
         //TODO: Кейс сделай, балбес
-        texture = new Sprite(new Texture("1xShip.png"));
+        texture = new Sprite(SeaBattle.manager.getOneDeckShip());
         if (type == ShipType.FOUR_DECK) {
-            texture = new Sprite(new Texture("4xShip.png"));
+            texture = new Sprite(SeaBattle.manager.getFourDeckShip());
         }
         if (type == ShipType.THREE_DECK) {
-            texture = new Sprite(new Texture("3xShip.png"));
+            texture = new Sprite(SeaBattle.manager.getThreeDeckShip());
         }
 
 

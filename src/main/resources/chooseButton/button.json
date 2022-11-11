@@ -1,0 +1,32 @@
+{
+BitmapFont: {
+	minecraft: {
+		file: minecraft.fnt
+	}
+}
+Color: {
+	black: {
+		r: 0
+		g: 0
+		b: 0
+		a: 1
+	}
+}
+ImageButtonStyle: {
+	default: {
+		imageUp: singleGameButton
+		imageDown: singleGameButtonDown
+		imageOver: singleGameButtonDown
+	}
+	multiPlayer: {
+		imageUp: multiGameButton
+	}
+}
+ImageTextButtonStyle: {
+	default: {
+		imageUp: singleGameButton
+		font: minecraft
+		fontColor: black
+	}
+}
+}

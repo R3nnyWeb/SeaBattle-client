@@ -1,0 +1,27 @@
+
+skin.png
+size: 1024, 1024
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+button-down
+  rotate: false
+  xy: 1, 782
+  size: 998, 215
+  orig: 998, 215
+  offset: 0, 0
+  index: -1
+button-up
+  rotate: false
+  xy: 1, 610
+  size: 952, 170
+  orig: 952, 170
+  offset: 0, 0
+  index: -1
+minecraft
+  rotate: false
+  xy: 1, 537
+  size: 505, 71
+  orig: 505, 71
+  offset: 0, 0
+  index: -1
