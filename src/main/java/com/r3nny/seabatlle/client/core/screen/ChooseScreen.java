@@ -69,6 +69,12 @@ public class ChooseScreen implements Screen {
             }
         });
 
+        singleGame.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new SingleGameScreen());
+            }
+        });
         singleGame.addAction(fadeInAction);
         multiGame.addAction(fadeInAction);
         backButton.addAction(fadeInAction);
