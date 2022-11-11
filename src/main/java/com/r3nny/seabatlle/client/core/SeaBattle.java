@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.r3nny.seabatlle.client.core.screen.MenuScreen;
 import com.r3nny.seabatlle.client.core.screen.SingleGameScreen;
+import com.r3nny.seabatlle.client.core.screen.SplashScreen;
 
 
 public class SeaBattle extends com.badlogic.gdx.Game {
@@ -29,7 +30,7 @@ public class SeaBattle extends com.badlogic.gdx.Game {
     public void create() {
         stage = new Stage(new FitViewport(SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT));
         Gdx.input.setInputProcessor(stage);
-        this.setScreen(new MenuScreen(this));
+        this.setScreen(new SplashScreen());
 
 
 

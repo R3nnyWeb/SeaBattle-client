@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.SeaBattle;
+import com.r3nny.seabatlle.client.core.utils.Assets;
 import com.ray3k.stripe.FreeTypeSkin;
 
 
@@ -26,16 +28,19 @@ public class MenuScreen implements Screen {
     private final SpriteBatch batch;
     private final Texture bg;
 
-    private SeaBattle game;
 
-    public MenuScreen(SeaBattle game) {
-        //TODO : GSM???
+
+    private final SeaBattle game;
+
+    public MenuScreen() {
+
+        game = ((SeaBattle) Gdx.app.getApplicationListener());
         Game.status = GameStatus.MENU;
         this.stage = game.stage;
         batch = new SpriteBatch();
-        bg = new Texture("menu_bg.png");
+        bg = new Texture("mainMenu/bg.png");
 
-
+        //TODO: Убери к черту
         Label.LabelStyle label1Style = new Label.LabelStyle();
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("buttons/minecraft.ttf"));
@@ -49,7 +54,7 @@ public class MenuScreen implements Screen {
         label1.setPosition(0, 0);
         stage.addActor(label1);
 
-        //TODO: Убери к черту
+
 
 
         Skin skin = new FreeTypeSkin(Gdx.files.internal("buttons/skin.json"));
@@ -61,12 +66,12 @@ public class MenuScreen implements Screen {
         start.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //TODO: Game state manager
                 stage.clear();
                 game.setScreen(new SingleGameScreen(game.stage));
             }
         });
-
+        //TODO: Плавные переходы. Разделить stage
+        game.stage.addAction(Actions.sequence( Actions.fadeIn(0.2F)));
         stage.addActor(start);
     }
 

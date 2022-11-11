@@ -49,9 +49,9 @@ public class Ship extends Actor {
         shape = new ShapeRenderer();
         updateBounds();
 
+
+
         this.addListener(new InputListener() {
-
-
 
             //TODO: При отпускании ивенте на пкм срабатывает touchUp надо исправить
             @Override
@@ -101,7 +101,7 @@ public class Ship extends Actor {
         });
     }
 
-    private void updateBounds() {
+    public void updateBounds() {
         if (isVertical) {
 
             this.setBounds(getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
@@ -172,6 +172,21 @@ public class Ship extends Actor {
         return type;
     }
 
+    public ShapeRenderer getShape() {
+        return shape;
+    }
+
+    public Cell[] getCells() {
+        return cells;
+    }
+
+    public Sprite getTexture() {
+        return texture;
+    }
+
+    public void setTexture(Sprite texture) {
+        this.texture = texture;
+    }
 
     public void setCells(Cell[] cells) {
         this.cells = cells;
