@@ -43,6 +43,7 @@ public class SplashScreen implements Screen {
             })));
 
         stage.addActor(splashImage);
+
     }
 
     @Override
@@ -56,7 +57,10 @@ public class SplashScreen implements Screen {
                 Actions.fadeOut(0.5F),
                 Actions.run(() -> {
                     stage.clear();
-                    game.setScreen(new MenuScreen());
+                    if(SeaBattle.DEBUG){
+                        game.setScreen(new SingleGameScreen());
+                    } else {
+                        game.setScreen(new MenuScreen());}
                 })));
         }
     }
