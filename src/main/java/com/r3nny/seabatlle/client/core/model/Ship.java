@@ -129,8 +129,9 @@ public class Ship extends Actor {
                                             Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F))),
                                     Actions.run(() -> {
                                         ShipsCreator.addShipToGameField(currentCell, Ship.this, Game.playerField);
-                                        ShipsCreator.createdPlayerShips++;
                                         isShipLanding = false;
+                                        ShipsCreator.createdPlayerShips++;
+                                        Game.playerField.setShipsReady(ShipsCreator.createdPlayerShips == ShipsCreator.shipTypes.length);
                                     }));
 
                             Ship.this.addAction(action);
@@ -140,7 +141,7 @@ public class Ship extends Actor {
 
                         }
 
-                        Game.playerField.setShipsReady(ShipsCreator.createdPlayerShips == ShipsCreator.shipTypes.length);
+
                     }
                 }
                 updateBounds();
