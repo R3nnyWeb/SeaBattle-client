@@ -6,7 +6,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
@@ -20,6 +25,7 @@ import static com.r3nny.seabatlle.client.core.Game.status;
 public class ShipsCreatingScreen implements Screen {
 
 
+    private final Image menuLogo;
 
     private final SingleGame game;
     private final SpriteBatch batch;
@@ -32,13 +38,41 @@ public class ShipsCreatingScreen implements Screen {
         this.stage = SeaBattle.setUpStage();
 
 
+        TextButton backButton = new TextButton("Back to menu", SeaBattle.assetsManager.getMenuButtonSkin());
+        backButton.setX(10);
+        backButton.setSize(200, 50);
+        backButton.setY(SeaBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
 
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                playerField.addAction(Actions.fadeOut(0.5F));
+                Game.enemy.addAction(Actions.fadeOut(0.5F));
+                //TODO: Использовать фунцкионгальный интерфейс для анимации при любом перееходе
+                backButton.addAction(Actions.sequence(
+                        Actions.fadeOut(0.5F),
+                        Actions.run(() -> {
+                            stage.clear();
+                            SeaBattle seabatlle = ((SeaBattle) Gdx.app.getApplicationListener());
+                            seabatlle.setScreen(new MenuScreen());
+                        })));
+            }
+        });
+
+
+        menuLogo = new Image(SeaBattle.assetsManager.getMenuLogo());
+        menuLogo.setSize(310, 27);
+        menuLogo.setX(SeaBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
+        menuLogo.setY(SeaBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
 
         batch = new SpriteBatch();
         bg = SeaBattle.assetsManager.getInGameBackground();
         game = new SingleGame();
+        stage.addActor(menuLogo);
         stage.addActor(playerField);
         stage.addActor(Game.enemy);
+        stage.addActor(backButton);
         stage.setDebugAll(SeaBattle.DEBUG);
     }
 
