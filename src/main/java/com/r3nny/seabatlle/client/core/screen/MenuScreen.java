@@ -89,6 +89,7 @@ public class MenuScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                SeaBattle.soundManager.playClickSound();
                 menuLogo.addAction(Actions.fadeOut(0.5F));
                 start.addAction(Actions.fadeOut(0.5F));
                 end.addAction(Actions.sequence(Actions.fadeOut(0.5F), Actions.run(() -> {
@@ -98,7 +99,12 @@ public class MenuScreen implements Screen {
         });
         end.addListener(new ClickListener() {
             @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                SeaBattle.soundManager.playFocusButton();
+            }
+            @Override
             public void clicked(InputEvent event, float x, float y) {
+                SeaBattle.soundManager.playClickSound();
                 Gdx.app.exit();
             }
         });

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -46,7 +47,13 @@ public class ShipsCreatingScreen implements Screen {
 
         backButton.addListener(new ClickListener() {
             @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                SeaBattle.soundManager.playFocusButton();
+            }
+
+            @Override
             public void clicked(InputEvent event, float x, float y) {
+                SeaBattle.soundManager.playClickSound();
                 playerField.addAction(Actions.fadeOut(0.5F));
                 Game.enemy.addAction(Actions.fadeOut(0.5F));
                 //TODO: Использовать фунцкионгальный интерфейс для анимации при любом перееходе

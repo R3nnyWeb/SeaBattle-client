@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -51,10 +52,17 @@ public class ChooseScreen implements Screen {
 
 
         backButton.addListener(new ClickListener() {
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                SeaBattle.soundManager.playFocusButton();
+            }
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 multiGame.addAction(Actions.fadeOut(0.5F));
                 backButton.addAction(Actions.fadeOut(0.5F));
+                SeaBattle.soundManager.playClickSound();
                 //TODO: Использовать фунцкионгальный интерфейс для анимации при любом перееходе
                 singleGame.addAction(Actions.sequence(
                         Actions.fadeOut(0.5F),
@@ -66,6 +74,10 @@ public class ChooseScreen implements Screen {
         });
 
         singleGame.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                SeaBattle.soundManager.playFocusButton();
+            }
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SeaBattle.soundManager.stopMainMusic();

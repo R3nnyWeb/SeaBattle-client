@@ -17,8 +17,6 @@ import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 import java.util.Arrays;
 
 
-
-
 public class Ship extends Actor {
     private final ShipType type;
     private final ShapeRenderer shape;
@@ -28,9 +26,15 @@ public class Ship extends Actor {
     private boolean isVertical;
     private Sprite texture;
 
+    private boolean isKilled;
+
+
 
 
     public Ship(float x, float y, Cell[] cells, ShipType type) {
+
+        shape = new ShapeRenderer();
+
 
         this.cells = cells;
         this.type = type;
@@ -45,19 +49,27 @@ public class Ship extends Actor {
             texture = new Sprite(SeaBattle.assetsManager.getThreeDeckShip());
         }
 
-
-        shape = new ShapeRenderer();
         updateBounds();
-
-
-
         this.addListener(new InputListener() {
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+
+                SeaBattle.soundManager.playFocusButton();
+            }
+
 
             //TODO: При отпускании ивенте на пкм срабатывает touchUp надо исправить
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if ((Ship.this.cells == null)) {
                     if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+                        SeaBattle.soundManager.playClickSound();
                         setVertical(!isVertical());
                     }
                     updateBounds();
@@ -86,10 +98,14 @@ public class Ship extends Actor {
                     setX(getStartX());
                     setY(getStartY());
                     if (currentCell != null) {
-                      if( ShipsCreator.addShipToGameField(currentCell, Ship.this, Game.playerField)){
-                          ShipsCreator.createdPlayerShips++;
-                      }
-                      Game.playerField.setShipsReady(ShipsCreator.createdPlayerShips == ShipsCreator.shipTypes.length);
+                        if (ShipsCreator.addShipToGameField(currentCell, Ship.this, Game.playerField)) {
+                            ShipsCreator.createdPlayerShips++;
+
+                            //TODO: Разные звуки для разных типов
+                            SeaBattle.soundManager.playShipEnterSound();
+                            Gdx.app.log("Ship ent", "Ss");
+                        }
+                        Game.playerField.setShipsReady(ShipsCreator.createdPlayerShips == ShipsCreator.shipTypes.length);
                     }
                 }
                 updateBounds();
@@ -101,6 +117,11 @@ public class Ship extends Actor {
         });
     }
 
+
+
+
+
+    //TODO: private?? Ship.this.updateBounds()
     public void updateBounds() {
         if (isVertical) {
 
@@ -111,8 +132,34 @@ public class Ship extends Actor {
 
     }
 
+    public boolean isKilled() {
+        return isKilled;
+    }
+
+    public void kill(){
+        this.isKilled = true;
+        for (Cell c : cells) {
+            c.setStatus(CellStatus.KILLED);
+        }
+    }
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
+
+
+//        if (this.selected) {
+//            shape.setProjectionMatrix(batch.getProjectionMatrix());
+//            shape.begin(ShapeRenderer.ShapeType.Line);
+//
+//            shape.setColor(Color.WHITE);
+//            if (isVertical) {
+//                shape.rect(getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
+//
+//            } else {
+//                shape.rect(getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);
+//            }
+//            shape.end();
+//        }
 
 
         if (isVertical) {
@@ -128,6 +175,7 @@ public class Ship extends Actor {
 
 
     }
+
 
     @Override
     public void drawDebug(ShapeRenderer shapes) {

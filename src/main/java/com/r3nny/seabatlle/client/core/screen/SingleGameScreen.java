@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,16 +19,24 @@ import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.SingleGame;
 import com.r3nny.seabatlle.client.core.controller.GameController;
 import com.r3nny.seabatlle.client.core.model.Cell;
+import com.r3nny.seabatlle.client.core.model.Ship;
+import com.r3nny.seabatlle.client.core.model.ShotDTO;
 import com.r3nny.seabatlle.client.core.utils.Assets;
 import com.r3nny.seabatlle.client.core.utils.SoundManager;
 
+import java.util.HashSet;
 import java.util.Random;
 
 import static com.r3nny.seabatlle.client.core.Game.playerField;
 
 public class SingleGameScreen implements Screen {
 
+
+
+    //TODO: Ну гавно же
     private float i;
+    //TODO: Ну гавно же
+    private float j;
     private final SingleGame game;
 
     private final Stage stage;
@@ -60,9 +69,15 @@ public class SingleGameScreen implements Screen {
         menuLogo.setY(SeaBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
 
 
+        //TODO: Два одинаковых - кринж
         backButton.addListener(new ClickListener() {
             @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                SeaBattle.soundManager.playFocusButton();
+            }
+            @Override
             public void clicked(InputEvent event, float x, float y) {
+                SeaBattle.soundManager.playClickSound();
                 playerField.addAction(Actions.fadeOut(0.5F));
                 Game.enemy.addAction(Actions.fadeOut(0.5F));
                 //TODO: Использовать фунцкионгальный интерфейс для анимации при любом перееходе
@@ -71,6 +86,7 @@ public class SingleGameScreen implements Screen {
                         Actions.run(() -> {
                             stage.clear();
                             SeaBattle seabatlle = ((SeaBattle) Gdx.app.getApplicationListener());
+                            SeaBattle.soundManager.stopBattleMusic();
                             seabatlle.setScreen(new MenuScreen());
                         })));
             }
@@ -104,21 +120,63 @@ public class SingleGameScreen implements Screen {
 
     }
 
+    private boolean isEnemyDead(){
+        var enemy = Game.enemy.getShips();
+        for (Ship ship : enemy) {
+            if(!ship.isKilled()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isPlayerDead(){
+        var playerShips = playerField.getShips();
+        for (Ship ship : playerShips) {
+            if(!ship.isKilled()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isGameOver() {
+        return isEnemyDead() || isPlayerDead();
+    }
+
     @Override
     public void render(float v) {
-
+        j+=v;
 
         //TODO: Вынести в update у single
         ScreenUtils.clear(new Color(Color.BLACK));
         if (Game.status == GameStatus.ENEMY_TURN) {
             i += v;
         }
-        if (Game.status == GameStatus.ENEMY_TURN && i > 1) {
+        if (Game.status == GameStatus.ENEMY_TURN && i > 1.5) {
             Random rd = new Random();
+            //TODO: Додумать
+//            ShotDTO shot = new ShotDTO(rd.nextInt(10),rd.nextInt(10));
+//            while(enemyShots.contains(shot)){
+//                shot = new ShotDTO(rd.nextInt(10),rd.nextInt(10));
+//            }
+//            enemyShots.add(shot);
             //TODO: logging
-            GameController.shoot(rd.nextInt(10),rd.nextInt(10));
+            GameController.shoot(rd.nextInt(10), rd.nextInt(10));
             i = 0;
         }
+
+        //TODO: Проверять только после измений;
+        if(j > 1){
+            if(isGameOver()){
+                SeaBattle.soundManager.stopBattleMusic();
+                SeaBattle seabatlle = ((SeaBattle) Gdx.app.getApplicationListener());
+                seabatlle.setScreen(new MenuScreen());
+            }
+        }
+
+
+
         stage.act();
         stage.draw();
 
