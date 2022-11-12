@@ -70,7 +70,7 @@ public class ChooseScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 SeaBattle.soundManager.stopMainMusic();
                 SeaBattle.soundManager.playNewGameSound();
-                game.setScreen(new SingleGameScreen());
+                game.setScreen(new ShipsCreatingScreen());
             }
         });
         singleGame.addAction(fadeInAction);

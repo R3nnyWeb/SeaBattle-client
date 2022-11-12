@@ -58,7 +58,7 @@ public class SplashScreen implements Screen {
                 Actions.run(() -> {
                     stage.clear();
                     if(SeaBattle.DEBUG){
-                        game.setScreen(new SingleGameScreen());
+                        game.setScreen(new ShipsCreatingScreen());
                     } else {
                         game.setScreen(new MenuScreen());}
                 })));

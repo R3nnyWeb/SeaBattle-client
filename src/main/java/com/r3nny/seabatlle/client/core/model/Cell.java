@@ -11,6 +11,8 @@ import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.controller.GameController;
 
+import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.cell;
+
 public class Cell extends Actor {
 
     public static final float SIZE = 31.37f;
@@ -38,7 +40,7 @@ public class Cell extends Actor {
         this.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                if(Game.status == GameStatus.PLAYER_TURN){
-                   System.out.println(Cell.this.status=GameController.shoot(Cell.this));
+                   GameController.shoot(Cell.this.row, Cell.this.column);
                }
                 return true;
             }

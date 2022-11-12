@@ -1,42 +1,66 @@
 package com.r3nny.seabatlle.client.core.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.SingleGame;
+import com.r3nny.seabatlle.client.core.controller.GameController;
+import com.r3nny.seabatlle.client.core.model.Cell;
+import com.r3nny.seabatlle.client.core.utils.Assets;
+import com.r3nny.seabatlle.client.core.utils.SoundManager;
+
+import java.util.Random;
 
 import static com.r3nny.seabatlle.client.core.Game.playerField;
 
-
-
 public class SingleGameScreen implements Screen {
 
-
-
+    private float i;
     private final SingleGame game;
-    private final SpriteBatch batch;
-    private final Texture bg;
-    public final Stage stage;
 
-    public SingleGameScreen() {
-        //TODO: GSM????
-        Game.status = GameStatus.SHIPS_STAGE;
-        this.stage = SeaBattle.setUpStage();
+    private final Stage stage;
+
+    private Assets assetsManager;
+
+    private Image bgImage;
+
+    private SoundManager soundManager;
+
+    public SingleGameScreen(SingleGame game) {
+        this.game = game;
+
+        //TODO: Рандомом
+
+        Game.status = GameStatus.PLAYER_TURN;
+
+        stage = SeaBattle.setUpStage();
+        assetsManager = SeaBattle.assetsManager;
+        soundManager = SeaBattle.soundManager;
+
+        //TODO: rework this
+        Cell[][] cells = playerField.getField();
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells.length; j++) {
+
+                var listeners = cells[i][j].getListeners();
+                for (EventListener listener : listeners) {
+                    cells[i][j].removeListener(listener);
+                }
+            }
+        }
 
 
-
-
-        batch = new SpriteBatch();
-        bg = SeaBattle.assetsManager.getInGameBackground();
-        game = new SingleGame();
+        bgImage = new Image(SeaBattle.assetsManager.getInGameBackground());
+        bgImage.setSize(SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT);
+        stage.addActor(bgImage);
         stage.addActor(playerField);
         stage.addActor(Game.enemy);
         stage.setDebugAll(SeaBattle.DEBUG);
@@ -44,29 +68,24 @@ public class SingleGameScreen implements Screen {
 
     @Override
     public void show() {
-        SeaBattle.soundManager.playBattleMusic();
+
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float v) {
+
+        //TODO: rework this
         ScreenUtils.clear(new Color(Color.BLACK));
-        batch.begin();
-        batch.setProjectionMatrix(stage.getBatch().getProjectionMatrix());
-        batch.draw(bg, 0, 0, SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT);
-        batch.end();
+        if (Game.status == GameStatus.ENEMY_TURN) {
+            i += v;
+        }
+        if (Game.status == GameStatus.ENEMY_TURN && i > 1) {
+            Random rd = new Random();
+            GameController.shoot(rd.nextInt(10),rd.nextInt(10));
+            i = 0;
+        }
         stage.act();
         stage.draw();
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            Gdx.app.log( "SingleGameScreen", "Autocreating Player ships");
-
-            playerField.initAutoShips();
-        }
-        //TODO: Вынести в update у single
-        if(game.isShipsReady()){
-            playerField.clearAllNotAllowed();
-            //TODO: Сейчас каждый раз врубает нужно типо метода старт, который один раз вызовется или отельный скрин с игрой. (Весьма логично)
-            Game.status = GameStatus.PLAYER_TURN;
-        }
 
 
     }
@@ -75,6 +94,7 @@ public class SingleGameScreen implements Screen {
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
     }
+
 
     @Override
     public void pause() {
@@ -88,13 +108,11 @@ public class SingleGameScreen implements Screen {
 
     @Override
     public void hide() {
-        stage.clear();
+
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
-        bg.dispose();
-        stage.dispose();
+
     }
 }

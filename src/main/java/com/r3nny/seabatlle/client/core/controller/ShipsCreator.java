@@ -132,6 +132,7 @@ public class ShipsCreator {
         List<Ship> ships = gf.getShips();
         int i = 0;
         while (i < shipTypes.length) {
+            //TODO: Use thread safe
             int row = rd.nextInt(10);
             int column = rd.nextInt(10);
             Ship ship = ships.get(i);

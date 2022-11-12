@@ -25,7 +25,7 @@ public class SeaBattle extends com.badlogic.gdx.Game {
     public static final String RUSSIAN_CHARACTERS = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
             + "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
             + "1234567890.,:;_¡!¿?\"'+-*/()[]={}STARW";
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
 
 
     public static Stage setUpStage(){
