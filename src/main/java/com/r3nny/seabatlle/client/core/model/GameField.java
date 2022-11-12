@@ -76,6 +76,8 @@ public class GameField extends Group {
         return field;
     }
 
+
+
     public void initAutoShips() {
         for (Ship ship : ships
         ) {
@@ -109,6 +111,10 @@ public class GameField extends Group {
             }
         }
     }
+
+
+
+
 
     public boolean isShipsReady() {
         return isShipsReady;

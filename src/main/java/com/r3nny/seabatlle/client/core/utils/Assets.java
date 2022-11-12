@@ -17,7 +17,7 @@ public class Assets {
     //TODO: Вынести пути в файл и разбить на листы по классам
     private final String MAIN_MENU_BG_PATH = "mainMenu/bg.png";
     private final String ONE_DECK_SHIP_PATH = "ships/1xShip.png";
-    private final String TWO_DECK_SHIP_PATH = "ships/3xShip.png";
+    private final String TWO_DECK_SHIP_PATH = "ships/2xShip.png";
     private final String THREE_DECK_SHIP_PATH = "ships/3xShip.png";
     private final String FOUR_DECK_SHIP_PATH = "ships/4xShip.png";
     private final String IN_GAME_BACKGROUND = "inGame/bg.jpg";
@@ -41,7 +41,7 @@ public class Assets {
 
     private final String SHIP_INJURED_SOUND_1 = "sounds/injured_1.wav";
     private final String SHIP_INJURED_SOUND_2 = "sounds/injured_2.wav";
-    private final String KILLED_SOUND = "sounds/killed.wav";
+    private final String KILLED_SOUND = "sounds/killed.WAV";
 
 
     private final AssetManager manager;

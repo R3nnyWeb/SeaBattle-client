@@ -11,13 +11,17 @@ public class ShipsCreator {
 
     public static int createdPlayerShips = 0;
 
+    public static boolean isShipLanding = false;
+
     public static ShipType[] shipTypes = {ShipType.FOUR_DECK,
             ShipType.THREE_DECK, ShipType.THREE_DECK,
             ShipType.TWO_DECK, ShipType.TWO_DECK, ShipType.TWO_DECK,
             ShipType.ONE_DECK, ShipType.ONE_DECK, ShipType.ONE_DECK, ShipType.ONE_DECK};
 
 
-    private static boolean canCreateShipHere(Cell cell, Ship ship, Cell[][] field) {
+
+
+    public static boolean canCreateInCell(Cell cell, Ship ship, Cell[][] field) {
         int x = cell.getColumn();
         int y = cell.getRow();
         for (int i = 0; i < ship.getType().getSize(); i++) {
@@ -51,7 +55,7 @@ public class ShipsCreator {
         Cell[][] field = gf.getField();
         Cell[] shipCells = new Cell[ship.getType().getSize()];
 
-        if (!canCreateShipHere(startCell, ship, field)) {
+        if (!canCreateInCell(startCell, ship, field)) {
             Gdx.app.log("ShipsCreator auto", "Cannot create ship on  Cell{column=" + startCell);
             return false;
         }
@@ -122,6 +126,7 @@ public class ShipsCreator {
             shipCell.setShip(ship);
         }
         Gdx.app.log("ShipsCreator", "Ship created " + ship);
+        isShipLanding = false;
         return true;
     }
 

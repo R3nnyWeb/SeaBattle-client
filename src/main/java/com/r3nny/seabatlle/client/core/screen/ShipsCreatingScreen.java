@@ -6,10 +6,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -18,6 +22,8 @@ import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.SingleGame;
+import com.r3nny.seabatlle.client.core.model.Ship;
+import com.r3nny.seabatlle.client.core.model.ShipType;
 
 import static com.r3nny.seabatlle.client.core.Game.playerField;
 import static com.r3nny.seabatlle.client.core.Game.status;
@@ -29,8 +35,8 @@ public class ShipsCreatingScreen implements Screen {
     private final Image menuLogo;
 
     private final SingleGame game;
-    private final SpriteBatch batch;
-    private final Texture bg;
+
+    private final Image bg;
     public final Stage stage;
 
     public ShipsCreatingScreen() {
@@ -54,6 +60,7 @@ public class ShipsCreatingScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SeaBattle.soundManager.playClickSound();
+                SeaBattle.soundManager.stopBattleMusic();
                 playerField.addAction(Actions.fadeOut(0.5F));
                 Game.enemy.addAction(Actions.fadeOut(0.5F));
                 //TODO: Использовать фунцкионгальный интерфейс для анимации при любом перееходе
@@ -73,9 +80,19 @@ public class ShipsCreatingScreen implements Screen {
         menuLogo.setX(SeaBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
         menuLogo.setY(SeaBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
 
-        batch = new SpriteBatch();
-        bg = SeaBattle.assetsManager.getInGameBackground();
+
+        bg = new Image(SeaBattle.assetsManager.getInGameBackground());
+        bg.setSize(SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT);
+
         game = new SingleGame();
+
+
+
+
+
+
+
+        stage.addActor(bg);
         stage.addActor(menuLogo);
         stage.addActor(playerField);
         stage.addActor(Game.enemy);
@@ -91,10 +108,6 @@ public class ShipsCreatingScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(new Color(Color.BLACK));
-        batch.begin();
-        batch.setProjectionMatrix(stage.getBatch().getProjectionMatrix());
-        batch.draw(bg, 0, 0, SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT);
-        batch.end();
         stage.act();
         stage.draw();
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -136,8 +149,7 @@ public class ShipsCreatingScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
-        bg.dispose();
+
         stage.dispose();
     }
 }

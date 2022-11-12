@@ -54,6 +54,8 @@ public class Cell extends Actor {
     }
 
 
+
+
     public Ship getShip() {
         return ship;
     }
