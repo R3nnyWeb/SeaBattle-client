@@ -57,11 +57,12 @@ public class ShipsCreatingScreen implements Screen {
         stage.act();
         stage.draw();
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            //TODO: Тут надо кнопку добавить для потверждения
             Gdx.app.log( "SingleGameScreen", "Autocreating Player ships");
 
             playerField.initAutoShips();
         }
-        //TODO: Вынести в update у single
+
         if(game.isShipsReady()){
             playerField.clearAllNotAllowed();
             SeaBattle seabatlle = ((SeaBattle) Gdx.app.getApplicationListener());

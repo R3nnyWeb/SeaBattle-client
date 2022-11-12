@@ -74,13 +74,15 @@ public class SingleGameScreen implements Screen {
     @Override
     public void render(float v) {
 
-        //TODO: rework this
+
+        //TODO: Вынести в update у single
         ScreenUtils.clear(new Color(Color.BLACK));
         if (Game.status == GameStatus.ENEMY_TURN) {
             i += v;
         }
         if (Game.status == GameStatus.ENEMY_TURN && i > 1) {
             Random rd = new Random();
+            //TODO: logging
             GameController.shoot(rd.nextInt(10),rd.nextInt(10));
             i = 0;
         }

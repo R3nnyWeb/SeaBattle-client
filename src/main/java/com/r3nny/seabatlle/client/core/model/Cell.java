@@ -40,6 +40,7 @@ public class Cell extends Actor {
         this.addListener(new InputListener() {
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
                if(Game.status == GameStatus.PLAYER_TURN){
+                   //TODO: logging
                    GameController.shoot(Cell.this.row, Cell.this.column);
                }
                 return true;
