@@ -3,15 +3,14 @@ package com.r3nny.seabatlle.client.core.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.controller.CellsController;
@@ -33,6 +32,9 @@ public class Ship extends Actor {
 
     private boolean isKilled;
 
+    private Animation destroyingAnimation;
+    private float stateTime = 0F;
+
 
     public Ship(float x, float y, Cell[] cells, ShipType type) {
         shape = new ShapeRenderer();
@@ -40,6 +42,7 @@ public class Ship extends Actor {
         this.type = type;
         super.setX(x);
         super.setY(y);
+        this.destroyingAnimation = SeaBattle.animationManager.getShipDestroyingAnimation();
         //TODO: Кейс сделай, балбес
         texture = new Sprite(SeaBattle.assetsManager.getOneDeckShip());
 
@@ -152,9 +155,9 @@ public class Ship extends Actor {
         for (Cell c : cells) {
             c.setStatus(CellStatus.KILLED);
         }
-        texture.setTexture(SeaBattle.assetsManager.getThreeDeckKilledShip());
-
-        this.addAction(Actions.sequence(Actions.alpha(0.3F), Actions.fadeIn(0.8F)));
+//        texture.setTexture(SeaBattle.assetsManager.getThreeDeckKilledShip());
+//
+//        this.addAction(Actions.sequence(Actions.alpha(0.3F), Actions.fadeIn(0.8F)));
     }
 
 
@@ -180,7 +183,26 @@ public class Ship extends Actor {
         texture.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         texture.setX(getX());
         texture.setY(getY());
-        texture.draw(batch);
+        if (isKilled) {
+            stateTime += Gdx.graphics.getDeltaTime();
+            TextureRegion currentFrame = (TextureRegion) destroyingAnimation.getKeyFrame(stateTime,false);
+            Sprite animatedSprite = new Sprite(currentFrame);
+            animatedSprite.setPosition(getX(),getY());
+            if (isVertical) {
+
+                animatedSprite.rotate90(true);
+                animatedSprite.setSize( Cell.SIZE,Cell.SIZE * type.getSize());
+                animatedSprite.draw(batch);
+
+            } else {
+                animatedSprite.setSize( Cell.SIZE * type.getSize(),Cell.SIZE);
+               animatedSprite.draw(batch);
+            }
+        } else {
+            texture.draw(batch);
+        }
+
+
         texture.setColor(color.r, color.g, color.b, 1f);
 
     }
