@@ -32,7 +32,6 @@ public class GameField extends Group {
         ships = initShips();
         if (!isPlayer) {
             Gdx.app.log( "GameField", " Autocreating enemy ships ");
-
             initAutoShips();
         }
 
@@ -96,9 +95,7 @@ public class GameField extends Group {
             }
 
         }
-
         clearAllNotAllowed();
-
         this.isShipsReady = true;
     }
 

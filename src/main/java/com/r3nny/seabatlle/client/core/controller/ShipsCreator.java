@@ -142,7 +142,10 @@ public class ShipsCreator {
             int column = rd.nextInt(10);
             Ship ship = ships.get(i);
             //TODO: Разобратся с рандомом. Без sleep не работает
-            ship.setVertical(rd.nextBoolean());
+            if(rd.nextBoolean()){
+                ship.setVertical(!ship.isVertical());
+            }
+
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {

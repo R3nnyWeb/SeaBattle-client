@@ -35,10 +35,7 @@ public class Ship extends Actor {
 
 
     public Ship(float x, float y, Cell[] cells, ShipType type) {
-
         shape = new ShapeRenderer();
-
-
         this.cells = cells;
         this.type = type;
         super.setX(x);
@@ -56,10 +53,11 @@ public class Ship extends Actor {
             texture = new Sprite(SeaBattle.assetsManager.getThreeDeckShip());
         }
 
+        texture.setSize(Cell.SIZE * type.getSize(), Cell.SIZE);
+
+
         updateBounds();
         this.addListener(new InputListener() {
-
-
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 Ship.this.isSelected = false;
@@ -68,16 +66,19 @@ public class Ship extends Actor {
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                Ship.this.isSelected = true;
-                SeaBattle.soundManager.playFocusButton();
+                if (!isShipLanding) {
+                    Ship.this.isSelected = true;
+                    SeaBattle.soundManager.playFocusButton();
+                }
+
             }
 
 
             //TODO: При отпускании ивенте на пкм срабатывает touchUp надо исправить
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if ((Ship.this.cells == null)) {
-                    if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)) {
+                if ((Ship.this.cells == null) && !isShipLanding) {
+                    if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT) && !isShipLanding) {
                         SeaBattle.soundManager.playClickSound();
                         setVertical(!isVertical());
                     }
@@ -95,8 +96,6 @@ public class Ship extends Actor {
                         updateBounds();
                     }
                 }
-
-
             }
 
             @Override
@@ -107,7 +106,7 @@ public class Ship extends Actor {
                     setX(getStartX());
                     setY(getStartY());
                     if (currentCell != null) {
-                        if (ShipsCreator.canCreateInCell(currentCell, Ship.this, Game.playerField.getField())) {
+                        if (ShipsCreator.canCreateInCell(currentCell, Ship.this, Game.playerField.getField()) && !isShipLanding) {
                             isShipLanding = true;
                             Ship.this.setX(currentCell.getX());
                             Ship.this.setY(currentCell.getY());
@@ -121,7 +120,6 @@ public class Ship extends Actor {
                                         Actions.moveTo(getX(), getY() + 40),
                                         Actions.moveTo(getX(), getY(), 1F));
                             }
-
 
                             Action action = Actions.sequence(
                                     Actions.parallel(
@@ -140,16 +138,10 @@ public class Ship extends Actor {
                             Gdx.app.log("Ship ent", Ship.this.toString());
 
                         }
-
-
                     }
                 }
                 updateBounds();
-
-
             }
-
-
         });
     }
 
@@ -161,7 +153,6 @@ public class Ship extends Actor {
     //TODO: private?? Ship.this.updateBounds()
     public void updateBounds() {
         if (isVertical) {
-
             this.setBounds(getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
         } else {
             this.setBounds(getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);
@@ -178,6 +169,9 @@ public class Ship extends Actor {
         for (Cell c : cells) {
             c.setStatus(CellStatus.KILLED);
         }
+        texture.setTexture(SeaBattle.assetsManager.getThreeDeckKilledShip());
+
+        this.addAction(Actions.sequence(Actions.alpha(0.3F), Actions.fadeIn(0.8F)));
     }
 
 
@@ -199,20 +193,12 @@ public class Ship extends Actor {
 
         shape.end();
         batch.begin();
-
         Color color = getColor();
-        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-        if (isVertical) {
-            texture.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-            texture.setSize(Cell.SIZE, type.getSize() * Cell.SIZE);
-            texture.setX(getX());
-            texture.setY(getY());
-            texture.draw(batch);
-            batch.setColor(color.r, color.g, color.b, 1f);
-        } else {
-            batch.draw(texture, getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);
-        }
-        batch.setColor(color.r, color.g, color.b, 1f);
+        texture.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+        texture.setX(getX());
+        texture.setY(getY());
+        texture.draw(batch);
+        texture.setColor(color.r, color.g, color.b, 1f);
 
     }
 
@@ -246,6 +232,8 @@ public class Ship extends Actor {
     public void setVertical(boolean vertical) {
         texture.rotate90(vertical);
         isVertical = vertical;
+        updateBounds();
+        texture.setSize(super.getWidth(), super.getHeight());
     }
 
     public float getStartY() {

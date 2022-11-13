@@ -2,6 +2,7 @@ package com.r3nny.seabatlle.client.core.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
+import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.controller.GameController;
 
 import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.cell;
@@ -21,6 +23,7 @@ public class Cell extends Actor {
     private final int column;
     private final int row;
     private Ship ship;
+    private Texture texture;
     private CellStatus status;
 
     private final ShapeRenderer shape;
@@ -33,6 +36,7 @@ public class Cell extends Actor {
         super.setX(x);
         super.setY(y);
         this.status = status;
+        texture = SeaBattle.assetsManager.getInjuredCell();
         shape = new ShapeRenderer();
         shape.setAutoShapeType(true);
         this.setBounds(x, y, SIZE, SIZE);
@@ -74,21 +78,22 @@ public class Cell extends Actor {
             shape.setColor(Color.RED);
             shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
         }
-        if (status == CellStatus.KILLED) {
-            shape.setColor(Color.RED);
-            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
-        }
         if (status == CellStatus.MISS) {
             shape.setColor(Color.CYAN);
-            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
-        }
-        if (status == CellStatus.INJURED) {
-            shape.setColor(Color.YELLOW);
             shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
         }
 
         shape.end();
         batch.begin();
+        Color color = getColor();
+        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+        if (status == CellStatus.INJURED) {
+            batch.draw(texture, getX(), getY(), Cell.SIZE, Cell.SIZE);
+
+        }
+
+
+        batch.setColor(color.r, color.g, color.b, 1f);
 //        batch.draw(new Texture("cell.png"),getX(),getY(),Cell.SIZE,Cell.SIZE);
 
     }

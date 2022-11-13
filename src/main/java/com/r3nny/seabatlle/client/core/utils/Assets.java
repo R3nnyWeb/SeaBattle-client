@@ -19,8 +19,10 @@ public class Assets {
     private final String ONE_DECK_SHIP_PATH = "ships/1xShip.png";
     private final String TWO_DECK_SHIP_PATH = "ships/2xShip.png";
     private final String THREE_DECK_SHIP_PATH = "ships/3xShip.png";
+    private final String THREE_DECK_SHIP__KILLED_PATH = "ships/3xShipKilled.png";
     private final String FOUR_DECK_SHIP_PATH = "ships/4xShip.png";
     private final String IN_GAME_BACKGROUND = "inGame/bg.jpg";
+    private final String INJURED__CELL = "injured.png";
 
     private final String GAME_LOGO = "gameLogo.png";
 
@@ -57,9 +59,11 @@ public class Assets {
         manager.load(ONE_DECK_SHIP_PATH, Texture.class);
         manager.load(TWO_DECK_SHIP_PATH, Texture.class);
         manager.load(THREE_DECK_SHIP_PATH, Texture.class);
+        manager.load(THREE_DECK_SHIP__KILLED_PATH, Texture.class);
         manager.load(FOUR_DECK_SHIP_PATH, Texture.class);
         manager.load(IN_GAME_BACKGROUND, Texture.class);
         manager.load(GAME_LOGO, Texture.class);
+        manager.load(INJURED__CELL, Texture.class);
 
 
         manager.load(MENU_BUTTON_SKIN, Skin.class);
@@ -105,8 +109,15 @@ public class Assets {
         return manager.get(TWO_DECK_SHIP_PATH);
     }
 
+    public Texture getInjuredCell() {
+        return manager.get(INJURED__CELL);
+    }
+
     public Texture getThreeDeckShip() {
         return manager.get(THREE_DECK_SHIP_PATH);
+    }
+    public Texture getThreeDeckKilledShip() {
+        return manager.get(THREE_DECK_SHIP__KILLED_PATH);
     }
 
     public Texture getFourDeckShip() {
