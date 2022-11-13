@@ -3,7 +3,9 @@ package com.r3nny.seabatlle.client.core.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,9 +15,8 @@ import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.controller.GameController;
 
-import static com.badlogic.gdx.scenes.scene2d.ui.Table.Debug.cell;
-
 public class Cell extends Actor {
+
 
     public static final float SIZE = 31.37f;
 //   public static final float SIZE = 32f;
@@ -25,9 +26,12 @@ public class Cell extends Actor {
     private Ship ship;
     private Texture texture;
     private CellStatus status;
-
     private final ShapeRenderer shape;
 
+    private float stateTime = 0f;
+
+    private Animation injuredAnimation;
+    private Animation burningAnimation;
 
     public Cell(float x, float y, int column, int row, Ship ship, CellStatus status) {
         this.column = column;
@@ -35,6 +39,8 @@ public class Cell extends Actor {
         this.ship = ship;
         super.setX(x);
         super.setY(y);
+        this.injuredAnimation = SeaBattle.animationManager.getInjuredAnimation();
+        this.burningAnimation = SeaBattle.animationManager.getBurningAnimation();
         this.status = status;
         texture = SeaBattle.assetsManager.getInjuredCell();
         shape = new ShapeRenderer();
@@ -42,22 +48,21 @@ public class Cell extends Actor {
         this.setBounds(x, y, SIZE, SIZE);
 
         this.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-               if(Game.status == GameStatus.PLAYER_TURN){
-                   //TODO: logging
-                   GameController.shoot(Cell.this.row, Cell.this.column);
-               }
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (Game.status == GameStatus.PLAYER_TURN) {
+                    //TODO: logging
+                    GameController.shoot(Cell.this.row, Cell.this.column);
+                }
                 return true;
             }
 
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 System.out.println("up " + Cell.this);
             }
         });
 
+
     }
-
-
 
 
     public Ship getShip() {
@@ -88,7 +93,17 @@ public class Cell extends Actor {
         Color color = getColor();
         batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         if (status == CellStatus.INJURED) {
-            batch.draw(texture, getX(), getY(), Cell.SIZE, Cell.SIZE);
+            stateTime += Gdx.graphics.getDeltaTime();
+            if(!injuredAnimation.isAnimationFinished(stateTime)){
+                TextureRegion currentFrame = (TextureRegion) injuredAnimation.getKeyFrame(stateTime,false);
+                batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
+            } else{
+                TextureRegion currentFrame = (TextureRegion) burningAnimation.getKeyFrame(stateTime,true);
+                batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
+            }
+
+
+
 
         }
 
@@ -116,7 +131,6 @@ public class Cell extends Actor {
     public int getRow() {
         return row;
     }
-
 
 
     public void setShip(Ship ship) {

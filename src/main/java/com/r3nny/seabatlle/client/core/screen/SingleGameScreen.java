@@ -148,7 +148,7 @@ public class SingleGameScreen implements Screen {
     public void render(float v) {
         j+=v;
 
-        //TODO: Вынести в update у single
+        //TODO: Вынести в отдельный класс
         ScreenUtils.clear(new Color(Color.BLACK));
         if (Game.status == GameStatus.ENEMY_TURN) {
             i += v;

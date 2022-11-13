@@ -110,29 +110,12 @@ public class Ship extends Actor {
                             isShipLanding = true;
                             Ship.this.setX(currentCell.getX());
                             Ship.this.setY(currentCell.getY());
-                            SequenceAction sequence;
-                            if (!Ship.this.isVertical) {
-                                sequence = Actions.sequence(
-                                        Actions.moveTo(getX() - 40, getY()),
-                                        Actions.moveTo(getX(), getY(), 1F));
-                            } else {
-                                sequence = Actions.sequence(
-                                        Actions.moveTo(getX(), getY() + 40),
-                                        Actions.moveTo(getX(), getY(), 1F));
-                            }
-
-                            Action action = Actions.sequence(
-                                    Actions.parallel(
-                                            sequence,
-                                            Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F))),
-                                    Actions.run(() -> {
-                                        ShipsCreator.addShipToGameField(currentCell, Ship.this, Game.playerField);
-                                        isShipLanding = false;
-                                        ShipsCreator.createdPlayerShips++;
-                                        Game.playerField.setShipsReady(ShipsCreator.createdPlayerShips == ShipsCreator.shipTypes.length);
-                                    }));
-
-                            Ship.this.addAction(action);
+                            Ship.this.addAction(SeaBattle.animationManager.getShipEnterAction(Ship.this, () -> {
+                                ShipsCreator.addShipToGameField(currentCell, Ship.this, Game.playerField);
+                                isShipLanding = false;
+                                ShipsCreator.createdPlayerShips++;
+                                Game.playerField.setShipsReady(ShipsCreator.createdPlayerShips == ShipsCreator.shipTypes.length);
+                            }));
                             //TODO: Разные звуки для разных типов
                             SeaBattle.soundManager.playShipEnterSound();
                             Gdx.app.log("Ship ent", Ship.this.toString());

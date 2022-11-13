@@ -7,9 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import java.util.Random;
-
-import static com.r3nny.seabatlle.client.core.model.CellStatus.INJURED;
 
 public class Assets {
 
@@ -45,6 +42,9 @@ public class Assets {
     private final String SHIP_INJURED_SOUND_2 = "sounds/injured_2.wav";
     private final String KILLED_SOUND = "sounds/killed.WAV";
 
+    private final String INJURED_ANIMATION = "injuredSprite.png";
+    private final String BURNING_ANIMATION = "burningSprite.png";
+
 
     private final AssetManager manager;
 
@@ -64,6 +64,8 @@ public class Assets {
         manager.load(IN_GAME_BACKGROUND, Texture.class);
         manager.load(GAME_LOGO, Texture.class);
         manager.load(INJURED__CELL, Texture.class);
+        manager.load(INJURED_ANIMATION, Texture.class);
+        manager.load(BURNING_ANIMATION, Texture.class);
 
 
         manager.load(MENU_BUTTON_SKIN, Skin.class);
@@ -181,7 +183,9 @@ public class Assets {
         return manager.get(SHIP_INJURED_SOUND_2);
     }
 
-
+    public Texture getInjuredAnimation(){
+        return manager.get(INJURED_ANIMATION);
+    }
 
 
     public boolean update() {
@@ -190,5 +194,9 @@ public class Assets {
 
     public Sound getKilledSound() {
        return manager.get(KILLED_SOUND);
+    }
+
+    public Texture getBurningAnimation() {
+        return manager.get(BURNING_ANIMATION);
     }
 }

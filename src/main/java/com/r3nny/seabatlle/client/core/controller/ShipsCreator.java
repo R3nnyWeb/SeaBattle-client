@@ -126,7 +126,7 @@ public class ShipsCreator {
             shipCell.setShip(ship);
         }
         Gdx.app.log("ShipsCreator", "Ship created " + ship);
-        isShipLanding = false;
+
         return true;
     }
 

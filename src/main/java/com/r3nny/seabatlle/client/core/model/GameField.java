@@ -1,17 +1,20 @@
 package com.r3nny.seabatlle.client.core.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isShipLanding;
 import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.shipTypes;
 import static com.r3nny.seabatlle.client.core.model.CellStatus.NOT_ALLOWED;
 import static com.r3nny.seabatlle.client.core.model.CellStatus.SEA;
-
 
 
 public class GameField extends Group {
@@ -31,14 +34,12 @@ public class GameField extends Group {
         field = initCells();
         ships = initShips();
         if (!isPlayer) {
-            Gdx.app.log( "GameField", " Autocreating enemy ships ");
+            Gdx.app.log("GameField", " Autocreating enemy ships ");
             initAutoShips();
         }
 
 
-
     }
-
 
 
     private List<Ship> initShips() {
@@ -76,8 +77,8 @@ public class GameField extends Group {
     }
 
 
-
     public void initAutoShips() {
+
         for (Ship ship : ships
         ) {
             super.removeActor(ship);
@@ -89,14 +90,17 @@ public class GameField extends Group {
         }
         ShipsCreator.autoCreateShips(this);
         if (isPlayer) {
-            for (Ship ship : ships
-            ) {
+            isShipLanding = true;
+            for (Ship ship : ships) {
+                ship.addAction(SeaBattle.animationManager.getShipEnterAction(ship, () ->{isShipLanding = false;}));
                 super.addActor(ship);
             }
-
         }
+        SeaBattle.soundManager.playShipEnterSound();
         clearAllNotAllowed();
-        this.isShipsReady = true;
+        if(!isPlayer){
+            this.isShipsReady = true;
+        }
     }
 
     public void clearAllNotAllowed() {
@@ -108,8 +112,6 @@ public class GameField extends Group {
             }
         }
     }
-
-
 
 
 

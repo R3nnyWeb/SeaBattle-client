@@ -22,6 +22,7 @@ import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.SingleGame;
+import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 import com.r3nny.seabatlle.client.core.model.Ship;
 import com.r3nny.seabatlle.client.core.model.ShipType;
 
@@ -35,6 +36,8 @@ public class ShipsCreatingScreen implements Screen {
     private final Image menuLogo;
 
     private final SingleGame game;
+
+    TextButton acceptButton;
 
     private final Image bg;
     public final Stage stage;
@@ -50,6 +53,17 @@ public class ShipsCreatingScreen implements Screen {
         backButton.setSize(200, 50);
         backButton.setY(SeaBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
 
+        acceptButton  = new TextButton("Accept", SeaBattle.assetsManager.getMenuButtonSkin());
+        acceptButton.setSize(200, 50);
+        acceptButton.setX(SeaBattle.WORLD_WIDTH - acceptButton.getWidth() -10);
+        acceptButton.setY(10);
+        acceptButton.setVisible(false);
+        acceptButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                playerField.setShipsReady(true);
+            }
+        });
 
         backButton.addListener(new ClickListener() {
             @Override
@@ -95,6 +109,7 @@ public class ShipsCreatingScreen implements Screen {
         stage.addActor(bg);
         stage.addActor(menuLogo);
         stage.addActor(playerField);
+        stage.addActor(acceptButton);
         stage.addActor(Game.enemy);
         stage.addActor(backButton);
         stage.setDebugAll(SeaBattle.DEBUG);
@@ -106,14 +121,14 @@ public class ShipsCreatingScreen implements Screen {
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta)  {
         ScreenUtils.clear(new Color(Color.BLACK));
         stage.act();
         stage.draw();
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && !ShipsCreator.isShipLanding) {
             //TODO: Тут надо кнопку добавить для потверждения
+            acceptButton.setVisible(true);
             Gdx.app.log( "SingleGameScreen", "Autocreating Player ships");
-
             playerField.initAutoShips();
         }
 
