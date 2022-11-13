@@ -1,9 +1,11 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.screen;
+
+import static com.r3nny.seabatlle.client.core.Game.playerField;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,22 +22,15 @@ import com.r3nny.seabatlle.client.core.SingleGame;
 import com.r3nny.seabatlle.client.core.controller.GameController;
 import com.r3nny.seabatlle.client.core.model.Cell;
 import com.r3nny.seabatlle.client.core.model.Ship;
-import com.r3nny.seabatlle.client.core.model.ShotDTO;
 import com.r3nny.seabatlle.client.core.utils.Assets;
 import com.r3nny.seabatlle.client.core.utils.SoundManager;
-
-import java.util.HashSet;
 import java.util.Random;
-
-import static com.r3nny.seabatlle.client.core.Game.playerField;
 
 public class SingleGameScreen implements Screen {
 
-
-
-    //TODO: Ну гавно же
+    // TODO: Ну гавно же
     private float i;
-    //TODO: Ну гавно же
+    // TODO: Ну гавно же
     private float j;
     private final SingleGame game;
 
@@ -50,7 +45,7 @@ public class SingleGameScreen implements Screen {
     public SingleGameScreen(SingleGame game) {
         this.game = game;
 
-        //TODO: Рандомом
+        // TODO: Рандомом
 
         Game.status = GameStatus.PLAYER_TURN;
 
@@ -58,7 +53,8 @@ public class SingleGameScreen implements Screen {
         assetsManager = SeaBattle.assetsManager;
         soundManager = SeaBattle.soundManager;
 
-        TextButton backButton = new TextButton("Back to menu", SeaBattle.assetsManager.getMenuButtonSkin());
+        TextButton backButton =
+                new TextButton("Back to menu", SeaBattle.assetsManager.getMenuButtonSkin());
         backButton.setX(10);
         backButton.setSize(200, 50);
         backButton.setY(SeaBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
@@ -68,31 +64,39 @@ public class SingleGameScreen implements Screen {
         menuLogo.setX(SeaBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
         menuLogo.setY(SeaBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
 
+        // TODO: Два одинаковых - кринж
+        backButton.addListener(
+                new ClickListener() {
+                    @Override
+                    public void enter(
+                            InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        SeaBattle.soundManager.playFocusButton();
+                    }
 
-        //TODO: Два одинаковых - кринж
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                SeaBattle.soundManager.playFocusButton();
-            }
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                SeaBattle.soundManager.playClickSound();
-                playerField.addAction(Actions.fadeOut(0.5F));
-                Game.enemy.addAction(Actions.fadeOut(0.5F));
-                //TODO: Использовать фунцкионгальный интерфейс для анимации при любом перееходе
-                backButton.addAction(Actions.sequence(
-                        Actions.fadeOut(0.5F),
-                        Actions.run(() -> {
-                            stage.clear();
-                            SeaBattle seabatlle = ((SeaBattle) Gdx.app.getApplicationListener());
-                            SeaBattle.soundManager.stopBattleMusic();
-                            seabatlle.setScreen(new MenuScreen());
-                        })));
-            }
-        });
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        SeaBattle.soundManager.playClickSound();
+                        playerField.addAction(Actions.fadeOut(0.5F));
+                        Game.enemy.addAction(Actions.fadeOut(0.5F));
+                        // TODO: Использовать фунцкионгальный интерфейс для анимации при любом
+                        // перееходе
+                        backButton.addAction(
+                                Actions.sequence(
+                                        Actions.fadeOut(0.5F),
+                                        Actions.run(
+                                                () -> {
+                                                    stage.clear();
+                                                    SeaBattle seabatlle =
+                                                            ((SeaBattle)
+                                                                    Gdx.app
+                                                                            .getApplicationListener());
+                                                    SeaBattle.soundManager.stopBattleMusic();
+                                                    seabatlle.setScreen(new MenuScreen());
+                                                })));
+                    }
+                });
 
-        //TODO: rework this
+        // TODO: rework this
         Cell[][] cells = playerField.getField();
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
@@ -103,7 +107,6 @@ public class SingleGameScreen implements Screen {
                 }
             }
         }
-
 
         bgImage = new Image(SeaBattle.assetsManager.getInGameBackground());
         bgImage.setSize(SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT);
@@ -116,24 +119,22 @@ public class SingleGameScreen implements Screen {
     }
 
     @Override
-    public void show() {
+    public void show() {}
 
-    }
-
-    private boolean isEnemyDead(){
+    private boolean isEnemyDead() {
         var enemy = Game.enemy.getShips();
         for (Ship ship : enemy) {
-            if(!ship.isKilled()){
+            if (!ship.isKilled()) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean isPlayerDead(){
+    private boolean isPlayerDead() {
         var playerShips = playerField.getShips();
         for (Ship ship : playerShips) {
-            if(!ship.isKilled()){
+            if (!ship.isKilled()) {
                 return false;
             }
         }
@@ -146,41 +147,37 @@ public class SingleGameScreen implements Screen {
 
     @Override
     public void render(float v) {
-        j+=v;
+        j += v;
 
-        //TODO: Вынести в отдельный класс
+        // TODO: Вынести в отдельный класс
         ScreenUtils.clear(new Color(Color.BLACK));
         if (Game.status == GameStatus.ENEMY_TURN) {
             i += v;
         }
         if (Game.status == GameStatus.ENEMY_TURN && i > 1.5) {
             Random rd = new Random();
-            //TODO: Додумать
-//            ShotDTO shot = new ShotDTO(rd.nextInt(10),rd.nextInt(10));
-//            while(enemyShots.contains(shot)){
-//                shot = new ShotDTO(rd.nextInt(10),rd.nextInt(10));
-//            }
-//            enemyShots.add(shot);
-            //TODO: logging
+            // TODO: Додумать
+            //            ShotDTO shot = new ShotDTO(rd.nextInt(10),rd.nextInt(10));
+            //            while(enemyShots.contains(shot)){
+            //                shot = new ShotDTO(rd.nextInt(10),rd.nextInt(10));
+            //            }
+            //            enemyShots.add(shot);
+            // TODO: logging
             GameController.shoot(rd.nextInt(10), rd.nextInt(10));
             i = 0;
         }
 
-        //TODO: Проверять только после измений;
-        if(j > 1){
-            if(isGameOver()){
+        // TODO: Проверять только после измений;
+        if (j > 1) {
+            if (isGameOver()) {
                 SeaBattle.soundManager.stopBattleMusic();
                 SeaBattle seabatlle = ((SeaBattle) Gdx.app.getApplicationListener());
                 seabatlle.setScreen(new MenuScreen());
             }
         }
 
-
-
         stage.act();
         stage.draw();
-
-
     }
 
     @Override
@@ -188,24 +185,15 @@ public class SingleGameScreen implements Screen {
         stage.getViewport().update(width, height, true);
     }
 
+    @Override
+    public void pause() {}
 
     @Override
-    public void pause() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void hide() {}
 
     @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
+    public void dispose() {}
 }

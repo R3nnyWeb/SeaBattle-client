@@ -1,3 +1,4 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.model;
 
 public enum CellStatus {

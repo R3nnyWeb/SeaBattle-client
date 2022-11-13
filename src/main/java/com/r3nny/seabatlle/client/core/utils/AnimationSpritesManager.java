@@ -1,3 +1,4 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.utils;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -16,16 +17,19 @@ public class AnimationSpritesManager {
     private final Animation missAnimation;
     private final Animation shipDestroyingAnimation;
 
-
     public AnimationSpritesManager() {
-        this.injuredAnimation = loadAnimation(SeaBattle.assetsManager.getInjuredAnimation(),2,5,0.07F);
-        this.burningAnimation = loadAnimation(SeaBattle.assetsManager.getBurningAnimation(),2,5,0.07F);
-        this.missAnimation = loadAnimation(SeaBattle.assetsManager.getMissAnimation(),4,5,0.05F);
-        this.shipDestroyingAnimation = loadAnimation(SeaBattle.assetsManager.getShipDestroyingAnimation(),2,4,0.1F);
+        this.injuredAnimation =
+                loadAnimation(SeaBattle.assetsManager.getInjuredAnimation(), 2, 5, 0.07F);
+        this.burningAnimation =
+                loadAnimation(SeaBattle.assetsManager.getBurningAnimation(), 2, 5, 0.07F);
+        this.missAnimation = loadAnimation(SeaBattle.assetsManager.getMissAnimation(), 4, 5, 0.05F);
+        this.shipDestroyingAnimation =
+                loadAnimation(SeaBattle.assetsManager.getShipDestroyingAnimation(), 2, 4, 0.1F);
     }
 
     private Animation loadAnimation(Texture sheet, int rows, int cols, float duration) {
-        TextureRegion[][] tmp = TextureRegion.split(sheet, sheet.getWidth() / cols, sheet.getHeight() / rows);
+        TextureRegion[][] tmp =
+                TextureRegion.split(sheet, sheet.getWidth() / cols, sheet.getHeight() / rows);
         TextureRegion[] frames = new TextureRegion[cols * rows];
         int index = 0;
         for (int i = 0; i < rows; i++) {
@@ -36,14 +40,15 @@ public class AnimationSpritesManager {
         return new Animation(duration, frames);
     }
 
-    public Animation getInjuredAnimation(){
-        return  injuredAnimation;
+    public Animation getInjuredAnimation() {
+        return injuredAnimation;
     }
 
     public Animation getBurningAnimation() {
         return burningAnimation;
     }
-    public Animation getMissAnimation(){
+
+    public Animation getMissAnimation() {
         return missAnimation;
     }
 
@@ -54,19 +59,21 @@ public class AnimationSpritesManager {
     public Action getShipEnterAction(Ship ship, Runnable run) {
         SequenceAction sequence;
         if (!ship.isVertical()) {
-            sequence = Actions.sequence(
-                    Actions.moveTo(ship.getX() - 40, ship.getY()),
-                    Actions.moveTo(ship.getX(), ship.getY(), 1F));
+            sequence =
+                    Actions.sequence(
+                            Actions.moveTo(ship.getX() - 40, ship.getY()),
+                            Actions.moveTo(ship.getX(), ship.getY(), 1F));
         } else {
-            sequence = Actions.sequence(
-                    Actions.moveTo(ship.getX(), ship.getY() + 40),
-                    Actions.moveTo(ship.getX(), ship.getY(), 1F));
+            sequence =
+                    Actions.sequence(
+                            Actions.moveTo(ship.getX(), ship.getY() + 40),
+                            Actions.moveTo(ship.getX(), ship.getY(), 1F));
         }
-        Action action = Actions.sequence(
-                Actions.parallel(
-                        sequence,
-                        Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F))),
-                Actions.run(run));
+        Action action =
+                Actions.sequence(
+                        Actions.parallel(
+                                sequence, Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F))),
+                        Actions.run(run));
         return action;
     }
 }

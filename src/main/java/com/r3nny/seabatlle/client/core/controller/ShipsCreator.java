@@ -1,11 +1,10 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.r3nny.seabatlle.client.core.model.*;
-
 import java.util.List;
 import java.util.Random;
-
 
 public class ShipsCreator {
 
@@ -13,13 +12,18 @@ public class ShipsCreator {
 
     public static boolean isShipLanding = false;
 
-    public static ShipType[] shipTypes = {ShipType.FOUR_DECK,
-            ShipType.THREE_DECK, ShipType.THREE_DECK,
-            ShipType.TWO_DECK, ShipType.TWO_DECK, ShipType.TWO_DECK,
-            ShipType.ONE_DECK, ShipType.ONE_DECK, ShipType.ONE_DECK, ShipType.ONE_DECK};
-
-
-
+    public static ShipType[] shipTypes = {
+        ShipType.FOUR_DECK,
+        ShipType.THREE_DECK,
+        ShipType.THREE_DECK,
+        ShipType.TWO_DECK,
+        ShipType.TWO_DECK,
+        ShipType.TWO_DECK,
+        ShipType.ONE_DECK,
+        ShipType.ONE_DECK,
+        ShipType.ONE_DECK,
+        ShipType.ONE_DECK
+    };
 
     public static boolean canCreateInCell(Cell cell, Ship ship, Cell[][] field) {
         int x = cell.getColumn();
@@ -41,8 +45,6 @@ public class ShipsCreator {
                     return false;
                 }
             }
-
-
         }
 
         return true;
@@ -66,7 +68,7 @@ public class ShipsCreator {
                 shipCells[i] = field[y - i][x];
             }
             for (int i = 0; i < ship.getType().getSize() + 2; i++) {
-                //TODO: Rework try try catch
+                // TODO: Rework try try catch
                 try {
                     field[y - i + 1][x + 1].setStatus(CellStatus.NOT_ALLOWED);
                 } catch (IndexOutOfBoundsException ignored) {
@@ -77,7 +79,6 @@ public class ShipsCreator {
                     field[y - i + 1][x - 1].setStatus(CellStatus.NOT_ALLOWED);
                 } catch (IndexOutOfBoundsException ignored) {
                 }
-
             }
             try {
                 field[y + 1][x].setStatus(CellStatus.NOT_ALLOWED);
@@ -95,7 +96,7 @@ public class ShipsCreator {
             }
 
             for (int i = 0; i < ship.getType().getSize() + 2; i++) {
-                //TODO: Rework try try catch
+                // TODO: Rework try try catch
                 try {
                     field[y + 1][x - 1 + i].setStatus(CellStatus.NOT_ALLOWED);
                 } catch (IndexOutOfBoundsException ignored) {
@@ -105,7 +106,6 @@ public class ShipsCreator {
                     field[y - 1][x - 1 + i].setStatus(CellStatus.NOT_ALLOWED);
                 } catch (IndexOutOfBoundsException ignored) {
                 }
-
             }
             try {
                 field[y][x - 1].setStatus(CellStatus.NOT_ALLOWED);
@@ -118,7 +118,6 @@ public class ShipsCreator {
             }
         }
 
-
         ship.setCells(shipCells);
         ship.setX(shipCells[0].getX());
         ship.setY(shipCells[0].getY());
@@ -130,19 +129,18 @@ public class ShipsCreator {
         return true;
     }
 
-
     public static void autoCreateShips(GameField gf) {
         Random rd = new Random();
         Cell[][] field = gf.getField();
         List<Ship> ships = gf.getShips();
         int i = 0;
         while (i < shipTypes.length) {
-            //TODO: Use thread safe
+            // TODO: Use thread safe
             int row = rd.nextInt(10);
             int column = rd.nextInt(10);
             Ship ship = ships.get(i);
-            //TODO: Разобратся с рандомом. Без sleep не работает
-            if(rd.nextBoolean()){
+            // TODO: Разобратся с рандомом. Без sleep не работает
+            if (rd.nextBoolean()) {
                 ship.setVertical(!ship.isVertical());
             }
 
@@ -156,7 +154,5 @@ public class ShipsCreator {
             }
         }
         Gdx.app.log("ShipsCreator", "All ships automatically created");
-
-
     }
 }

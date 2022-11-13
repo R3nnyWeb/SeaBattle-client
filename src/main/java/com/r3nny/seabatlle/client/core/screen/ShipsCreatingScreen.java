@@ -1,19 +1,17 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.screen;
+
+import static com.r3nny.seabatlle.client.core.Game.playerField;
+import static com.r3nny.seabatlle.client.core.Game.status;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -23,15 +21,8 @@ import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.SingleGame;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
-import com.r3nny.seabatlle.client.core.model.Ship;
-import com.r3nny.seabatlle.client.core.model.ShipType;
-
-import static com.r3nny.seabatlle.client.core.Game.playerField;
-import static com.r3nny.seabatlle.client.core.Game.status;
-
 
 public class ShipsCreatingScreen implements Screen {
-
 
     private final Image menuLogo;
 
@@ -43,68 +34,69 @@ public class ShipsCreatingScreen implements Screen {
     public final Stage stage;
 
     public ShipsCreatingScreen() {
-        //TODO: GSM????
+        // TODO: GSM????
         status = GameStatus.SHIPS_STAGE;
         this.stage = SeaBattle.setUpStage();
 
-
-        TextButton backButton = new TextButton("Back to menu", SeaBattle.assetsManager.getMenuButtonSkin());
+        TextButton backButton =
+                new TextButton("Back to menu", SeaBattle.assetsManager.getMenuButtonSkin());
         backButton.setX(10);
         backButton.setSize(200, 50);
         backButton.setY(SeaBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
 
-        acceptButton  = new TextButton("Accept", SeaBattle.assetsManager.getMenuButtonSkin());
+        acceptButton = new TextButton("Accept", SeaBattle.assetsManager.getMenuButtonSkin());
         acceptButton.setSize(200, 50);
-        acceptButton.setX(SeaBattle.WORLD_WIDTH - acceptButton.getWidth() -10);
+        acceptButton.setX(SeaBattle.WORLD_WIDTH - acceptButton.getWidth() - 10);
         acceptButton.setY(10);
         acceptButton.setVisible(false);
-        acceptButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                playerField.setShipsReady(true);
-            }
-        });
+        acceptButton.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        playerField.setShipsReady(true);
+                    }
+                });
 
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                SeaBattle.soundManager.playFocusButton();
-            }
+        backButton.addListener(
+                new ClickListener() {
+                    @Override
+                    public void enter(
+                            InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        SeaBattle.soundManager.playFocusButton();
+                    }
 
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                SeaBattle.soundManager.playClickSound();
-                SeaBattle.soundManager.stopBattleMusic();
-                playerField.addAction(Actions.fadeOut(0.5F));
-                Game.enemy.addAction(Actions.fadeOut(0.5F));
-                //TODO: Использовать фунцкионгальный интерфейс для анимации при любом перееходе
-                backButton.addAction(Actions.sequence(
-                        Actions.fadeOut(0.5F),
-                        Actions.run(() -> {
-                            stage.clear();
-                            SeaBattle seabatlle = ((SeaBattle) Gdx.app.getApplicationListener());
-                            seabatlle.setScreen(new MenuScreen());
-                        })));
-            }
-        });
-
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        SeaBattle.soundManager.playClickSound();
+                        SeaBattle.soundManager.stopBattleMusic();
+                        playerField.addAction(Actions.fadeOut(0.5F));
+                        Game.enemy.addAction(Actions.fadeOut(0.5F));
+                        // TODO: Использовать фунцкионгальный интерфейс для анимации при любом
+                        // перееходе
+                        backButton.addAction(
+                                Actions.sequence(
+                                        Actions.fadeOut(0.5F),
+                                        Actions.run(
+                                                () -> {
+                                                    stage.clear();
+                                                    SeaBattle seabatlle =
+                                                            ((SeaBattle)
+                                                                    Gdx.app
+                                                                            .getApplicationListener());
+                                                    seabatlle.setScreen(new MenuScreen());
+                                                })));
+                    }
+                });
 
         menuLogo = new Image(SeaBattle.assetsManager.getMenuLogo());
         menuLogo.setSize(310, 27);
         menuLogo.setX(SeaBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
         menuLogo.setY(SeaBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
 
-
         bg = new Image(SeaBattle.assetsManager.getInGameBackground());
         bg.setSize(SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT);
 
         game = new SingleGame();
-
-
-
-
-
-
 
         stage.addActor(bg);
         stage.addActor(menuLogo);
@@ -121,25 +113,23 @@ public class ShipsCreatingScreen implements Screen {
     }
 
     @Override
-    public void render(float delta)  {
+    public void render(float delta) {
         ScreenUtils.clear(new Color(Color.BLACK));
         stage.act();
         stage.draw();
         if (Gdx.input.isKeyPressed(Input.Keys.A) && !ShipsCreator.isShipLanding) {
-            //TODO: Тут надо кнопку добавить для потверждения
+            // TODO: Тут надо кнопку добавить для потверждения
             acceptButton.setVisible(true);
-            Gdx.app.log( "SingleGameScreen", "Autocreating Player ships");
+            Gdx.app.log("SingleGameScreen", "Autocreating Player ships");
             playerField.initAutoShips();
         }
 
-        if(game.isShipsReady()){
+        if (game.isShipsReady()) {
             playerField.clearAllNotAllowed();
             SeaBattle seabatlle = ((SeaBattle) Gdx.app.getApplicationListener());
             stage.clear();
             seabatlle.setScreen(new SingleGameScreen(game));
         }
-
-
     }
 
     @Override
@@ -148,14 +138,10 @@ public class ShipsCreatingScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
     public void hide() {

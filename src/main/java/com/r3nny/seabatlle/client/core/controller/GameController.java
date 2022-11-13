@@ -1,4 +1,7 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.controller;
+
+import static com.r3nny.seabatlle.client.core.Game.playerField;
 
 import com.badlogic.gdx.Gdx;
 import com.r3nny.seabatlle.client.core.Game;
@@ -6,10 +9,6 @@ import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.model.Cell;
 import com.r3nny.seabatlle.client.core.model.CellStatus;
-import com.r3nny.seabatlle.client.core.model.Ship;
-
-import static com.r3nny.seabatlle.client.core.Game.playerField;
-
 
 public class GameController {
 
@@ -17,22 +16,21 @@ public class GameController {
         var ship = cell.getShip();
         Cell[] cells = ship.getCells();
         for (Cell c : cells) {
-            if(c.getStatus() == CellStatus.HEALTHY){
+            if (c.getStatus() == CellStatus.HEALTHY) {
                 return false;
             }
         }
         ship.kill();
-        if(Game.status == GameStatus.PLAYER_TURN){
+        if (Game.status == GameStatus.PLAYER_TURN) {
             Game.enemy.addActor(ship);
         }
         return true;
     }
 
-
     public static CellStatus shoot(int row, int column) {
         Gdx.app.log(Game.status.toString(), row + " " + column + "");
 
-        //TODO : REWORK
+        // TODO : REWORK
 
         Cell cell;
         if (Game.status == GameStatus.PLAYER_TURN) {
@@ -40,7 +38,6 @@ public class GameController {
         } else {
             cell = playerField.getField()[row][column];
         }
-
 
         if (cell.getStatus() == CellStatus.SEA) {
             if (Game.status == GameStatus.PLAYER_TURN) {
@@ -50,24 +47,18 @@ public class GameController {
             }
             SeaBattle.soundManager.playMissSound();
             cell.setStatus(CellStatus.MISS);
-
         }
         if (cell.getStatus() == CellStatus.HEALTHY) {
 
             cell.setStatus(CellStatus.INJURED);
-            //TODO: Проверка на убийство
+            // TODO: Проверка на убийство
             if (isKilling(cell)) {
                 SeaBattle.soundManager.playKilledSound();
             } else {
                 SeaBattle.soundManager.playInjuredSound();
             }
-
-
         }
-
 
         return cell.getStatus();
     }
-
-
 }

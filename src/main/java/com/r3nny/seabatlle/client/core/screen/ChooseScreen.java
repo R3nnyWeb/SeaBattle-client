@@ -1,3 +1,4 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.screen;
 
 import com.badlogic.gdx.Gdx;
@@ -32,12 +33,10 @@ public class ChooseScreen implements Screen {
         singleGame = new ImageButton(SeaBattle.assetsManager.getChooseButtonSkin());
         multiGame = new ImageButton(SeaBattle.assetsManager.getChooseButtonSkin(), "multiPlayer");
 
-
         singleGame.setSize(261, 257);
         multiGame.setSize(singleGame.getWidth(), singleGame.getHeight());
-        //TODO: Вынести анимации
+        // TODO: Вынести анимации
         Action fadeInAction = Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F));
-
 
         singleGame.setX(SeaBattle.WORLD_WIDTH / 2 - 25 - singleGame.getWidth());
         multiGame.setX(SeaBattle.WORLD_WIDTH / 2 + 25);
@@ -45,46 +44,54 @@ public class ChooseScreen implements Screen {
         singleGame.setY(SeaBattle.WORLD_HEIGHT / 2 - singleGame.getHeight() / 2);
         multiGame.setY(SeaBattle.WORLD_HEIGHT / 2 - singleGame.getHeight() / 2);
 
-        TextButton backButton = new TextButton("Back to menu", SeaBattle.assetsManager.getMenuButtonSkin());
+        TextButton backButton =
+                new TextButton("Back to menu", SeaBattle.assetsManager.getMenuButtonSkin());
         backButton.setX(10);
         backButton.setSize(200, 50);
         backButton.setY(SeaBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
 
+        backButton.addListener(
+                new ClickListener() {
 
-        backButton.addListener(new ClickListener() {
+                    @Override
+                    public void enter(
+                            InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        SeaBattle.soundManager.playFocusButton();
+                    }
 
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                SeaBattle.soundManager.playFocusButton();
-            }
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        multiGame.addAction(Actions.fadeOut(0.5F));
+                        backButton.addAction(Actions.fadeOut(0.5F));
+                        SeaBattle.soundManager.playClickSound();
+                        // TODO: Использовать фунцкионгальный интерфейс для анимации при любом
+                        // перееходе
+                        singleGame.addAction(
+                                Actions.sequence(
+                                        Actions.fadeOut(0.5F),
+                                        Actions.run(
+                                                () -> {
+                                                    stage.clear();
+                                                    game.setScreen(new MenuScreen());
+                                                })));
+                    }
+                });
 
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                multiGame.addAction(Actions.fadeOut(0.5F));
-                backButton.addAction(Actions.fadeOut(0.5F));
-                SeaBattle.soundManager.playClickSound();
-                //TODO: Использовать фунцкионгальный интерфейс для анимации при любом перееходе
-                singleGame.addAction(Actions.sequence(
-                        Actions.fadeOut(0.5F),
-                        Actions.run(() -> {
-                            stage.clear();
-                            game.setScreen(new MenuScreen());
-                        })));
-            }
-        });
+        singleGame.addListener(
+                new ClickListener() {
+                    @Override
+                    public void enter(
+                            InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        SeaBattle.soundManager.playFocusButton();
+                    }
 
-        singleGame.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                SeaBattle.soundManager.playFocusButton();
-            }
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                SeaBattle.soundManager.stopMainMusic();
-                SeaBattle.soundManager.playNewGameSound();
-                game.setScreen(new ShipsCreatingScreen());
-            }
-        });
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        SeaBattle.soundManager.stopMainMusic();
+                        SeaBattle.soundManager.playNewGameSound();
+                        game.setScreen(new ShipsCreatingScreen());
+                    }
+                });
         singleGame.addAction(fadeInAction);
         multiGame.addAction(fadeInAction);
         backButton.addAction(fadeInAction);
@@ -92,14 +99,10 @@ public class ChooseScreen implements Screen {
         stage.addActor(singleGame);
         stage.addActor(multiGame);
         stage.addActor(backButton);
-
-
     }
 
     @Override
-    public void show() {
-
-    }
+    public void show() {}
 
     @Override
     public void render(float delta) {
@@ -114,22 +117,14 @@ public class ChooseScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() {}
 }

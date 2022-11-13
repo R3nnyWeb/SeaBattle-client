@@ -1,3 +1,4 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.utils;
 
 import com.badlogic.gdx.assets.AssetManager;
@@ -7,11 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-
 public class Assets {
 
-
-    //TODO: Вынести пути в файл и разбить на листы по классам
+    // TODO: Вынести пути в файл и разбить на листы по классам
     private final String MAIN_MENU_BG_PATH = "mainMenu/bg.png";
     private final String ONE_DECK_SHIP_PATH = "ships/1xShip.png";
     private final String TWO_DECK_SHIP_PATH = "ships/2xShip.png";
@@ -46,13 +45,10 @@ public class Assets {
     private final String MISS_ANIMATION = "missSprite.png";
     private final String SHIP_DESTROYING_ANIMATION = "shipDestroingSprite.png";
 
-
     private final AssetManager manager;
-
 
     public Assets() {
         manager = new AssetManager();
-
     }
 
     public void loadAllAssets() {
@@ -70,10 +66,8 @@ public class Assets {
         manager.load(MISS_ANIMATION, Texture.class);
         manager.load(SHIP_DESTROYING_ANIMATION, Texture.class);
 
-
         manager.load(MENU_BUTTON_SKIN, Skin.class);
         manager.load(CHOOSE_BUTTON_SKIN, Skin.class);
-
 
         manager.load(MENU_BUTTON_ATLAS, TextureAtlas.class);
         manager.load(CHOOSE_BUTTON_ATLAS, TextureAtlas.class);
@@ -90,7 +84,6 @@ public class Assets {
         manager.load(SHIP_INJURED_SOUND_1, Sound.class);
         manager.load(SHIP_INJURED_SOUND_2, Sound.class);
         manager.load(KILLED_SOUND, Sound.class);
-
     }
 
     public void unloadMenuAssets() {
@@ -121,7 +114,6 @@ public class Assets {
     public Texture getThreeDeckShip() {
         return manager.get(THREE_DECK_SHIP_PATH);
     }
-
 
     public Texture getFourDeckShip() {
         return manager.get(FOUR_DECK_SHIP_PATH);
@@ -172,29 +164,31 @@ public class Assets {
     }
 
     public Sound getMissSound_1() {
-        return  manager.get(MISS_SOUND_1);
+        return manager.get(MISS_SOUND_1);
     }
+
     public Sound getMissSound_2() {
-        return  manager.get(MISS_SOUND_2);
+        return manager.get(MISS_SOUND_2);
     }
+
     public Sound getInjuredSound_1() {
         return manager.get(SHIP_INJURED_SOUND_1);
     }
+
     public Sound getInjuredSound_2() {
         return manager.get(SHIP_INJURED_SOUND_2);
     }
 
-    public Texture getInjuredAnimation(){
+    public Texture getInjuredAnimation() {
         return manager.get(INJURED_ANIMATION);
     }
-
 
     public boolean update() {
         return manager.update();
     }
 
     public Sound getKilledSound() {
-       return manager.get(KILLED_SOUND);
+        return manager.get(KILLED_SOUND);
     }
 
     public Texture getBurningAnimation() {

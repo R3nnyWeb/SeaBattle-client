@@ -1,3 +1,4 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.screen;
 
 import com.badlogic.gdx.Gdx;
@@ -34,17 +35,18 @@ public class SplashScreen implements Screen {
         splashImage.setSize(620, 55);
         splashImage.setX(SeaBattle.WORLD_WIDTH / 2 - splashImage.getWidth() / 2);
         splashImage.setY(SeaBattle.WORLD_HEIGHT / 2);
-        splashImage.addAction(Actions.sequence(
-            Actions.alpha(0.0F),
-            Actions.fadeIn(1.25F),
-            Actions.delay(1F),
-            Actions.run(() -> {
-                manager.loadAllAssets();
-                startLoading = true;
-            })));
+        splashImage.addAction(
+                Actions.sequence(
+                        Actions.alpha(0.0F),
+                        Actions.fadeIn(1.25F),
+                        Actions.delay(1F),
+                        Actions.run(
+                                () -> {
+                                    manager.loadAllAssets();
+                                    startLoading = true;
+                                })));
 
         stage.addActor(splashImage);
-
     }
 
     @Override
@@ -55,15 +57,18 @@ public class SplashScreen implements Screen {
         if (manager.update() && startLoading) {
             SeaBattle.soundManager = new SoundManager();
             SeaBattle.animationManager = new AnimationSpritesManager();
-            stage.addAction(Actions.sequence(
-                Actions.fadeOut(0.5F),
-                Actions.run(() -> {
-                    stage.clear();
-                    if(SeaBattle.DEBUG){
-                        game.setScreen(new ShipsCreatingScreen());
-                    } else {
-                        game.setScreen(new MenuScreen());}
-                })));
+            stage.addAction(
+                    Actions.sequence(
+                            Actions.fadeOut(0.5F),
+                            Actions.run(
+                                    () -> {
+                                        stage.clear();
+                                        if (SeaBattle.DEBUG) {
+                                            game.setScreen(new ShipsCreatingScreen());
+                                        } else {
+                                            game.setScreen(new MenuScreen());
+                                        }
+                                    })));
         }
     }
 
@@ -73,22 +78,14 @@ public class SplashScreen implements Screen {
     }
 
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-
-    }
+    public void hide() {}
 
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() {}
 }

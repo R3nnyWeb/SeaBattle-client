@@ -1,21 +1,17 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.model;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.r3nny.seabatlle.client.core.SeaBattle;
-import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
-
-import java.util.LinkedList;
-import java.util.List;
 
 import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isShipLanding;
 import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.shipTypes;
 import static com.r3nny.seabatlle.client.core.model.CellStatus.NOT_ALLOWED;
 import static com.r3nny.seabatlle.client.core.model.CellStatus.SEA;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.r3nny.seabatlle.client.core.SeaBattle;
+import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class GameField extends Group {
     public static final int FIELD_SIZE = 10;
@@ -37,10 +33,7 @@ public class GameField extends Group {
             Gdx.app.log("GameField", " Autocreating enemy ships ");
             initAutoShips();
         }
-
-
     }
-
 
     private List<Ship> initShips() {
         List<Ship> ships = new LinkedList<>();
@@ -48,6 +41,7 @@ public class GameField extends Group {
         float startY = 50;
         for (int i = 0; i < shipTypes.length; i++) {
             Ship ship = new Ship(startX, startY, null, ShipsCreator.shipTypes[i]);
+
             ships.add(ship);
             ship.setStartX(startX);
             ship.setStartY(startY);
@@ -71,16 +65,13 @@ public class GameField extends Group {
                 field[i][j] = new Cell(x + Cell.SIZE * j, y - Cell.SIZE * i, j, i, null, SEA);
                 super.addActor(field[i][j]);
             }
-
         }
         return field;
     }
 
-
     public void initAutoShips() {
 
-        for (Ship ship : ships
-        ) {
+        for (Ship ship : ships) {
             super.removeActor(ship);
         }
         for (Cell[] cells : field) {
@@ -92,13 +83,18 @@ public class GameField extends Group {
         if (isPlayer) {
             isShipLanding = true;
             for (Ship ship : ships) {
-                ship.addAction(SeaBattle.animationManager.getShipEnterAction(ship, () ->{isShipLanding = false;}));
+                ship.addAction(
+                        SeaBattle.animationManager.getShipEnterAction(
+                                ship,
+                                () -> {
+                                    isShipLanding = false;
+                                }));
                 super.addActor(ship);
             }
         }
         SeaBattle.soundManager.playShipEnterSound();
         clearAllNotAllowed();
-        if(!isPlayer){
+        if (!isPlayer) {
             this.isShipsReady = true;
         }
     }
@@ -112,8 +108,6 @@ public class GameField extends Group {
             }
         }
     }
-
-
 
     public boolean isShipsReady() {
         return isShipsReady;

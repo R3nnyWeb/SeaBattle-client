@@ -1,6 +1,7 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.model;
 
-public class ShotDTO{
+public class ShotDTO {
     public int row;
     public int column;
 

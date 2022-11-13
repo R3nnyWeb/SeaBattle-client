@@ -1,10 +1,10 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.r3nny.seabatlle.client.core.SeaBattle;
-
 import java.util.Random;
 
 public class SoundManager {
@@ -23,8 +23,7 @@ public class SoundManager {
     private final Sound injuredSound_2;
     private final Sound killedSound;
 
-
-    //TODO : Файл настроек
+    // TODO : Файл настроек
     private float musicVolume = 0.1F;
     private float soundVolume = 0.8F;
 
@@ -83,21 +82,19 @@ public class SoundManager {
         clickSound.play(soundVolume);
     }
 
-    public void  playMissSound(){
+    public void playMissSound() {
 
         if (random.nextBoolean()) {
             missSound_1.play(soundVolume);
-        } else{
+        } else {
             missSound_2.play(soundVolume);
         }
-
     }
 
-
-    public void playInjuredSound(){
+    public void playInjuredSound() {
         if (random.nextBoolean()) {
             injuredSound_1.play(soundVolume);
-        } else{
+        } else {
             injuredSound_2.play(soundVolume);
         }
     }
@@ -108,7 +105,6 @@ public class SoundManager {
             throw new IllegalArgumentException("Incorrect Volume");
         } else this.musicVolume = musicVolume;
     }
-
 
     public void playKilledSound() {
         killedSound.play(soundVolume);

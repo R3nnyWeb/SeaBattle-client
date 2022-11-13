@@ -1,3 +1,4 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.model;
 
 import com.badlogic.gdx.Gdx;
@@ -17,9 +18,8 @@ import com.r3nny.seabatlle.client.core.controller.GameController;
 
 public class Cell extends Actor {
 
-
     public static final float SIZE = 31.37f;
-//   public static final float SIZE = 32f;
+    //   public static final float SIZE = 32f;
 
     private final int column;
     private final int row;
@@ -28,7 +28,7 @@ public class Cell extends Actor {
     private CellStatus status;
     private final ShapeRenderer shape;
 
-    //TODO: Подумать
+    // TODO: Подумать
     private float injuredTime = 0f;
     private float missTime = 0f;
 
@@ -51,23 +51,23 @@ public class Cell extends Actor {
         shape.setAutoShapeType(true);
         this.setBounds(x, y, SIZE, SIZE);
 
-        this.addListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (Game.status == GameStatus.PLAYER_TURN) {
-                    //TODO: logging
-                    GameController.shoot(Cell.this.row, Cell.this.column);
-                }
-                return true;
-            }
+        this.addListener(
+                new InputListener() {
+                    public boolean touchDown(
+                            InputEvent event, float x, float y, int pointer, int button) {
+                        if (Game.status == GameStatus.PLAYER_TURN) {
+                            // TODO: logging
+                            GameController.shoot(Cell.this.row, Cell.this.column);
+                        }
+                        return true;
+                    }
 
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("up " + Cell.this);
-            }
-        });
-
-
+                    public void touchUp(
+                            InputEvent event, float x, float y, int pointer, int button) {
+                        System.out.println("up " + Cell.this);
+                    }
+                });
     }
-
 
     public Ship getShip() {
         return ship;
@@ -86,13 +86,12 @@ public class Cell extends Actor {
             shape.setColor(Color.RED);
             shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 8);
         }
-//        if (status == CellStatus.MISS &&) {
-//            shape.setColor(Color.CYAN);
-//            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 12);
-//        }
+        //        if (status == CellStatus.MISS &&) {
+        //            shape.setColor(Color.CYAN);
+        //            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 12);
+        //        }
 
         shape.end();
-
 
         batch.begin();
         Color color = getColor();
@@ -100,40 +99,43 @@ public class Cell extends Actor {
         if (status == CellStatus.INJURED) {
             injuredTime += Gdx.graphics.getDeltaTime();
             if (!injuredAnimation.isAnimationFinished(injuredTime)) {
-                TextureRegion currentFrame = (TextureRegion) injuredAnimation.getKeyFrame(injuredTime, false);
+                TextureRegion currentFrame =
+                        (TextureRegion) injuredAnimation.getKeyFrame(injuredTime, false);
                 batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
             } else {
-                TextureRegion currentFrame = (TextureRegion) burningAnimation.getKeyFrame(injuredTime, true);
+                TextureRegion currentFrame =
+                        (TextureRegion) burningAnimation.getKeyFrame(injuredTime, true);
                 batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
             }
         }
 
         if (status == CellStatus.MISS) {
             missTime += Gdx.graphics.getDeltaTime();
-            batch.draw((TextureRegion) missAnimation.getKeyFrame(missAnimation.getFrameDuration() * 3), getX(), getY(), Cell.SIZE, Cell.SIZE);
+            batch.draw(
+                    (TextureRegion) missAnimation.getKeyFrame(missAnimation.getFrameDuration() * 3),
+                    getX(),
+                    getY(),
+                    Cell.SIZE,
+                    Cell.SIZE);
             if (!missAnimation.isAnimationFinished(missTime)) {
-                TextureRegion currentFrame = (TextureRegion) missAnimation.getKeyFrame(missTime, false);
+                TextureRegion currentFrame =
+                        (TextureRegion) missAnimation.getKeyFrame(missTime, false);
                 batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
             }
-
-
         }
 
-
         batch.setColor(color.r, color.g, color.b, 1f);
-//        batch.draw(new Texture("cell.png"),getX(),getY(),Cell.SIZE,Cell.SIZE);
+        //        batch.draw(new Texture("cell.png"),getX(),getY(),Cell.SIZE,Cell.SIZE);
 
     }
 
     @Override
     public void drawDebug(ShapeRenderer shapes) {
 
-
         if (status == CellStatus.HEALTHY) {
             shapes.setColor(Color.GREEN);
             shapes.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
         }
-
     }
 
     public int getColumn() {
@@ -143,7 +145,6 @@ public class Cell extends Actor {
     public int getRow() {
         return row;
     }
-
 
     public void setShip(Ship ship) {
         this.ship = ship;
@@ -159,10 +160,6 @@ public class Cell extends Actor {
 
     @Override
     public String toString() {
-        return "Cell{" +
-                "column=" + column +
-                ", row=" + row +
-                ", status=" + status +
-                '}';
+        return "Cell{" + "column=" + column + ", row=" + row + ", status=" + status + '}';
     }
 }

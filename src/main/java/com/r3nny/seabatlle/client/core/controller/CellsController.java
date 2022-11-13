@@ -1,12 +1,10 @@
+/* (C)2022 */
 package com.r3nny.seabatlle.client.core.controller;
-
 
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.model.Cell;
 
-
 public class CellsController {
-
 
     public static Cell getCellByCoord(float x, float y) {
         Cell[][] field = Game.playerField.getField();
