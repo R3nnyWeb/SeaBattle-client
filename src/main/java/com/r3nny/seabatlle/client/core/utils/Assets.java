@@ -44,6 +44,7 @@ public class Assets {
 
     private final String INJURED_ANIMATION = "injuredSprite.png";
     private final String BURNING_ANIMATION = "burningSprite.png";
+    private final String MISS_ANIMATION = "missSprite.png";
 
 
     private final AssetManager manager;
@@ -66,6 +67,7 @@ public class Assets {
         manager.load(INJURED__CELL, Texture.class);
         manager.load(INJURED_ANIMATION, Texture.class);
         manager.load(BURNING_ANIMATION, Texture.class);
+        manager.load(MISS_ANIMATION, Texture.class);
 
 
         manager.load(MENU_BUTTON_SKIN, Skin.class);
@@ -198,5 +200,9 @@ public class Assets {
 
     public Texture getBurningAnimation() {
         return manager.get(BURNING_ANIMATION);
+    }
+
+    public Texture getMissAnimation() {
+        return manager.get(MISS_ANIMATION);
     }
 }

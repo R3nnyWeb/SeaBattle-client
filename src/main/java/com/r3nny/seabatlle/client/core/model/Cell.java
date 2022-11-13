@@ -28,10 +28,13 @@ public class Cell extends Actor {
     private CellStatus status;
     private final ShapeRenderer shape;
 
-    private float stateTime = 0f;
+    //TODO: Подумать
+    private float injuredTime = 0f;
+    private float missTime = 0f;
 
-    private Animation injuredAnimation;
-    private Animation burningAnimation;
+    private final Animation injuredAnimation;
+    private final Animation burningAnimation;
+    private final Animation missAnimation;
 
     public Cell(float x, float y, int column, int row, Ship ship, CellStatus status) {
         this.column = column;
@@ -41,6 +44,7 @@ public class Cell extends Actor {
         super.setY(y);
         this.injuredAnimation = SeaBattle.animationManager.getInjuredAnimation();
         this.burningAnimation = SeaBattle.animationManager.getBurningAnimation();
+        this.missAnimation = SeaBattle.animationManager.getMissAnimation();
         this.status = status;
         texture = SeaBattle.assetsManager.getInjuredCell();
         shape = new ShapeRenderer();
@@ -78,31 +82,39 @@ public class Cell extends Actor {
         Gdx.gl20.glLineWidth(3);
         shape.setColor(Color.WHITE);
         shape.rect(getX(), getY(), SIZE, SIZE);
-
         if (status == CellStatus.NOT_ALLOWED) {
             shape.setColor(Color.RED);
-            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
+            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 8);
         }
-        if (status == CellStatus.MISS) {
-            shape.setColor(Color.CYAN);
-            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
-        }
+//        if (status == CellStatus.MISS &&) {
+//            shape.setColor(Color.CYAN);
+//            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 12);
+//        }
 
         shape.end();
+
+
         batch.begin();
         Color color = getColor();
         batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         if (status == CellStatus.INJURED) {
-            stateTime += Gdx.graphics.getDeltaTime();
-            if(!injuredAnimation.isAnimationFinished(stateTime)){
-                TextureRegion currentFrame = (TextureRegion) injuredAnimation.getKeyFrame(stateTime,false);
+            injuredTime += Gdx.graphics.getDeltaTime();
+            if (!injuredAnimation.isAnimationFinished(injuredTime)) {
+                TextureRegion currentFrame = (TextureRegion) injuredAnimation.getKeyFrame(injuredTime, false);
                 batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
-            } else{
-                TextureRegion currentFrame = (TextureRegion) burningAnimation.getKeyFrame(stateTime,true);
+            } else {
+                TextureRegion currentFrame = (TextureRegion) burningAnimation.getKeyFrame(injuredTime, true);
                 batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
             }
+        }
 
-
+        if (status == CellStatus.MISS) {
+            missTime += Gdx.graphics.getDeltaTime();
+            batch.draw((TextureRegion) missAnimation.getKeyFrame(missAnimation.getFrameDuration() * 3), getX(), getY(), Cell.SIZE, Cell.SIZE);
+            if (!missAnimation.isAnimationFinished(missTime)) {
+                TextureRegion currentFrame = (TextureRegion) missAnimation.getKeyFrame(missTime, false);
+                batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
+            }
 
 
         }

@@ -9,20 +9,20 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.model.Ship;
 
-import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isShipLanding;
-
 public class AnimationSpritesManager {
 
     private final Animation injuredAnimation;
     private final Animation burningAnimation;
+    private final Animation missAnimation;
 
 
     public AnimationSpritesManager() {
-        this.injuredAnimation = loadInjuredAnimation(SeaBattle.assetsManager.getInjuredAnimation(),2,5,0.07F);
-        this.burningAnimation = loadInjuredAnimation(SeaBattle.assetsManager.getBurningAnimation(),2,5,0.07F);
+        this.injuredAnimation = loadAnimation(SeaBattle.assetsManager.getInjuredAnimation(),2,5,0.07F);
+        this.burningAnimation = loadAnimation(SeaBattle.assetsManager.getBurningAnimation(),2,5,0.07F);
+        this.missAnimation = loadAnimation(SeaBattle.assetsManager.getMissAnimation(),4,5,0.05F);
     }
 
-    private Animation loadInjuredAnimation(Texture sheet, int rows,int cols, float duration) {
+    private Animation loadAnimation(Texture sheet, int rows, int cols, float duration) {
         TextureRegion[][] tmp = TextureRegion.split(sheet, sheet.getWidth() / cols, sheet.getHeight() / rows);
         TextureRegion[] frames = new TextureRegion[cols * rows];
         int index = 0;
@@ -40,6 +40,9 @@ public class AnimationSpritesManager {
 
     public Animation getBurningAnimation() {
         return burningAnimation;
+    }
+    public Animation getMissAnimation(){
+        return missAnimation;
     }
 
     public Action getShipEnterAction(Ship ship, Runnable run) {
