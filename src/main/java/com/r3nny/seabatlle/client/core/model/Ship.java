@@ -44,7 +44,6 @@ public class Ship extends Actor {
         super.setY(y);
         this.destroyingAnimation = SeaBattle.animationManager.getShipDestroyingAnimation();
 
-        // TODO: Кейс сделай, балбес
         switch (type) {
             case ONE_DECK -> texture = new Sprite(SeaBattle.assetsManager.getOneDeckShip());
             case TWO_DECK -> texture = new Sprite(SeaBattle.assetsManager.getTwoDeckShip());

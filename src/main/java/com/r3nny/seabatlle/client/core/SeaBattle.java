@@ -22,7 +22,7 @@ public class SeaBattle extends com.badlogic.gdx.Game {
             "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
                     + "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
                     + "1234567890.,:;_¡!¿?\"'+-*/()[]={}STARW";
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
 
     public static Stage setUpStage() {
         Stage stage = new Stage(new FitViewport(SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT));
