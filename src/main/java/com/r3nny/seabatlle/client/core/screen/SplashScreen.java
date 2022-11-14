@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.r3nny.seabatlle.client.core.SeaBattle;
+import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.utils.AnimationSpritesManager;
 import com.r3nny.seabatlle.client.core.utils.Assets;
 import com.r3nny.seabatlle.client.core.utils.SoundManager;
@@ -20,21 +20,21 @@ public class SplashScreen implements Screen {
     private Image splashImage;
 
     private Stage stage;
-    private SeaBattle game;
+    private StarBattle game;
     private Assets manager;
     private boolean startLoading = false;
 
     @Override
     public void show() {
-        stage = SeaBattle.setUpStage();
-        SeaBattle.assetsManager = new Assets();
-        this.manager = SeaBattle.assetsManager;
-        game = ((SeaBattle) Gdx.app.getApplicationListener());
+        stage = StarBattle.setUpStage();
+        StarBattle.assetsManager = new Assets();
+        this.manager = StarBattle.assetsManager;
+        game = ((StarBattle) Gdx.app.getApplicationListener());
         splashTexture = new Texture(Gdx.files.internal("gameLogo.png"));
         splashImage = new Image(splashTexture);
         splashImage.setSize(620, 55);
-        splashImage.setX(SeaBattle.WORLD_WIDTH / 2 - splashImage.getWidth() / 2);
-        splashImage.setY(SeaBattle.WORLD_HEIGHT / 2);
+        splashImage.setX(StarBattle.WORLD_WIDTH / 2 - splashImage.getWidth() / 2);
+        splashImage.setY(StarBattle.WORLD_HEIGHT / 2);
         splashImage.addAction(
                 Actions.sequence(
                         Actions.alpha(0.0F),
@@ -55,15 +55,15 @@ public class SplashScreen implements Screen {
         stage.act();
         stage.draw();
         if (manager.update() && startLoading) {
-            SeaBattle.soundManager = new SoundManager();
-            SeaBattle.animationManager = new AnimationSpritesManager();
+            StarBattle.soundManager = new SoundManager();
+            StarBattle.animationManager = new AnimationSpritesManager();
             stage.addAction(
                     Actions.sequence(
                             Actions.fadeOut(0.5F),
                             Actions.run(
                                     () -> {
                                         stage.clear();
-                                        if (SeaBattle.DEBUG) {
+                                        if (StarBattle.DEBUG) {
                                             game.setScreen(new ShipsCreatingScreen());
                                         } else {
                                             game.setScreen(new MenuScreen());

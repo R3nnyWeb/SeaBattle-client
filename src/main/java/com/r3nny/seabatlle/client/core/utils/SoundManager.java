@@ -4,7 +4,7 @@ package com.r3nny.seabatlle.client.core.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.r3nny.seabatlle.client.core.SeaBattle;
+import com.r3nny.seabatlle.client.core.StarBattle;
 import java.util.Random;
 
 public class SoundManager {
@@ -29,17 +29,17 @@ public class SoundManager {
 
     public SoundManager() {
 
-        this.mainMusic = SeaBattle.assetsManager.getMainMusic();
-        this.battleMusic = SeaBattle.assetsManager.getBattleMusic();
-        this.newGameClick = SeaBattle.assetsManager.getNewGameClickSound();
-        this.focusSound = SeaBattle.assetsManager.getFocusSound();
-        this.shipEnterSound = SeaBattle.assetsManager.getShipEnterSound();
-        this.clickSound = SeaBattle.assetsManager.getClickSound();
-        this.missSound_1 = SeaBattle.assetsManager.getMissSound_1();
-        this.missSound_2 = SeaBattle.assetsManager.getMissSound_2();
-        this.injuredSound_1 = SeaBattle.assetsManager.getInjuredSound_1();
-        this.injuredSound_2 = SeaBattle.assetsManager.getInjuredSound_2();
-        this.killedSound = SeaBattle.assetsManager.getKilledSound();
+        this.mainMusic = StarBattle.assetsManager.getMainMusic();
+        this.battleMusic = StarBattle.assetsManager.getBattleMusic();
+        this.newGameClick = StarBattle.assetsManager.getNewGameClickSound();
+        this.focusSound = StarBattle.assetsManager.getFocusSound();
+        this.shipEnterSound = StarBattle.assetsManager.getShipEnterSound();
+        this.clickSound = StarBattle.assetsManager.getClickSound();
+        this.missSound_1 = StarBattle.assetsManager.getMissSound_1();
+        this.missSound_2 = StarBattle.assetsManager.getMissSound_2();
+        this.injuredSound_1 = StarBattle.assetsManager.getInjuredSound_1();
+        this.injuredSound_2 = StarBattle.assetsManager.getInjuredSound_2();
+        this.killedSound = StarBattle.assetsManager.getKilledSound();
         mainMusic.setLooping(true);
         battleMusic.setLooping(true);
     }

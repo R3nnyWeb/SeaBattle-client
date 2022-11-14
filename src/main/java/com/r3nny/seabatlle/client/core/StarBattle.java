@@ -9,7 +9,7 @@ import com.r3nny.seabatlle.client.core.utils.AnimationSpritesManager;
 import com.r3nny.seabatlle.client.core.utils.Assets;
 import com.r3nny.seabatlle.client.core.utils.SoundManager;
 
-public class SeaBattle extends com.badlogic.gdx.Game {
+public class StarBattle extends com.badlogic.gdx.Game {
 
     public static Assets assetsManager;
     public static SoundManager soundManager;
@@ -22,10 +22,10 @@ public class SeaBattle extends com.badlogic.gdx.Game {
             "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
                     + "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
                     + "1234567890.,:;_¡!¿?\"'+-*/()[]={}STARW";
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
 
     public static Stage setUpStage() {
-        Stage stage = new Stage(new FitViewport(SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT));
+        Stage stage = new Stage(new FitViewport(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT));
         Gdx.input.setInputProcessor(stage);
         return stage;
     }

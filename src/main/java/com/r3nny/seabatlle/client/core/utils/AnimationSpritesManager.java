@@ -7,11 +7,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.r3nny.seabatlle.client.core.SeaBattle;
+import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.model.Ship;
 
 public class AnimationSpritesManager {
 
+    // TODO: Вынести все Actions сюда
     private final Animation injuredAnimation;
     private final Animation burningAnimation;
     private final Animation missAnimation;
@@ -20,14 +21,15 @@ public class AnimationSpritesManager {
 
     public AnimationSpritesManager() {
         this.injuredAnimation =
-                loadAnimation(SeaBattle.assetsManager.getInjuredAnimation(), 2, 5, 0.07F);
+                loadAnimation(StarBattle.assetsManager.getInjuredAnimation(), 2, 5, 0.07F);
         this.burningAnimation =
-                loadAnimation(SeaBattle.assetsManager.getBurningAnimation(), 2, 5, 0.07F);
-        this.missAnimation = loadAnimation(SeaBattle.assetsManager.getMissAnimation(), 4, 5, 0.05F);
+                loadAnimation(StarBattle.assetsManager.getBurningAnimation(), 2, 5, 0.07F);
+        this.missAnimation =
+                loadAnimation(StarBattle.assetsManager.getMissAnimation(), 4, 5, 0.05F);
         this.shipDestroyingAnimation =
-                loadAnimation(SeaBattle.assetsManager.getShipDestroyingAnimation(), 2, 4, 0.1F);
+                loadAnimation(StarBattle.assetsManager.getShipDestroyingAnimation(), 2, 4, 0.1F);
         this.explosionAnimation =
-                loadAnimation(SeaBattle.assetsManager.getExplosionAnimation(), 13, 1, 0.07f);
+                loadAnimation(StarBattle.assetsManager.getExplosionAnimation(), 13, 1, 0.07f);
     }
 
     private Animation loadAnimation(Texture sheet, int rows, int cols, float duration) {

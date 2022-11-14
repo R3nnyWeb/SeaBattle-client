@@ -8,8 +8,9 @@ import static com.r3nny.seabatlle.client.core.model.CellStatus.SEA;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.r3nny.seabatlle.client.core.SeaBattle;
+import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
+import com.r3nny.seabatlle.client.core.utils.ShipManager;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class GameField extends Group {
     public static final int FIELD_SIZE = 10;
     private final float x;
     private final float y;
+
+    private ShipManager shipManager;
     private final boolean isPlayer;
     private boolean isShipsReady;
     private final Cell[][] field;
@@ -84,7 +87,7 @@ public class GameField extends Group {
             isShipLanding = true;
             for (Ship ship : ships) {
                 ship.addAction(
-                        SeaBattle.animationManager.getShipEnterAction(
+                        StarBattle.animationManager.getShipEnterAction(
                                 ship,
                                 () -> {
                                     isShipLanding = false;
@@ -92,7 +95,7 @@ public class GameField extends Group {
                 super.addActor(ship);
             }
         }
-        SeaBattle.soundManager.playShipEnterSound();
+        StarBattle.soundManager.playShipEnterSound();
         clearAllNotAllowed();
         if (!isPlayer) {
             this.isShipsReady = true;
@@ -107,6 +110,15 @@ public class GameField extends Group {
                 }
             }
         }
+    }
+
+    public void createShipsManager() {
+        shipManager = new ShipManager(x, y - (Cell.SIZE * field.length) - 40);
+        super.addActor(shipManager);
+    }
+
+    public void decByShipType(ShipType type) {
+        shipManager.decByType(type);
     }
 
     public boolean isShipsReady() {

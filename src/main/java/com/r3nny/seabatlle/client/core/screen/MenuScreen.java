@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
-import com.r3nny.seabatlle.client.core.SeaBattle;
+import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.utils.Assets;
 
 public class MenuScreen implements Screen {
@@ -28,61 +28,60 @@ public class MenuScreen implements Screen {
     private final Image menuLogo;
     private final Image bgImage;
 
-    private final SeaBattle game;
+    private final StarBattle game;
     private final Assets manager;
 
     public MenuScreen() {
-        this.manager = SeaBattle.assetsManager;
-        game = ((SeaBattle) Gdx.app.getApplicationListener());
+        this.manager = StarBattle.assetsManager;
+        game = ((StarBattle) Gdx.app.getApplicationListener());
         Game.status = GameStatus.MENU;
-        this.stage = SeaBattle.setUpStage();
+        this.stage = StarBattle.setUpStage();
         batch = new SpriteBatch();
         bgTexture = manager.getMenuBackground();
         bgImage = new Image(bgTexture);
-        bgImage.setSize(SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT);
+        bgImage.setSize(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT);
 
         menuLogo = new Image(manager.getMenuLogo());
         menuLogo.setSize(620, 55);
-        menuLogo.setX(SeaBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
-        menuLogo.setY(SeaBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
+        menuLogo.setX(StarBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
+        menuLogo.setY(StarBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
 
         // TODO: Убери к черту
-        //        Label.LabelStyle label1Style = new Label.LabelStyle();
+        //                Label.LabelStyle label1Style = new Label.LabelStyle();
         //
-        //        FreeTypeFontGenerator generator = new
-        // FreeTypeFontGenerator(Gdx.files.internal("buttons/minecraft.ttf"));
-        //        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new
-        // FreeTypeFontGenerator.FreeTypeFontParameter();
-        //        parameter.size = 26;
-        //        parameter.characters = "круто   STAR WARS";
-        //        label1Style.font = generator.generateFont(parameter);
-        //        ;
-        //        label1Style.fontColor = Color.WHITE;
-        //        Label label1 = new Label(" круто   STAR WARS", label1Style);
-        //        label1.setPosition(0, 0);
-        //        stage.addActor(label1);
+        //                FreeTypeFontGenerator generator = new
+        //         FreeTypeFontGenerator(Gdx.files.internal("buttons/minecraft.ttf"));
+        //                FreeTypeFontGenerator.FreeTypeFontParameter parameter = new
+        //         FreeTypeFontGenerator.FreeTypeFontParameter();
+        //                parameter.size = 26;
+        //                parameter.characters = "круто   STAR WARS";
+        //                label1Style.font = generator.generateFont(parameter);
+        //
+        //                label1Style.fontColor = Color.WHITE;
+        //                Label label1 = new Label(" круто   STAR WARS", label1Style);
+        //                label1.setPosition(0, 0);
+        //                stage.addActor(label1);
 
-        TextButton start = new TextButton("New game", SeaBattle.assetsManager.getMenuButtonSkin());
-        TextButton end = new TextButton("Exit", SeaBattle.assetsManager.getMenuButtonSkin());
+        TextButton start = new TextButton("New game", StarBattle.assetsManager.getMenuButtonSkin());
+        TextButton end = new TextButton("Exit", StarBattle.assetsManager.getMenuButtonSkin());
 
-        start.setX(SeaBattle.WORLD_WIDTH - 350);
+        start.setX(StarBattle.WORLD_WIDTH - 350);
         start.setSize(300, 50);
         end.setSize(300, 50);
         end.setX(start.getX());
         start.setY(100);
         end.setY(start.getY() - 60);
-        // TODO: Listeners
         start.addListener(
                 new ClickListener() {
                     @Override
                     public void enter(
                             InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        SeaBattle.soundManager.playFocusButton();
+                        StarBattle.soundManager.playFocusButton();
                     }
 
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        SeaBattle.soundManager.playClickSound();
+                        StarBattle.soundManager.playClickSound();
                         menuLogo.addAction(Actions.fadeOut(0.5F));
                         start.addAction(Actions.fadeOut(0.5F));
                         end.addAction(
@@ -99,17 +98,16 @@ public class MenuScreen implements Screen {
                     @Override
                     public void enter(
                             InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        SeaBattle.soundManager.playFocusButton();
+                        StarBattle.soundManager.playFocusButton();
                     }
 
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        SeaBattle.soundManager.playClickSound();
+                        StarBattle.soundManager.playClickSound();
                         Gdx.app.exit();
                     }
                 });
 
-        // TODO: Плавные переходы. Разделить stage
         stage.addAction(Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F)));
         stage.addActor(bgImage);
         stage.addActor(menuLogo);
@@ -119,7 +117,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void show() {
-        SeaBattle.soundManager.playMainMusic();
+        StarBattle.soundManager.playMainMusic();
 
         Gdx.app.log("Menu Screen", "Showing menu screen");
     }

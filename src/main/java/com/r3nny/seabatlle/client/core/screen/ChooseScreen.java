@@ -14,41 +14,41 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.r3nny.seabatlle.client.core.SeaBattle;
+import com.r3nny.seabatlle.client.core.StarBattle;
 
 public class ChooseScreen implements Screen {
     private Image bgImage;
     private ImageButton singleGame;
     private ImageButton multiGame;
 
-    private SeaBattle game;
+    private StarBattle game;
     private Stage stage;
 
     public ChooseScreen() {
-        game = ((SeaBattle) Gdx.app.getApplicationListener());
-        stage = SeaBattle.setUpStage();
-        bgImage = new Image(SeaBattle.assetsManager.getMenuBackground());
-        bgImage.setSize(SeaBattle.WORLD_WIDTH, SeaBattle.WORLD_HEIGHT);
+        game = ((StarBattle) Gdx.app.getApplicationListener());
+        stage = StarBattle.setUpStage();
+        bgImage = new Image(StarBattle.assetsManager.getMenuBackground());
+        bgImage.setSize(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT);
 
-        singleGame = new ImageButton(SeaBattle.assetsManager.getChooseButtonSkin());
-        multiGame = new ImageButton(SeaBattle.assetsManager.getChooseButtonSkin(), "multiPlayer");
+        singleGame = new ImageButton(StarBattle.assetsManager.getChooseButtonSkin());
+        multiGame = new ImageButton(StarBattle.assetsManager.getChooseButtonSkin(), "multiPlayer");
 
         singleGame.setSize(261, 257);
         multiGame.setSize(singleGame.getWidth(), singleGame.getHeight());
         // TODO: Вынести анимации
         Action fadeInAction = Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F));
 
-        singleGame.setX(SeaBattle.WORLD_WIDTH / 2 - 25 - singleGame.getWidth());
-        multiGame.setX(SeaBattle.WORLD_WIDTH / 2 + 25);
+        singleGame.setX(StarBattle.WORLD_WIDTH / 2 - 25 - singleGame.getWidth());
+        multiGame.setX(StarBattle.WORLD_WIDTH / 2 + 25);
 
-        singleGame.setY(SeaBattle.WORLD_HEIGHT / 2 - singleGame.getHeight() / 2);
-        multiGame.setY(SeaBattle.WORLD_HEIGHT / 2 - singleGame.getHeight() / 2);
+        singleGame.setY(StarBattle.WORLD_HEIGHT / 2 - singleGame.getHeight() / 2);
+        multiGame.setY(StarBattle.WORLD_HEIGHT / 2 - singleGame.getHeight() / 2);
 
         TextButton backButton =
-                new TextButton("Back to menu", SeaBattle.assetsManager.getMenuButtonSkin());
+                new TextButton("Back to menu", StarBattle.assetsManager.getMenuButtonSkin());
         backButton.setX(10);
         backButton.setSize(200, 50);
-        backButton.setY(SeaBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
+        backButton.setY(StarBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
 
         backButton.addListener(
                 new ClickListener() {
@@ -56,14 +56,14 @@ public class ChooseScreen implements Screen {
                     @Override
                     public void enter(
                             InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        SeaBattle.soundManager.playFocusButton();
+                        StarBattle.soundManager.playFocusButton();
                     }
 
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         multiGame.addAction(Actions.fadeOut(0.5F));
                         backButton.addAction(Actions.fadeOut(0.5F));
-                        SeaBattle.soundManager.playClickSound();
+                        StarBattle.soundManager.playClickSound();
                         // TODO: Использовать фунцкионгальный интерфейс для анимации при любом
                         // перееходе
                         singleGame.addAction(
@@ -82,13 +82,13 @@ public class ChooseScreen implements Screen {
                     @Override
                     public void enter(
                             InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        SeaBattle.soundManager.playFocusButton();
+                        StarBattle.soundManager.playFocusButton();
                     }
 
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        SeaBattle.soundManager.stopMainMusic();
-                        SeaBattle.soundManager.playNewGameSound();
+                        StarBattle.soundManager.stopMainMusic();
+                        StarBattle.soundManager.playNewGameSound();
                         game.setScreen(new ShipsCreatingScreen());
                     }
                 });

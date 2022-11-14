@@ -2,7 +2,6 @@
 package com.r3nny.seabatlle.client.core.model;
 
 import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isShipLanding;
-import static com.r3nny.seabatlle.client.core.model.ShipType.TWO_DECK;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -16,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.r3nny.seabatlle.client.core.Game;
-import com.r3nny.seabatlle.client.core.SeaBattle;
+import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.CellsController;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 
@@ -42,13 +41,13 @@ public class Ship extends Actor {
         this.type = type;
         super.setX(x);
         super.setY(y);
-        this.destroyingAnimation = SeaBattle.animationManager.getShipDestroyingAnimation();
+        this.destroyingAnimation = StarBattle.animationManager.getShipDestroyingAnimation();
 
         switch (type) {
-            case ONE_DECK -> texture = new Sprite(SeaBattle.assetsManager.getOneDeckShip());
-            case TWO_DECK -> texture = new Sprite(SeaBattle.assetsManager.getTwoDeckShip());
-            case THREE_DECK -> texture = new Sprite(SeaBattle.assetsManager.getThreeDeckShip());
-            default -> texture = new Sprite(SeaBattle.assetsManager.getFourDeckShip());
+            case ONE_DECK -> texture = new Sprite(StarBattle.assetsManager.getOneDeckShip());
+            case TWO_DECK -> texture = new Sprite(StarBattle.assetsManager.getTwoDeckShip());
+            case THREE_DECK -> texture = new Sprite(StarBattle.assetsManager.getThreeDeckShip());
+            default -> texture = new Sprite(StarBattle.assetsManager.getFourDeckShip());
         }
 
         texture.setSize(Cell.SIZE * type.getSize(), Cell.SIZE);
@@ -67,7 +66,7 @@ public class Ship extends Actor {
                             InputEvent event, float x, float y, int pointer, Actor fromActor) {
                         if (!isShipLanding) {
                             Ship.this.isSelected = true;
-                            SeaBattle.soundManager.playFocusButton();
+                            StarBattle.soundManager.playFocusButton();
                         }
                     }
 
@@ -78,7 +77,7 @@ public class Ship extends Actor {
                         if ((Ship.this.cells == null) && !isShipLanding) {
                             if (Gdx.input.isButtonJustPressed(Input.Buttons.RIGHT)
                                     && !isShipLanding) {
-                                SeaBattle.soundManager.playClickSound();
+                                StarBattle.soundManager.playClickSound();
                                 setVertical(!isVertical());
                             }
                             updateBounds();
@@ -115,7 +114,7 @@ public class Ship extends Actor {
                                     Ship.this.setX(currentCell.getX());
                                     Ship.this.setY(currentCell.getY());
                                     Ship.this.addAction(
-                                            SeaBattle.animationManager.getShipEnterAction(
+                                            StarBattle.animationManager.getShipEnterAction(
                                                     Ship.this,
                                                     () -> {
                                                         ShipsCreator.addShipToGameField(
@@ -130,7 +129,7 @@ public class Ship extends Actor {
                                                                                 .length);
                                                     }));
                                     // TODO: Разные звуки для разных типов
-                                    SeaBattle.soundManager.playShipEnterSound();
+                                    StarBattle.soundManager.playShipEnterSound();
                                     Gdx.app.log("Ship ent", Ship.this.toString());
                                 }
                             }
@@ -163,9 +162,6 @@ public class Ship extends Actor {
         for (Cell c : cells) {
             c.setStatus(CellStatus.KILLED);
         }
-        //        texture.setTexture(SeaBattle.assetsManager.getThreeDeckKilledShip());
-        //
-        //        this.addAction(Actions.sequence(Actions.alpha(0.3F), Actions.fadeIn(0.8F)));
     }
 
     @Override

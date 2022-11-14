@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
-import com.r3nny.seabatlle.client.core.SeaBattle;
+import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.GameController;
 
 public class Cell extends Actor {
@@ -43,12 +43,12 @@ public class Cell extends Actor {
         this.ship = ship;
         super.setX(x);
         super.setY(y);
-        this.injuredAnimation = SeaBattle.animationManager.getInjuredAnimation();
-        this.burningAnimation = SeaBattle.animationManager.getBurningAnimation();
-        this.missAnimation = SeaBattle.animationManager.getMissAnimation();
-        this.explosionAnimation = SeaBattle.animationManager.getExplosionAnimation();
+        this.injuredAnimation = StarBattle.animationManager.getInjuredAnimation();
+        this.burningAnimation = StarBattle.animationManager.getBurningAnimation();
+        this.missAnimation = StarBattle.animationManager.getMissAnimation();
+        this.explosionAnimation = StarBattle.animationManager.getExplosionAnimation();
         this.status = status;
-        texture = SeaBattle.assetsManager.getInjuredCell();
+        texture = StarBattle.assetsManager.getInjuredCell();
         shape = new ShapeRenderer();
         shape.setAutoShapeType(true);
         this.setBounds(x, y, SIZE, SIZE);

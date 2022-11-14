@@ -4,6 +4,7 @@ package com.r3nny.seabatlle.client.core;
 import com.badlogic.gdx.Gdx;
 import com.r3nny.seabatlle.client.core.controller.GameController;
 import com.r3nny.seabatlle.client.core.model.Cell;
+import com.r3nny.seabatlle.client.core.model.CellStatus;
 import com.r3nny.seabatlle.client.core.model.GameField;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,17 +34,17 @@ public class SingleGame extends Game {
     }
 
     public void update() {
-        // TODO: Если убивается корабль, то появляются клетки с промахами, которые не учитываются в
-        // cellShoot
         if (Game.status == GameStatus.ENEMY_TURN) {
             time += Gdx.graphics.getDeltaTime();
         }
         if (Game.status == GameStatus.ENEMY_TURN && time > BOT_THINKING_TIME) {
             Random rd = new Random();
             Cell cell = cellsToShoot.get(rd.nextInt(cellsToShoot.size() - 1));
-            GameController.shoot(cell.getRow(), cell.getColumn());
+            if (cell.getStatus() != CellStatus.MISS && cell.getStatus() != CellStatus.KILLED) {
+                GameController.shoot(cell.getRow(), cell.getColumn());
+                time = 0f;
+            }
             cellsToShoot.remove(cell);
-            time = 0f;
         }
     }
 }
