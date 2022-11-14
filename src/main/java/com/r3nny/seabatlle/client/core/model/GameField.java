@@ -3,8 +3,7 @@ package com.r3nny.seabatlle.client.core.model;
 
 import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isShipLanding;
 import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.shipTypes;
-import static com.r3nny.seabatlle.client.core.model.CellStatus.NOT_ALLOWED;
-import static com.r3nny.seabatlle.client.core.model.CellStatus.SEA;
+import static com.r3nny.seabatlle.client.core.model.CellStatus.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -105,7 +104,7 @@ public class GameField extends Group {
     public void clearAllNotAllowed() {
         for (Cell[] cells : field) {
             for (int j = 0; j < field.length; j++) {
-                if (cells[j].getStatus() == NOT_ALLOWED) {
+                if (cells[j].getStatus() == NOT_ALLOWED || cells[j].getStatus() == MISS) {
                     cells[j].setStatus(SEA);
                 }
             }

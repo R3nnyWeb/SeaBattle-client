@@ -116,7 +116,7 @@ public class ShipsCreator {
             }
         }
         ship.setCells(shipCells);
-        changeCellsStatusAroundShip(ship, field, CellStatus.NOT_ALLOWED);
+        changeCellsStatusAroundShip(ship, field, CellStatus.MISS);
 
         ship.setX(shipCells[0].getX());
         ship.setY(shipCells[0].getY());

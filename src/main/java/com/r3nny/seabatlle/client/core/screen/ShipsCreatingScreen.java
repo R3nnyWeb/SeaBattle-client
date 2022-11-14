@@ -101,7 +101,7 @@ public class ShipsCreatingScreen implements Screen {
         stage.addActor(menuLogo);
         stage.addActor(playerField);
         stage.addActor(acceptButton);
-        stage.addActor(Game.enemy);
+        //        stage.addActor(Game.enemy);
         stage.addActor(backButton);
         stage.setDebugAll(StarBattle.DEBUG);
     }
