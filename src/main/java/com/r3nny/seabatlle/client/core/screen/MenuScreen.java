@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -46,21 +47,12 @@ public class MenuScreen implements Screen {
         menuLogo.setX(StarBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
         menuLogo.setY(StarBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
 
-        // TODO: Убери к черту
-        //                Label.LabelStyle label1Style = new Label.LabelStyle();
-        //
-        //                FreeTypeFontGenerator generator = new
-        //         FreeTypeFontGenerator(Gdx.files.internal("buttons/minecraft.ttf"));
-        //                FreeTypeFontGenerator.FreeTypeFontParameter parameter = new
-        //         FreeTypeFontGenerator.FreeTypeFontParameter();
-        //                parameter.size = 26;
-        //                parameter.characters = "круто   STAR WARS";
-        //                label1Style.font = generator.generateFont(parameter);
-        //
-        //                label1Style.fontColor = Color.WHITE;
-        //                Label label1 = new Label(" круто   STAR WARS", label1Style);
-        //                label1.setPosition(0, 0);
-        //                stage.addActor(label1);
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.fontColor = new Color(Color.WHITE);
+        labelStyle.font = manager.getFont(16);
+
+        Label label = new Label("by Nikita Vashkulatov", labelStyle);
+        label.setPosition(10, 0);
 
         TextButton start = new TextButton("New game", StarBattle.assetsManager.getMenuButtonSkin());
         TextButton end = new TextButton("Exit", StarBattle.assetsManager.getMenuButtonSkin());
@@ -111,6 +103,7 @@ public class MenuScreen implements Screen {
         stage.addAction(Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F)));
         stage.addActor(bgImage);
         stage.addActor(menuLogo);
+        stage.addActor(label);
         stage.addActor(start);
         stage.addActor(end);
     }

@@ -226,6 +226,8 @@ public class Ship extends Actor {
     }
 
     public void setStartX(float startX) {
+
+        setX(startX);
         this.startX = startX;
     }
 
@@ -241,10 +243,12 @@ public class Ship extends Actor {
     }
 
     public float getStartY() {
+
         return startY;
     }
 
     public void setStartY(float startY) {
+        setY(startY);
         this.startY = startY;
     }
 

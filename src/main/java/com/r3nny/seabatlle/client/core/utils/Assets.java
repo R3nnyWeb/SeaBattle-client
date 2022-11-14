@@ -1,11 +1,16 @@
 /* (C)2022 */
 package com.r3nny.seabatlle.client.core.utils;
 
+import static com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.DEFAULT_CHARS;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class Assets {
@@ -209,5 +214,15 @@ public class Assets {
 
     public Texture getExplosionAnimation() {
         return manager.get(EXPLOSION_ANIMATION);
+    }
+
+    public BitmapFont getFont(int size) {
+        FreeTypeFontGenerator generator =
+                new FreeTypeFontGenerator(Gdx.files.internal("minecraft.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter =
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = size;
+        parameter.characters = DEFAULT_CHARS;
+        return generator.generateFont(parameter);
     }
 }

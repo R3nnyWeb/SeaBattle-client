@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -21,21 +22,23 @@ import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.SingleGame;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
+import com.r3nny.seabatlle.client.core.model.ShipsCreatingArea;
 
 public class ShipsCreatingScreen implements Screen {
 
     private final Image menuLogo;
-
     private final SingleGame game;
-
-    TextButton acceptButton;
-
+    private TextButton acceptButton;
     private final Image bg;
+
+
     public final Stage stage;
 
     public ShipsCreatingScreen() {
         status = GameStatus.SHIPS_STAGE;
         this.stage = StarBattle.setUpStage();
+
+        ShipsCreatingArea creatingArea = new ShipsCreatingArea(Game.ENEMY_FIELD_X, Game.FIELD_Y);
 
         TextButton backButton =
                 new TextButton("Back to menu", StarBattle.assetsManager.getMenuButtonSkin());
@@ -95,12 +98,21 @@ public class ShipsCreatingScreen implements Screen {
         bg = new Image(StarBattle.assetsManager.getInGameBackground());
         bg.setSize(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT);
 
+        Label.LabelStyle skin = new Label.LabelStyle();
+        skin.font = StarBattle.assetsManager.getFont(40);
+
+        Label playerFieldLabel = new Label("Your Field", skin);
+        playerFieldLabel.setFontScale(0.5F);
+        playerFieldLabel.setPosition(Game.PLAYER_FIELD_X, Game.FIELD_Y + playerFieldLabel.getHeight() - 20);
+
         game = new SingleGame();
 
         stage.addActor(bg);
         stage.addActor(menuLogo);
+        stage.addActor(creatingArea);
         stage.addActor(playerField);
         stage.addActor(acceptButton);
+        stage.addActor(playerFieldLabel);
         //        stage.addActor(Game.enemy);
         stage.addActor(backButton);
         stage.setDebugAll(StarBattle.DEBUG);

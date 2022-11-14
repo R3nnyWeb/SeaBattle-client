@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -110,11 +111,24 @@ public class SingleGameScreen implements Screen {
             }
         }
 
+        Label.LabelStyle skin = new Label.LabelStyle();
+        skin.font = StarBattle.assetsManager.getFont(40);
+
+        Label playerFieldLabel = new Label("Your Field", skin);
+        playerFieldLabel.setFontScale(0.5F);
+        playerFieldLabel.setPosition(Game.PLAYER_FIELD_X, Game.FIELD_Y + playerFieldLabel.getHeight() - 20);
+        Label enemyFieldLabel = new Label("Enemy Field", skin);
+        enemyFieldLabel.setFontScale(0.5F);
+        enemyFieldLabel.setPosition(Game.ENEMY_FIELD_X, Game.FIELD_Y + enemyFieldLabel.getHeight() - 20);
+
+
         bgImage = new Image(StarBattle.assetsManager.getInGameBackground());
         bgImage.setSize(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT);
         stage.addActor(bgImage);
         stage.addActor(menuLogo);
         stage.addActor(playerField);
+        stage.addActor(playerFieldLabel);
+        stage.addActor(enemyFieldLabel);
         stage.addActor(enemy);
         stage.addActor(backButton);
         stage.setDebugAll(StarBattle.DEBUG);

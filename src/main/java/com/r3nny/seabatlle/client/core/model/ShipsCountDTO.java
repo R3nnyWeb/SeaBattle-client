@@ -29,7 +29,8 @@ public class ShipsCountDTO extends Actor {
         texture.setSize(Cell.SIZE / 1.3F * type.getSize(), Cell.SIZE / 1.3F);
         texture.setX(getX());
         texture.setY(getY());
-        font = new BitmapFont();
+        font = StarBattle.assetsManager.getFont(20);
+
     }
 
     @Override

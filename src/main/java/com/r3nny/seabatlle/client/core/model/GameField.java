@@ -7,6 +7,7 @@ import static com.r3nny.seabatlle.client.core.model.CellStatus.*;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 import com.r3nny.seabatlle.client.core.utils.ShipManager;
@@ -23,37 +24,63 @@ public class GameField extends Group {
     private boolean isShipsReady;
     private final Cell[][] field;
     private final List<Ship> ships;
+    private ShipsCreatingArea area;
 
     public GameField(float x, float y, boolean isPlayer) {
         this.isPlayer = isPlayer;
         this.x = x;
         this.y = y;
 
+        this.area = new ShipsCreatingArea(Game.ENEMY_FIELD_X, Game.FIELD_Y);
+
         field = initCells();
         ships = initShips();
+
         if (!isPlayer) {
             Gdx.app.log("GameField", " Autocreating enemy ships ");
             initAutoShips();
+        } else {
+            initStartCoords(area);
         }
+    }
+
+    private void initStartCoords(ShipsCreatingArea area) {
+        float x = area.controlHelp.getX();
+
+        Ship fourDeskShip =
+                ships.stream().filter(s -> s.getType() == ShipType.FOUR_DECK).findFirst().get();
+        fourDeskShip.setStartX(x);
+        fourDeskShip.setStartY(area.fourDeskLabel.getY() - 12);
+        List<Ship> treeDeskShips =
+                ships.stream().filter(s -> s.getType() == ShipType.THREE_DECK).toList();
+        for (int i = 0; i < treeDeskShips.size(); i++) {
+            treeDeskShips
+                    .get(i)
+                    .setStartX(x + (ShipType.THREE_DECK.getSize() * Cell.SIZE + 20) * i);
+            treeDeskShips.get(i).setStartY(area.treeDeskLabel.getY() - 12);
+        }
+        List<Ship> twoDeskShips =
+                ships.stream().filter(s -> s.getType() == ShipType.TWO_DECK).toList();
+        for (int i = 0; i < twoDeskShips.size(); i++) {
+            twoDeskShips.get(i).setStartX(x + (ShipType.TWO_DECK.getSize() * Cell.SIZE + 20) * i);
+            twoDeskShips.get(i).setStartY(area.twoDeskLabel.getY() - 12);
+        }
+        List<Ship> oneDeskShips =
+                ships.stream().filter(s -> s.getType() == ShipType.ONE_DECK).toList();
+        for (int i = 0; i < oneDeskShips.size(); i++) {
+            oneDeskShips.get(i).setStartX(x + (ShipType.ONE_DECK.getSize() * Cell.SIZE + 20) * i);
+            oneDeskShips.get(i).setStartY(area.oneDeskLabel.getY() - 12);
+        }
+
     }
 
     private List<Ship> initShips() {
         List<Ship> ships = new LinkedList<>();
-        float startX = this.x;
-        float startY = 50;
         for (int i = 0; i < shipTypes.length; i++) {
-            Ship ship = new Ship(startX, startY, null, ShipsCreator.shipTypes[i]);
-
+            Ship ship = new Ship(0, 0, null, ShipsCreator.shipTypes[i]);
             ships.add(ship);
-            ship.setStartX(startX);
-            ship.setStartY(startY);
-            startX += ShipsCreator.shipTypes[i].getSize() * Cell.SIZE + 20;
-
-            if (i == 2) {
-                startY -= 40;
-                startX = this.x;
-            }
         }
+
         for (Ship ship : ships) {
             super.addActor(ship);
         }
@@ -99,6 +126,10 @@ public class GameField extends Group {
         if (!isPlayer) {
             this.isShipsReady = true;
         }
+    }
+
+    public void removeArea(){
+        super.removeActor(area);
     }
 
     public void clearAllNotAllowed() {
