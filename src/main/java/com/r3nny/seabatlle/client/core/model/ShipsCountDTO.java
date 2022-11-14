@@ -30,7 +30,6 @@ public class ShipsCountDTO extends Actor {
         texture.setX(getX());
         texture.setY(getY());
         font = StarBattle.assetsManager.getFont(20);
-
     }
 
     @Override

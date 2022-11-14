@@ -71,7 +71,6 @@ public class GameField extends Group {
             oneDeskShips.get(i).setStartX(x + (ShipType.ONE_DECK.getSize() * Cell.SIZE + 20) * i);
             oneDeskShips.get(i).setStartY(area.oneDeskLabel.getY() - 12);
         }
-
     }
 
     private List<Ship> initShips() {
@@ -128,7 +127,7 @@ public class GameField extends Group {
         }
     }
 
-    public void removeArea(){
+    public void removeArea() {
         super.removeActor(area);
     }
 

@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
@@ -42,6 +43,8 @@ public class SingleGameScreen implements Screen {
     private Image bgImage;
 
     private SoundManager soundManager;
+
+    private Label turnLabel;
 
     public SingleGameScreen(SingleGame game) {
         this.game = game;
@@ -116,11 +119,19 @@ public class SingleGameScreen implements Screen {
 
         Label playerFieldLabel = new Label("Your Field", skin);
         playerFieldLabel.setFontScale(0.5F);
-        playerFieldLabel.setPosition(Game.PLAYER_FIELD_X, Game.FIELD_Y + playerFieldLabel.getHeight() - 20);
+        playerFieldLabel.setPosition(
+                Game.PLAYER_FIELD_X, Game.FIELD_Y + playerFieldLabel.getHeight() - 20);
         Label enemyFieldLabel = new Label("Enemy Field", skin);
         enemyFieldLabel.setFontScale(0.5F);
-        enemyFieldLabel.setPosition(Game.ENEMY_FIELD_X, Game.FIELD_Y + enemyFieldLabel.getHeight() - 20);
+        enemyFieldLabel.setPosition(
+                Game.ENEMY_FIELD_X, Game.FIELD_Y + enemyFieldLabel.getHeight() - 20);
 
+        turnLabel = new Label("", skin);
+        turnLabel.setFontScale(0.5F);
+        turnLabel.setWidth(Game.ENEMY_FIELD_X - Game.PLAYER_FIELD_X + Cell.SIZE * 10);
+        turnLabel.setPosition(
+                StarBattle.WORLD_WIDTH / 2 + 3 - turnLabel.getWidth() / 2, Game.FIELD_Y);
+        turnLabel.setAlignment(Align.center);
 
         bgImage = new Image(StarBattle.assetsManager.getInGameBackground());
         bgImage.setSize(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT);
@@ -129,6 +140,7 @@ public class SingleGameScreen implements Screen {
         stage.addActor(playerField);
         stage.addActor(playerFieldLabel);
         stage.addActor(enemyFieldLabel);
+        stage.addActor(turnLabel);
         stage.addActor(enemy);
         stage.addActor(backButton);
         stage.setDebugAll(StarBattle.DEBUG);
@@ -165,7 +177,8 @@ public class SingleGameScreen implements Screen {
     @Override
     public void render(float v) {
         j += v;
-
+        turnLabel.setText(
+                (Game.status == GameStatus.PLAYER_TURN) ? "Shoot, Admiral" : "Enemy shooting");
         ScreenUtils.clear(new Color(Color.BLACK));
         game.update();
         // TODO: Сделать ShipsManager для отслеживания оставшихся кораблей

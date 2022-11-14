@@ -31,7 +31,6 @@ public class ShipsCreatingScreen implements Screen {
     private TextButton acceptButton;
     private final Image bg;
 
-
     public final Stage stage;
 
     public ShipsCreatingScreen() {
@@ -103,7 +102,8 @@ public class ShipsCreatingScreen implements Screen {
 
         Label playerFieldLabel = new Label("Your Field", skin);
         playerFieldLabel.setFontScale(0.5F);
-        playerFieldLabel.setPosition(Game.PLAYER_FIELD_X, Game.FIELD_Y + playerFieldLabel.getHeight() - 20);
+        playerFieldLabel.setPosition(
+                Game.PLAYER_FIELD_X, Game.FIELD_Y + playerFieldLabel.getHeight() - 20);
 
         game = new SingleGame();
 

@@ -56,7 +56,6 @@ public class GameController {
             cell.setStatus(CellStatus.MISS);
         }
         if (cell.getStatus() == CellStatus.HEALTHY) {
-
             cell.setStatus(CellStatus.INJURED);
             if (isKilling(cell)) {
                 StarBattle.soundManager.playKilledSound();
