@@ -31,10 +31,11 @@ public class Cell extends Actor {
     // TODO: Подумать
     private float injuredTime = 0f;
     private float missTime = 0f;
-
+    private float explosionTime = 0f;
     private final Animation injuredAnimation;
     private final Animation burningAnimation;
     private final Animation missAnimation;
+    private final Animation explosionAnimation;
 
     public Cell(float x, float y, int column, int row, Ship ship, CellStatus status) {
         this.column = column;
@@ -45,6 +46,7 @@ public class Cell extends Actor {
         this.injuredAnimation = SeaBattle.animationManager.getInjuredAnimation();
         this.burningAnimation = SeaBattle.animationManager.getBurningAnimation();
         this.missAnimation = SeaBattle.animationManager.getMissAnimation();
+        this.explosionAnimation = SeaBattle.animationManager.getExplosionAnimation();
         this.status = status;
         texture = SeaBattle.assetsManager.getInjuredCell();
         shape = new ShapeRenderer();
@@ -86,10 +88,6 @@ public class Cell extends Actor {
             shape.setColor(Color.RED);
             shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 8);
         }
-        //        if (status == CellStatus.MISS &&) {
-        //            shape.setColor(Color.CYAN);
-        //            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 12);
-        //        }
 
         shape.end();
 
@@ -107,6 +105,12 @@ public class Cell extends Actor {
                         (TextureRegion) burningAnimation.getKeyFrame(injuredTime, true);
                 batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
             }
+        }
+        if (status == CellStatus.KILLED) {
+            explosionTime += Gdx.graphics.getDeltaTime();
+            TextureRegion currentFrame =
+                    (TextureRegion) explosionAnimation.getKeyFrame(explosionTime, false);
+            batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
         }
 
         if (status == CellStatus.MISS) {

@@ -19,12 +19,10 @@ import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.SeaBattle;
 import com.r3nny.seabatlle.client.core.SingleGame;
-import com.r3nny.seabatlle.client.core.controller.GameController;
 import com.r3nny.seabatlle.client.core.model.Cell;
 import com.r3nny.seabatlle.client.core.model.Ship;
 import com.r3nny.seabatlle.client.core.utils.Assets;
 import com.r3nny.seabatlle.client.core.utils.SoundManager;
-import java.util.Random;
 
 public class SingleGameScreen implements Screen {
 
@@ -149,24 +147,9 @@ public class SingleGameScreen implements Screen {
     public void render(float v) {
         j += v;
 
-        // TODO: Вынести в отдельный класс
-        ScreenUtils.clear(new Color(Color.BLACK));
-        if (Game.status == GameStatus.ENEMY_TURN) {
-            i += v;
-        }
-        if (Game.status == GameStatus.ENEMY_TURN && i > 1.5) {
-            Random rd = new Random();
-            // TODO: Додумать
-            //            ShotDTO shot = new ShotDTO(rd.nextInt(10),rd.nextInt(10));
-            //            while(enemyShots.contains(shot)){
-            //                shot = new ShotDTO(rd.nextInt(10),rd.nextInt(10));
-            //            }
-            //            enemyShots.add(shot);
-            // TODO: logging
-            GameController.shoot(rd.nextInt(10), rd.nextInt(10));
-            i = 0;
-        }
 
+        ScreenUtils.clear(new Color(Color.BLACK));
+        game.update();
         // TODO: Проверять только после измений;
         if (j > 1) {
             if (isGameOver()) {

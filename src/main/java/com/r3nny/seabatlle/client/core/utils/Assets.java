@@ -44,6 +44,8 @@ public class Assets {
     private final String BURNING_ANIMATION = "burningSprite.png";
     private final String MISS_ANIMATION = "missSprite.png";
     private final String SHIP_DESTROYING_ANIMATION = "shipDestroingSprite.png";
+    private final String EXPLOSION_ANIMATION = "explosionSprite.png";
+    private final String EXPLOSION_ATLAS = "explosionAtlas.atlas";
 
     private final AssetManager manager;
 
@@ -65,12 +67,14 @@ public class Assets {
         manager.load(BURNING_ANIMATION, Texture.class);
         manager.load(MISS_ANIMATION, Texture.class);
         manager.load(SHIP_DESTROYING_ANIMATION, Texture.class);
+        manager.load(EXPLOSION_ANIMATION, Texture.class);
 
         manager.load(MENU_BUTTON_SKIN, Skin.class);
         manager.load(CHOOSE_BUTTON_SKIN, Skin.class);
 
         manager.load(MENU_BUTTON_ATLAS, TextureAtlas.class);
         manager.load(CHOOSE_BUTTON_ATLAS, TextureAtlas.class);
+        manager.load(EXPLOSION_ATLAS, TextureAtlas.class);
 
         manager.load(MAIN_MUSIC, Music.class);
         manager.load(BATTLE_MUSIC, Music.class);
@@ -201,5 +205,9 @@ public class Assets {
 
     public Texture getShipDestroyingAnimation() {
         return manager.get(SHIP_DESTROYING_ANIMATION);
+    }
+
+    public Texture getExplosionAnimation() {
+        return manager.get(EXPLOSION_ANIMATION);
     }
 }

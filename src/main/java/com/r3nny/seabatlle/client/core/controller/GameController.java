@@ -21,8 +21,8 @@ public class GameController {
             }
         }
         ship.kill();
-        if (Game.status == GameStatus.PLAYER_TURN) {
-            Game.enemy.addActor(ship);
+        if (Game.status == GameStatus.ENEMY_TURN) {
+            playerField.removeActor(ship);
         }
         return true;
     }

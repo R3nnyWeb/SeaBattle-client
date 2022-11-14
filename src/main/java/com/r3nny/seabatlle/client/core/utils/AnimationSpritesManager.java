@@ -16,6 +16,7 @@ public class AnimationSpritesManager {
     private final Animation burningAnimation;
     private final Animation missAnimation;
     private final Animation shipDestroyingAnimation;
+    private final Animation explosionAnimation;
 
     public AnimationSpritesManager() {
         this.injuredAnimation =
@@ -25,6 +26,8 @@ public class AnimationSpritesManager {
         this.missAnimation = loadAnimation(SeaBattle.assetsManager.getMissAnimation(), 4, 5, 0.05F);
         this.shipDestroyingAnimation =
                 loadAnimation(SeaBattle.assetsManager.getShipDestroyingAnimation(), 2, 4, 0.1F);
+        this.explosionAnimation =
+                loadAnimation(SeaBattle.assetsManager.getExplosionAnimation(), 13, 1, 0.07f);
     }
 
     private Animation loadAnimation(Texture sheet, int rows, int cols, float duration) {
@@ -54,6 +57,10 @@ public class AnimationSpritesManager {
 
     public Animation getShipDestroyingAnimation() {
         return shipDestroyingAnimation;
+    }
+
+    public Animation getExplosionAnimation() {
+        return explosionAnimation;
     }
 
     public Action getShipEnterAction(Ship ship, Runnable run) {
