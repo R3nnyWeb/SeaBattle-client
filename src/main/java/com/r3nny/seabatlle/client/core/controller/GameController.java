@@ -1,6 +1,7 @@
 /* (C)2022 */
 package com.r3nny.seabatlle.client.core.controller;
 
+import static com.r3nny.seabatlle.client.core.Game.enemy;
 import static com.r3nny.seabatlle.client.core.Game.playerField;
 
 import com.badlogic.gdx.Gdx;
@@ -22,7 +23,10 @@ public class GameController {
         }
         ship.kill();
         if (Game.status == GameStatus.ENEMY_TURN) {
+            ShipsCreator.changeCellsStatusAroundShip(ship,playerField.getField(), CellStatus.MISS);
             playerField.removeActor(ship);
+        } else{
+            ShipsCreator.changeCellsStatusAroundShip(ship,enemy.getField(), CellStatus.MISS);
         }
         return true;
     }
