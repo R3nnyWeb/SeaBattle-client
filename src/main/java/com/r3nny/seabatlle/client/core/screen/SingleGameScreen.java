@@ -147,7 +147,6 @@ public class SingleGameScreen implements Screen {
     public void render(float v) {
         j += v;
 
-
         ScreenUtils.clear(new Color(Color.BLACK));
         game.update();
         // TODO: Проверять только после измений;

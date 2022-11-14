@@ -33,6 +33,8 @@ public class SingleGame extends Game {
     }
 
     public void update() {
+        // TODO: Если убивается корабль, то появляются клетки с промахами, которые не учитываются в
+        // cellShoot
         if (Game.status == GameStatus.ENEMY_TURN) {
             time += Gdx.graphics.getDeltaTime();
         }

@@ -23,10 +23,10 @@ public class GameController {
         }
         ship.kill();
         if (Game.status == GameStatus.ENEMY_TURN) {
-            ShipsCreator.changeCellsStatusAroundShip(ship,playerField.getField(), CellStatus.MISS);
+            ShipsCreator.changeCellsStatusAroundShip(ship, playerField.getField(), CellStatus.MISS);
             playerField.removeActor(ship);
-        } else{
-            ShipsCreator.changeCellsStatusAroundShip(ship,enemy.getField(), CellStatus.MISS);
+        } else {
+            ShipsCreator.changeCellsStatusAroundShip(ship, enemy.getField(), CellStatus.MISS);
         }
         return true;
     }

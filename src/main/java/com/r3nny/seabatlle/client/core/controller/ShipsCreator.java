@@ -3,7 +3,6 @@ package com.r3nny.seabatlle.client.core.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.r3nny.seabatlle.client.core.model.*;
-
 import java.util.List;
 import java.util.Random;
 
@@ -14,16 +13,16 @@ public class ShipsCreator {
     public static boolean isShipLanding = false;
 
     public static ShipType[] shipTypes = {
-            ShipType.FOUR_DECK,
-            ShipType.THREE_DECK,
-            ShipType.THREE_DECK,
-            ShipType.TWO_DECK,
-            ShipType.TWO_DECK,
-            ShipType.TWO_DECK,
-            ShipType.ONE_DECK,
-            ShipType.ONE_DECK,
-            ShipType.ONE_DECK,
-            ShipType.ONE_DECK
+        ShipType.FOUR_DECK,
+        ShipType.THREE_DECK,
+        ShipType.THREE_DECK,
+        ShipType.TWO_DECK,
+        ShipType.TWO_DECK,
+        ShipType.TWO_DECK,
+        ShipType.ONE_DECK,
+        ShipType.ONE_DECK,
+        ShipType.ONE_DECK,
+        ShipType.ONE_DECK
     };
 
     public static boolean canCreateInCell(Cell cell, Ship ship, Cell[][] field) {
@@ -55,7 +54,6 @@ public class ShipsCreator {
         int x = ship.getCells()[0].getColumn();
         int y = ship.getCells()[0].getRow();
         if (ship.isVertical()) {
-
 
             for (int i = 0; i < ship.getType().getSize() + 2; i++) {
 
@@ -129,7 +127,7 @@ public class ShipsCreator {
             }
         }
         ship.setCells(shipCells);
-        changeCellsStatusAroundShip(ship,field,CellStatus.NOT_ALLOWED);
+        changeCellsStatusAroundShip(ship, field, CellStatus.NOT_ALLOWED);
 
         ship.setX(shipCells[0].getX());
         ship.setY(shipCells[0].getY());
