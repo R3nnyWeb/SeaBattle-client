@@ -119,6 +119,7 @@ public class SingleGameScreen implements Screen {
     @Override
     public void show() {}
 
+    // TODO: Сделать ShipsManager для отслеживания оставшихся кораблей
     private boolean isEnemyDead() {
         var enemy = Game.enemy.getShips();
         for (Ship ship : enemy) {
@@ -149,7 +150,7 @@ public class SingleGameScreen implements Screen {
 
         ScreenUtils.clear(new Color(Color.BLACK));
         game.update();
-        // TODO: Проверять только после измений;
+        // TODO: Сделать ShipsManager для отслеживания оставшихся кораблей
         if (j > 1) {
             if (isGameOver()) {
                 SeaBattle.soundManager.stopBattleMusic();

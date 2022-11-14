@@ -54,51 +54,40 @@ public class ShipsCreator {
         int x = ship.getCells()[0].getColumn();
         int y = ship.getCells()[0].getRow();
         if (ship.isVertical()) {
-
             for (int i = 0; i < ship.getType().getSize() + 2; i++) {
-
-                // TODO: Rework try try catch
-                try {
-                    field[y - i + 1][x + 1].setStatus(status);
-                } catch (IndexOutOfBoundsException ignored) {
-
-                }
-
-                try {
-                    field[y - i + 1][x - 1].setStatus(status);
-                } catch (IndexOutOfBoundsException ignored) {
+                if (y - i + 1 >= 0 && y - i + 1 < field.length) {
+                    if (x + 1 < field.length) {
+                        field[y - i + 1][x + 1].setStatus(status);
+                    }
+                    if (x - 1 >= 0) {
+                        field[y - i + 1][x - 1].setStatus(status);
+                    }
                 }
             }
-            try {
+            if (y + 1 < field.length) {
                 field[y + 1][x].setStatus(status);
-            } catch (IndexOutOfBoundsException ignored) {
+            }
+            if (y - ship.getType().getSize() >= 0) {
+                field[y - ship.getType().getSize()][x].setStatus(status);
             }
 
-            try {
-                field[y - ship.getType().getSize()][x].setStatus(status);
-            } catch (IndexOutOfBoundsException ignored) {
-            }
         } else {
             for (int i = 0; i < ship.getType().getSize() + 2; i++) {
-                // TODO: Rework try try catch
-                try {
-                    field[y + 1][x - 1 + i].setStatus(status);
-                } catch (IndexOutOfBoundsException ignored) {
-                }
 
-                try {
-                    field[y - 1][x - 1 + i].setStatus(status);
-                } catch (IndexOutOfBoundsException ignored) {
+                if (x - 1 + i >= 0 && x - 1 + i < field.length) {
+                    if (y + 1 < field.length) {
+                        field[y + 1][x - 1 + i].setStatus(status);
+                    }
+                    if (y - 1 >= 0) {
+                        field[y - 1][x - 1 + i].setStatus(status);
+                    }
                 }
             }
-            try {
+            if (x - 1 >= 0) {
                 field[y][x - 1].setStatus(status);
-            } catch (IndexOutOfBoundsException ignored) {
             }
-
-            try {
+            if (x + ship.getType().getSize() < field.length) {
                 field[y][x + ship.getType().getSize()].setStatus(status);
-            } catch (IndexOutOfBoundsException ignored) {
             }
         }
     }
@@ -149,11 +138,9 @@ public class ShipsCreator {
             int row = rd.nextInt(10);
             int column = rd.nextInt(10);
             Ship ship = ships.get(i);
-            // TODO: Разобратся с рандомом. Без sleep не работает
             if (rd.nextBoolean()) {
                 ship.setVertical(!ship.isVertical());
             }
-
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
