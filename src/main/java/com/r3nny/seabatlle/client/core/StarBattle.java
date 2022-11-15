@@ -22,7 +22,7 @@ public class StarBattle extends com.badlogic.gdx.Game {
             "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
                     + "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
                     + "1234567890.,:;_¡!¿?'+-*/()[]={}QWERTYUIOP{}|:LKJHGFDSAZXCVBNM<>?qwertyuiop[];lkjhgfdsazxcvbnm,./";
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
 
     public static Stage setUpStage() {
         Stage stage = new Stage(new FitViewport(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT));

@@ -6,9 +6,11 @@ import com.r3nny.seabatlle.client.core.controller.GameController;
 import com.r3nny.seabatlle.client.core.model.Cell;
 import com.r3nny.seabatlle.client.core.model.CellStatus;
 import com.r3nny.seabatlle.client.core.model.GameField;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 public class SingleGame extends Game {
 
@@ -17,9 +19,17 @@ public class SingleGame extends Game {
 
     private List<Cell> cellsToShoot;
 
+    private boolean isNeedToKill = false;
+
+    private Stack<Cell> possibleCellsToShoot;
+
+    private List<Cell> hittedCells;
+
     public SingleGame() {
         playerField = new GameField(PLAYER_FIELD_X, FIELD_Y, true);
         enemy = new GameField(ENEMY_FIELD_X, FIELD_Y, false);
+        this.hittedCells = new ArrayList<>();
+
         cellsToShoot = new ArrayList<>();
         Cell[][] field = playerField.getField();
         for (int i = 0; i < field.length; i++) {
@@ -38,13 +48,67 @@ public class SingleGame extends Game {
             time += Gdx.graphics.getDeltaTime();
         }
         if (Game.status == GameStatus.ENEMY_TURN && time > BOT_THINKING_TIME) {
-            Random rd = new Random();
-            Cell cell = cellsToShoot.get(rd.nextInt(cellsToShoot.size() - 1));
-            if (cell.getStatus() != CellStatus.MISS && cell.getStatus() != CellStatus.KILLED) {
-                GameController.shoot(cell.getRow(), cell.getColumn());
-                time = 0f;
+            if (isNeedToKill) {
+
+                if (possibleCellsToShoot.empty()) {
+                    possibleCellsToShoot = getPossibleCellsToShoot(hittedCells.get(0));
+                } else {
+                    Cell cell = possibleCellsToShoot.pop();
+                    CellStatus status = GameController.shoot(cell.getRow(), cell.getColumn());
+                    if (status == CellStatus.KILLED) {
+                        isNeedToKill = false;
+                        possibleCellsToShoot.clear();
+                        hittedCells.clear();
+                    } else if (status == CellStatus.INJURED) {
+                        hittedCells.add(cell);
+                        possibleCellsToShoot = getPossibleCellsToShoot(cell);
+                    }
+                    time = 0f;
+                    cellsToShoot.remove(cell);
+                }
+            } else {
+                Random rd = new Random();
+                Cell cell = cellsToShoot.get(rd.nextInt(cellsToShoot.size() - 1));
+                if (cell.getStatus() != CellStatus.MISS && cell.getStatus() != CellStatus.KILLED) {
+                    if (GameController.shoot(cell.getRow(), cell.getColumn())
+                            == CellStatus.INJURED) {
+                        isNeedToKill = true;
+                        hittedCells.add(cell);
+                        possibleCellsToShoot = getPossibleCellsToShoot(cell);
+                    }
+                    ;
+                    time = 0f;
+                }
+                cellsToShoot.remove(cell);
             }
-            cellsToShoot.remove(cell);
         }
+    }
+
+    private Stack<Cell> getPossibleCellsToShoot(Cell cell) {
+        Stack<Cell> stack = new Stack<Cell>();
+        int row = cell.getRow();
+        int column = cell.getColumn();
+        Cell[][] field = playerField.getField();
+        if (row - 1 >= 0
+                && (field[row - 1][column].getStatus() != CellStatus.INJURED
+                && field[row - 1][column].getStatus() != CellStatus.MISS)) {
+            stack.push(field[row - 1][column]);
+        }
+        if (row + 1 < field.length
+                && (field[row + 1][column].getStatus() != CellStatus.INJURED
+                && field[row + 1][column].getStatus() != CellStatus.MISS)) {
+            stack.push(field[row + 1][column]);
+        }
+        if (column - 1 >= 0
+                && (field[row][column - 1].getStatus() != CellStatus.INJURED
+                && field[row][column - 1].getStatus() != CellStatus.MISS)) {
+            stack.push(field[row][column - 1]);
+        }
+        if (column + 1 < field.length
+                && (field[row][column + 1].getStatus() != CellStatus.INJURED
+                && field[row][column + 1].getStatus() != CellStatus.MISS)) {
+            stack.push(field[row][column + 1]);
+        }
+        return stack;
     }
 }

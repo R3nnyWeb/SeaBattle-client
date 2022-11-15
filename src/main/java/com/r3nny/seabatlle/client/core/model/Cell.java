@@ -82,6 +82,7 @@ public class Cell extends Actor {
 
         shape.begin();
         Gdx.gl20.glLineWidth(3);
+
         shape.setColor(Color.WHITE);
         shape.rect(getX(), getY(), SIZE, SIZE);
         if (status == CellStatus.NOT_ALLOWED) {
