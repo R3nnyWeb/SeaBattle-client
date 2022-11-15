@@ -51,7 +51,7 @@ public class MenuScreen implements Screen {
         labelStyle.fontColor = new Color(Color.WHITE);
         labelStyle.font = manager.getFont(16);
 
-        Label label = new Label("by Nikita Vashkulatov", labelStyle);
+        Label label = new Label("by Nikita Vashkulatov, design by Danil Ionov", labelStyle);
         label.setPosition(10, 0);
 
         TextButton start = new TextButton("New game", StarBattle.assetsManager.getMenuButtonSkin());
