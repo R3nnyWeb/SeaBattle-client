@@ -43,6 +43,7 @@ public class SingleGame extends Game {
         return playerField.isShipsReady() && enemy.isShipsReady();
     }
 
+    //TODO: Переписать
     public void update() {
         if (Game.status == GameStatus.ENEMY_TURN) {
             time += Gdx.graphics.getDeltaTime();
@@ -84,11 +85,8 @@ public class SingleGame extends Game {
         }
     }
 
-    private Stack<Cell> getPossibleCellsToShoot(Cell cell) {
-        Stack<Cell> stack = new Stack<Cell>();
-        int row = cell.getRow();
-        int column = cell.getColumn();
-        Cell[][] field = playerField.getField();
+
+    private void pushVerticalCells(int row, int column, Cell[][] field, Stack<Cell> stack) {
         if (row - 1 >= 0
                 && (field[row - 1][column].getStatus() != CellStatus.INJURED
                 && field[row - 1][column].getStatus() != CellStatus.MISS)) {
@@ -99,6 +97,9 @@ public class SingleGame extends Game {
                 && field[row + 1][column].getStatus() != CellStatus.MISS)) {
             stack.push(field[row + 1][column]);
         }
+    }
+
+    private void pushGorizontalCells(int row, int column, Cell[][] field, Stack<Cell> stack) {
         if (column - 1 >= 0
                 && (field[row][column - 1].getStatus() != CellStatus.INJURED
                 && field[row][column - 1].getStatus() != CellStatus.MISS)) {
@@ -109,6 +110,23 @@ public class SingleGame extends Game {
                 && field[row][column + 1].getStatus() != CellStatus.MISS)) {
             stack.push(field[row][column + 1]);
         }
+    }
+
+    private Stack<Cell> getPossibleCellsToShoot(Cell cell) {
+        Stack<Cell> stack = new Stack<Cell>();
+        int row = cell.getRow();
+        int column = cell.getColumn();
+        Cell[][] field = playerField.getField();
+        //TODO: Переработать
+        if (cell.getShip().isVertical()) {
+            pushGorizontalCells(row, column, field, stack);
+            pushVerticalCells(row, column, field, stack);
+        } else {
+            pushVerticalCells(row, column, field, stack);
+            pushGorizontalCells(row, column, field, stack);
+        }
+
+
         return stack;
     }
 }
