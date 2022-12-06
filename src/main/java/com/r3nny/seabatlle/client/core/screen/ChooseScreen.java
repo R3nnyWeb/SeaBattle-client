@@ -35,7 +35,7 @@ public class ChooseScreen implements Screen {
 
         singleGame.setSize(261, 257);
         multiGame.setSize(singleGame.getWidth(), singleGame.getHeight());
-        // TODO: Вынести анимации
+        // TODO: Вынести анимации и использовать их при каждом переходе
         Action fadeInAction = Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F));
 
         singleGame.setX(StarBattle.WORLD_WIDTH / 2 - 25 - singleGame.getWidth());
@@ -64,8 +64,6 @@ public class ChooseScreen implements Screen {
                         multiGame.addAction(Actions.fadeOut(0.5F));
                         backButton.addAction(Actions.fadeOut(0.5F));
                         StarBattle.soundManager.playClickSound();
-                        // TODO: Использовать фунцкионгальный интерфейс для анимации при любом
-                        // перееходе
                         singleGame.addAction(
                                 Actions.sequence(
                                         Actions.fadeOut(0.5F),

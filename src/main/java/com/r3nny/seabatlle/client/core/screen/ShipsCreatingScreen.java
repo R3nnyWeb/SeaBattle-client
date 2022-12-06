@@ -72,8 +72,6 @@ public class ShipsCreatingScreen implements Screen {
                         StarBattle.soundManager.stopBattleMusic();
                         playerField.addAction(Actions.fadeOut(0.5F));
                         Game.enemy.addAction(Actions.fadeOut(0.5F));
-                        // TODO: Использовать фунцкионгальный интерфейс для анимации при любом
-                        // перееходе
                         backButton.addAction(
                                 Actions.sequence(
                                         Actions.fadeOut(0.5F),
@@ -113,7 +111,6 @@ public class ShipsCreatingScreen implements Screen {
         stage.addActor(playerField);
         stage.addActor(acceptButton);
         stage.addActor(playerFieldLabel);
-        //        stage.addActor(Game.enemy);
         stage.addActor(backButton);
         stage.setDebugAll(StarBattle.DEBUG);
     }
@@ -160,7 +157,6 @@ public class ShipsCreatingScreen implements Screen {
 
     @Override
     public void dispose() {
-
         stage.dispose();
     }
 }

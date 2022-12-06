@@ -95,14 +95,7 @@ public class Assets {
         manager.load(KILLED_SOUND, Sound.class);
     }
 
-    public void unloadMenuAssets() {
-        manager.unload(MAIN_MENU_BG_PATH);
-        manager.unload(ONE_DECK_SHIP_PATH);
-        manager.unload(TWO_DECK_SHIP_PATH);
-        manager.unload(THREE_DECK_SHIP_PATH);
-        manager.unload(FOUR_DECK_SHIP_PATH);
-        manager.unload(IN_GAME_BACKGROUND);
-    }
+
 
     public Texture getMenuBackground() {
         return manager.get(MAIN_MENU_BG_PATH);

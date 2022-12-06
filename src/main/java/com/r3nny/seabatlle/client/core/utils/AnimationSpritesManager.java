@@ -13,11 +13,11 @@ import com.r3nny.seabatlle.client.core.model.Ship;
 public class AnimationSpritesManager {
 
     // TODO: Вынести все Actions сюда
-    private final Animation injuredAnimation;
-    private final Animation burningAnimation;
-    private final Animation missAnimation;
-    private final Animation shipDestroyingAnimation;
-    private final Animation explosionAnimation;
+    private final Animation<TextureRegion> injuredAnimation;
+    private final Animation<TextureRegion> burningAnimation;
+    private final Animation<TextureRegion> missAnimation;
+    private final Animation<TextureRegion> shipDestroyingAnimation;
+    private final Animation<TextureRegion> explosionAnimation;
 
     public AnimationSpritesManager() {
         this.injuredAnimation =
@@ -32,7 +32,7 @@ public class AnimationSpritesManager {
                 loadAnimation(StarBattle.assetsManager.getExplosionAnimation(), 13, 1, 0.07f);
     }
 
-    private Animation loadAnimation(Texture sheet, int rows, int cols, float duration) {
+    private Animation<TextureRegion> loadAnimation(Texture sheet, int rows, int cols, float duration) {
         TextureRegion[][] tmp =
                 TextureRegion.split(sheet, sheet.getWidth() / cols, sheet.getHeight() / rows);
         TextureRegion[] frames = new TextureRegion[cols * rows];
@@ -42,26 +42,26 @@ public class AnimationSpritesManager {
                 frames[index++] = tmp[i][j];
             }
         }
-        return new Animation(duration, frames);
+        return new Animation<>(duration, frames);
     }
 
-    public Animation getInjuredAnimation() {
+    public Animation<TextureRegion> getInjuredAnimation() {
         return injuredAnimation;
     }
 
-    public Animation getBurningAnimation() {
+    public Animation<TextureRegion> getBurningAnimation() {
         return burningAnimation;
     }
 
-    public Animation getMissAnimation() {
+    public Animation<TextureRegion> getMissAnimation() {
         return missAnimation;
     }
 
-    public Animation getShipDestroyingAnimation() {
+    public Animation<TextureRegion> getShipDestroyingAnimation() {
         return shipDestroyingAnimation;
     }
 
-    public Animation getExplosionAnimation() {
+    public Animation<TextureRegion> getExplosionAnimation() {
         return explosionAnimation;
     }
 
@@ -78,11 +78,10 @@ public class AnimationSpritesManager {
                             Actions.moveTo(ship.getX(), ship.getY() + 40),
                             Actions.moveTo(ship.getX(), ship.getY(), 1F));
         }
-        Action action =
-                Actions.sequence(
-                        Actions.parallel(
-                                sequence, Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F))),
-                        Actions.run(run));
-        return action;
+        return Actions.sequence(
+                Actions.parallel(
+                        sequence, Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F))),
+                Actions.run(run));
     }
 }
+

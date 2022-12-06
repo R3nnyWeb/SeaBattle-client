@@ -24,7 +24,7 @@ public class GameField extends Group {
     private boolean isShipsReady;
     private final Cell[][] field;
     private final List<Ship> ships;
-    private ShipsCreatingArea area;
+    private final ShipsCreatingArea area;
 
     public GameField(float x, float y, boolean isPlayer) {
         this.isPlayer = isPlayer;
@@ -44,6 +44,7 @@ public class GameField extends Group {
         }
     }
 
+    // TODO: Подумать
     private void initStartCoords(ShipsCreatingArea area) {
         float x = area.controlHelp.getX();
 

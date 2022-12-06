@@ -18,10 +18,6 @@ public class StarBattle extends com.badlogic.gdx.Game {
     public static final float WORLD_WIDTH = 1024;
     public static final float WORLD_HEIGHT = 576;
 
-    public static final String RUSSIAN_CHARACTERS =
-            "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
-                    + "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
-                    + "1234567890.,:;_¡!¿?'+-*/()[]={}QWERTYUIOP{}|:LKJHGFDSAZXCVBNM<>?qwertyuiop[];lkjhgfdsazxcvbnm,./";
     public static boolean DEBUG = false;
 
     public static Stage setUpStage() {
