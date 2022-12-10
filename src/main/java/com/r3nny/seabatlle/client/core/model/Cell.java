@@ -19,12 +19,10 @@ import com.r3nny.seabatlle.client.core.controller.GameController;
 public class Cell extends Actor {
 
     public static final float SIZE = 31.37f;
-    //   public static final float SIZE = 32f;
 
     private final int column;
     private final int row;
     private Ship ship;
-    private Texture texture;
     private CellStatus status;
     private final ShapeRenderer shape;
 
@@ -48,7 +46,6 @@ public class Cell extends Actor {
         this.missAnimation = StarBattle.animationManager.getMissAnimation();
         this.explosionAnimation = StarBattle.animationManager.getExplosionAnimation();
         this.status = status;
-        texture = StarBattle.assetsManager.getInjuredCell();
         shape = new ShapeRenderer();
         shape.setAutoShapeType(true);
         this.setBounds(x, y, SIZE, SIZE);
@@ -58,16 +55,11 @@ public class Cell extends Actor {
                     public boolean touchDown(
                             InputEvent event, float x, float y, int pointer, int button) {
                         if (Game.status == GameStatus.PLAYER_TURN) {
-                            // TODO: logging
                             GameController.shoot(Cell.this.row, Cell.this.column);
                         }
                         return true;
                     }
 
-                    public void touchUp(
-                            InputEvent event, float x, float y, int pointer, int button) {
-                        System.out.println("up " + Cell.this);
-                    }
                 });
     }
 
@@ -130,7 +122,6 @@ public class Cell extends Actor {
         }
 
         batch.setColor(color.r, color.g, color.b, 1f);
-        //        batch.draw(new Texture("cell.png"),getX(),getY(),Cell.SIZE,Cell.SIZE);
 
     }
 

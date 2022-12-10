@@ -84,8 +84,6 @@ public class SingleGameScreen implements Screen {
                         StarBattle.soundManager.playClickSound();
                         playerField.addAction(Actions.fadeOut(0.5F));
                         enemy.addAction(Actions.fadeOut(0.5F));
-                        // TODO: Использовать фунцкионгальный интерфейс для анимации при любом
-                        // перееходе
                         backButton.addAction(
                                 Actions.sequence(
                                         Actions.fadeOut(0.5F),
@@ -149,7 +147,6 @@ public class SingleGameScreen implements Screen {
     @Override
     public void show() {}
 
-    // TODO: Сделать ShipsManager для отслеживания оставшихся кораблей
     private boolean isEnemyDead() {
         var enemy = Game.enemy.getShips();
         for (Ship ship : enemy) {
