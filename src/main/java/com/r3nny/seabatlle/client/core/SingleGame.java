@@ -6,7 +6,6 @@ import com.r3nny.seabatlle.client.core.controller.GameController;
 import com.r3nny.seabatlle.client.core.model.Cell;
 import com.r3nny.seabatlle.client.core.model.CellStatus;
 import com.r3nny.seabatlle.client.core.model.GameField;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -43,7 +42,7 @@ public class SingleGame extends Game {
         return playerField.isShipsReady() && enemy.isShipsReady();
     }
 
-    //TODO: Переписать
+    // TODO: Переписать
     public void update() {
         if (Game.status == GameStatus.ENEMY_TURN) {
             time += Gdx.graphics.getDeltaTime();
@@ -85,16 +84,15 @@ public class SingleGame extends Game {
         }
     }
 
-
     private void pushVerticalCells(int row, int column, Cell[][] field, Stack<Cell> stack) {
         if (row - 1 >= 0
                 && (field[row - 1][column].getStatus() != CellStatus.INJURED
-                && field[row - 1][column].getStatus() != CellStatus.MISS)) {
+                        && field[row - 1][column].getStatus() != CellStatus.MISS)) {
             stack.push(field[row - 1][column]);
         }
         if (row + 1 < field.length
                 && (field[row + 1][column].getStatus() != CellStatus.INJURED
-                && field[row + 1][column].getStatus() != CellStatus.MISS)) {
+                        && field[row + 1][column].getStatus() != CellStatus.MISS)) {
             stack.push(field[row + 1][column]);
         }
     }
@@ -102,12 +100,12 @@ public class SingleGame extends Game {
     private void pushGorizontalCells(int row, int column, Cell[][] field, Stack<Cell> stack) {
         if (column - 1 >= 0
                 && (field[row][column - 1].getStatus() != CellStatus.INJURED
-                && field[row][column - 1].getStatus() != CellStatus.MISS)) {
+                        && field[row][column - 1].getStatus() != CellStatus.MISS)) {
             stack.push(field[row][column - 1]);
         }
         if (column + 1 < field.length
                 && (field[row][column + 1].getStatus() != CellStatus.INJURED
-                && field[row][column + 1].getStatus() != CellStatus.MISS)) {
+                        && field[row][column + 1].getStatus() != CellStatus.MISS)) {
             stack.push(field[row][column + 1]);
         }
     }
@@ -117,7 +115,7 @@ public class SingleGame extends Game {
         int row = cell.getRow();
         int column = cell.getColumn();
         Cell[][] field = playerField.getField();
-        //TODO: Переработать
+        // TODO: Переработать
         if (cell.getShip().isVertical()) {
             pushGorizontalCells(row, column, field, stack);
             pushVerticalCells(row, column, field, stack);
@@ -125,7 +123,6 @@ public class SingleGame extends Game {
             pushVerticalCells(row, column, field, stack);
             pushGorizontalCells(row, column, field, stack);
         }
-
 
         return stack;
     }

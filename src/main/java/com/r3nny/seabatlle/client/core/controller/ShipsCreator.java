@@ -139,7 +139,7 @@ public class ShipsCreator {
             int column = rd.nextInt(10);
             Ship ship = ships.get(i);
             if (rd.nextBoolean()) {
-                ship.setVertical(!ship.isVertical());
+                ship.rotate();
             }
             try {
                 Thread.sleep(10);

@@ -3,10 +3,11 @@ package com.r3nny.seabatlle.client.core.controller;
 
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.model.Cell;
+import java.util.Optional;
 
 public class CellsController {
 
-    public static Cell getCellByCoord(float x, float y) {
+    public static Optional<Cell> getCellByCoord(float x, float y) {
         Cell[][] field = Game.playerField.getField();
         for (Cell[] cells : field) {
             for (int j = 0; j < field.length; j++) {
@@ -16,10 +17,10 @@ public class CellsController {
                 float endX = startX + cells[j].getWidth();
                 float endY = startY + cells[j].getHeight();
                 if ((x > startX) && (x < endX) && (y > startY) && (y < endY)) {
-                    return currentCell;
+                    return Optional.of(currentCell);
                 }
             }
         }
-        return null;
+        return Optional.empty();
     }
 }
