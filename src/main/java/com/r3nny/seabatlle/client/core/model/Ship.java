@@ -192,7 +192,7 @@ public class Ship extends Actor {
     public void makeCellsKilled() {
         this.isKilled = true;
         for (Cell c : cells) {
-            c.setStatus(CellStatus.KILLED);
+            c.setKilled();
         }
     }
 

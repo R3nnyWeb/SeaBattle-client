@@ -132,7 +132,7 @@ public class ShipsCreatingScreen implements Screen {
         }
 
         if (game.isShipsReady()) {
-            playerField.clearAllNotAllowed();
+            playerField.clearAllMissed();
             StarBattle seabatlle = ((StarBattle) Gdx.app.getApplicationListener());
             stage.clear();
             seabatlle.setScreen(new SingleGameScreen(game));

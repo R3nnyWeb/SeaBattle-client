@@ -15,6 +15,16 @@ import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.GameController;
 
+
+enum CellStatus {
+    SEA,
+    MISS,
+    HEALTHY,
+    INJURED,
+    KILLED
+}
+
+
 public class Cell extends Actor {
 
     public static final float SIZE = 31.37f;
@@ -67,16 +77,7 @@ public class Cell extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        setUpShapeRenderer(batch);
-        drawCell();
-
-        if (isNotAllowed()) {
-            shape.setColor(Color.RED);
-            shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 8);
-        }
-        tearDownShapeRenderer();
-
-
+        drawBorders(batch);
 
         batch.begin();
         Color color = getColor();
@@ -93,7 +94,7 @@ public class Cell extends Actor {
                 batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
             }
         }
-        if (status == CellStatus.KILLED) {
+        if (isKilled()) {
             explosionTime += Gdx.graphics.getDeltaTime();
             TextureRegion currentFrame =
                     (TextureRegion) explosionAnimation.getKeyFrame(explosionTime, false);
@@ -119,7 +120,11 @@ public class Cell extends Actor {
     }
 
 
-
+    private void drawBorders(Batch batch) {
+        setUpShapeRenderer(batch);
+        shape.rect(getX(), getY(), SIZE, SIZE);
+        tearDownShapeRenderer();
+    }
 
     private void setUpShapeRenderer(Batch batch) {
         batch.end();
@@ -129,32 +134,26 @@ public class Cell extends Actor {
         shape.setColor(Color.WHITE);
     }
 
-    private void drawCell() {
-        shape.rect(getX(), getY(), SIZE, SIZE);
-    }
 
     private void tearDownShapeRenderer() {
         shape.end();
     }
 
-    public boolean isNotAllowed() {
-        return  status == CellStatus.NOT_ALLOWED;
-    }
     public boolean isMissed(){
         return  status == CellStatus.MISS;
     }
 
 
-    public boolean isHaveHealthyShip(){
+    public boolean isHealthy(){
         return  status == CellStatus.HEALTHY;
     }
-    public boolean isHaveInjuredShip(){
+    public boolean isInjured(){
         return  status == CellStatus.INJURED;
     }
     public boolean isSea(){
         return  status == CellStatus.SEA;
     }
-    public boolean isHaveKilledShip(){
+    public boolean isKilled(){
         return  status == CellStatus.KILLED;
     }
 
@@ -174,9 +173,7 @@ public class Cell extends Actor {
     public void setKilled(){
         this.status = CellStatus.KILLED;
     }
-    public void setNotAllowed(){
-        this.status = CellStatus.NOT_ALLOWED;
-    }
+
 
 
 

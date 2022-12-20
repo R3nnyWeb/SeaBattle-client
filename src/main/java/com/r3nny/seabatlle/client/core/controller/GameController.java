@@ -5,7 +5,6 @@ import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.model.Cell;
-import com.r3nny.seabatlle.client.core.model.CellStatus;
 import com.r3nny.seabatlle.client.core.model.Ship;
 
 import static com.r3nny.seabatlle.client.core.Game.enemy;
@@ -13,7 +12,7 @@ import static com.r3nny.seabatlle.client.core.Game.playerField;
 
 public class GameController {
 
-    public static CellStatus shoot(int row, int column) {
+    public static void shoot(int row, int column) {
         Cell cell = getHittedCell(row, column);
         if (isShotMissed(cell)) {
             changeGameTurn();
@@ -24,7 +23,6 @@ public class GameController {
                 if (isKilling(cell)) makeKilled(cell);
             }
         }
-        return cell.getStatus();
     }
 
     private static Cell getHittedCell(int row, int column) {
@@ -56,15 +54,15 @@ public class GameController {
 
     private static void makeMiss(Cell cell) {
         StarBattle.soundManager.playMissSound();
-        cell.setStatus(CellStatus.MISS);
+        cell.setMiss();
     }
 
     private static boolean isShotHitted(Cell cell) {
-        return cell.getStatus() == CellStatus.HEALTHY;
+        return cell.isHealthy();
     }
 
     private static void makeInured(Cell cell) {
-        cell.setStatus(CellStatus.INJURED);
+        cell.setInjured();
         StarBattle.soundManager.playInjuredSound();
     }
 
@@ -72,7 +70,7 @@ public class GameController {
         Ship ship = cell.getShip();
         Cell[] cells = ship.getCells();
         for (Cell c : cells) {
-            if (c.getStatus() == CellStatus.HEALTHY) {
+            if (c.isHealthy()) {
                 return false;
             }
         }

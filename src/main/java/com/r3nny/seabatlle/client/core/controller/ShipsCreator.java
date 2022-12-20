@@ -49,25 +49,25 @@ public class ShipsCreator {
         return true;
     }
 
-    public static void changeCellsStatusAroundShip(Ship ship, Cell[][] field, CellStatus status) {
+    public static void changeCellsStatusAroundShip(Ship ship, Cell[][] field) {
         int x = ship.getCells()[0].getColumn();
         int y = ship.getCells()[0].getRow();
         if (ship.isVertical()) {
             for (int i = 0; i < ship.getType().getSize() + 2; i++) {
                 if (y - i + 1 >= 0 && y - i + 1 < field.length) {
                     if (x + 1 < field.length) {
-                        field[y - i + 1][x + 1].setStatus(status);
+                        field[y - i + 1][x + 1].setMiss();
                     }
                     if (x - 1 >= 0) {
-                        field[y - i + 1][x - 1].setStatus(status);
+                        field[y - i + 1][x - 1].setMiss();
                     }
                 }
             }
             if (y + 1 < field.length) {
-                field[y + 1][x].setStatus(status);
+                field[y + 1][x].setMiss();
             }
             if (y - ship.getType().getSize() >= 0) {
-                field[y - ship.getType().getSize()][x].setStatus(status);
+                field[y - ship.getType().getSize()][x].setMiss();
             }
 
         } else {
@@ -75,18 +75,18 @@ public class ShipsCreator {
 
                 if (x - 1 + i >= 0 && x - 1 + i < field.length) {
                     if (y + 1 < field.length) {
-                        field[y + 1][x - 1 + i].setStatus(status);
+                        field[y + 1][x - 1 + i].setMiss();
                     }
                     if (y - 1 >= 0) {
-                        field[y - 1][x - 1 + i].setStatus(status);
+                        field[y - 1][x - 1 + i].setMiss();
                     }
                 }
             }
             if (x - 1 >= 0) {
-                field[y][x - 1].setStatus(status);
+                field[y][x - 1].setMiss();
             }
             if (x + ship.getType().getSize() < field.length) {
-                field[y][x + ship.getType().getSize()].setStatus(status);
+                field[y][x + ship.getType().getSize()].setMiss();
             }
         }
     }
@@ -105,17 +105,18 @@ public class ShipsCreator {
 
         if (ship.isVertical()) {
             for (int i = 0; i < shipCells.length; i++) {
-                field[y - i][x].setStatus(CellStatus.HEALTHY);
+                field[y - i][x].setHealthy();
                 shipCells[i] = field[y - i][x];
             }
         } else {
             for (int i = 0; i < shipCells.length; i++) {
-                field[y][x + i].setStatus(CellStatus.HEALTHY);
+                field[y][x + i].setHealthy();
                 shipCells[i] = field[y][x + i];
             }
         }
         ship.setCells(shipCells);
-        changeCellsStatusAroundShip(ship, field, CellStatus.MISS);
+        //TODO: Переделать. Мешает сделать CellStatus приватным
+        changeCellsStatusAroundShip(ship, field);
 
         ship.setX(shipCells[0].getX());
         ship.setY(shipCells[0].getY());

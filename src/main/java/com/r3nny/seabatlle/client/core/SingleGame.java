@@ -4,7 +4,6 @@ package com.r3nny.seabatlle.client.core;
 import com.badlogic.gdx.Gdx;
 import com.r3nny.seabatlle.client.core.controller.GameController;
 import com.r3nny.seabatlle.client.core.model.Cell;
-import com.r3nny.seabatlle.client.core.model.CellStatus;
 import com.r3nny.seabatlle.client.core.model.GameField;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,12 +53,12 @@ public class SingleGame extends Game {
                     possibleCellsToShoot = getPossibleCellsToShoot(hittedCells.get(0));
                 } else {
                     Cell cell = possibleCellsToShoot.pop();
-                    CellStatus status = GameController.shoot(cell.getRow(), cell.getColumn());
-                    if (status == CellStatus.KILLED) {
+                     GameController.shoot(cell.getRow(), cell.getColumn());
+                    if (cell.isKilled()) {
                         isNeedToKill = false;
                         possibleCellsToShoot.clear();
                         hittedCells.clear();
-                    } else if (status == CellStatus.INJURED) {
+                    } else if (cell.isInjured()) {
                         hittedCells.add(cell);
                         possibleCellsToShoot = getPossibleCellsToShoot(cell);
                     }
@@ -69,9 +68,9 @@ public class SingleGame extends Game {
             } else {
                 Random rd = new Random();
                 Cell cell = cellsToShoot.get(rd.nextInt(cellsToShoot.size() - 1));
-                if (cell.getStatus() != CellStatus.MISS && cell.getStatus() != CellStatus.KILLED) {
-                    if (GameController.shoot(cell.getRow(), cell.getColumn())
-                            == CellStatus.INJURED) {
+                if(!cell.isMissed() && !cell.isKilled()) {
+                    GameController.shoot(cell.getRow(), cell.getColumn());
+                    if (cell.isInjured()) {
                         isNeedToKill = true;
                         hittedCells.add(cell);
                         possibleCellsToShoot = getPossibleCellsToShoot(cell);
@@ -86,26 +85,26 @@ public class SingleGame extends Game {
 
     private void pushVerticalCells(int row, int column, Cell[][] field, Stack<Cell> stack) {
         if (row - 1 >= 0
-                && (field[row - 1][column].getStatus() != CellStatus.INJURED
-                        && field[row - 1][column].getStatus() != CellStatus.MISS)) {
+                && (!field[row - 1][column].isInjured()
+                        && !field[row - 1][column].isMissed())) {
             stack.push(field[row - 1][column]);
         }
         if (row + 1 < field.length
-                && (field[row + 1][column].getStatus() != CellStatus.INJURED
-                        && field[row + 1][column].getStatus() != CellStatus.MISS)) {
+                && (!field[row + 1][column].isInjured()
+                        && !field[row + 1][column].isMissed())) {
             stack.push(field[row + 1][column]);
         }
     }
 
     private void pushHorizontalCells(int row, int column, Cell[][] field, Stack<Cell> stack) {
         if (column - 1 >= 0
-                && (field[row][column - 1].getStatus() != CellStatus.INJURED
-                        && field[row][column - 1].getStatus() != CellStatus.MISS)) {
+                && (!field[row][column - 1].isInjured()
+                        && !field[row][column - 1].isMissed())) {
             stack.push(field[row][column - 1]);
         }
         if (column + 1 < field.length
-                && (field[row][column + 1].getStatus() != CellStatus.INJURED
-                        && field[row][column + 1].getStatus() != CellStatus.MISS)) {
+                && (!field[row][column + 1].isInjured()
+                        && !field[row][column + 1].isMissed())) {
             stack.push(field[row][column + 1]);
         }
     }

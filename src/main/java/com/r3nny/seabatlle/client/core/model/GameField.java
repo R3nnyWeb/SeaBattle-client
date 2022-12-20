@@ -103,7 +103,7 @@ public class GameField extends Group {
     public void killShip(Ship ship) {
         ship.makeCellsKilled();
         decByShipType(ship.getType());
-        ShipsCreator.changeCellsStatusAroundShip(ship, playerField.getField(), CellStatus.MISS);
+        ShipsCreator.changeCellsStatusAroundShip(ship, playerField.getField());
         removeActor(ship);
     }
 
@@ -114,7 +114,7 @@ public class GameField extends Group {
         }
         for (Cell[] cells : field) {
             for (int j = 0; j < field.length; j++) {
-                cells[j].setStatus(SEA);
+                cells[j].setSea();
             }
         }
         ShipsCreator.autoCreateShips(this);
@@ -131,7 +131,7 @@ public class GameField extends Group {
             }
         }
         StarBattle.soundManager.playShipEnterSound();
-        clearAllNotAllowed();
+        clearAllMissed();
         if (!isPlayer) {
             this.isShipsReady = true;
         }
@@ -139,13 +139,14 @@ public class GameField extends Group {
 
     public void removeArea() {
         super.removeActor(area);
+
     }
 
-    public void clearAllNotAllowed() {
+    public void clearAllMissed() {
         for (Cell[] cells : field) {
             for (int j = 0; j < field.length; j++) {
-                if (cells[j].getStatus() == NOT_ALLOWED || cells[j].getStatus() == MISS) {
-                    cells[j].setStatus(SEA);
+                if (cells[j].isMissed()) {
+                    cells[j].setSea();
                 }
             }
         }
