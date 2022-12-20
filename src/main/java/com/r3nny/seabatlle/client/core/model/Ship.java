@@ -1,5 +1,7 @@
-/* (C)2022 */
+/* Nikita Vashkulatov(C)2022 */
 package com.r3nny.seabatlle.client.core.model;
+
+import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isShipLanding;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -14,27 +16,24 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.StarBattle;
-import com.r3nny.seabatlle.client.core.controller.CellsController;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
-
 import java.util.Optional;
-
-import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isShipLanding;
 
 public class Ship extends Actor {
     private final ShipType type;
-    private final ShapeRenderer shape;
     private Cell[] cells;
     private float startX;
     private float startY;
     private boolean isVertical;
-    private Sprite sprite;
     private boolean isSelected;
     private boolean isKilled;
     private final Animation destroyingAnimation;
+    private final ShapeRenderer shape;
+    private final Sprite sprite;
     private float stateTime = 0F;
 
     private class ShipInputListener extends InputListener {
+
         @Override
         public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
             unSelectShip();
@@ -73,7 +72,8 @@ public class Ship extends Actor {
                 Optional<Cell> optionalCell = getCellFromEvent(event);
                 if (optionalCell.isPresent()) {
                     Cell cell = optionalCell.get();
-                    if (ShipsCreator.canCreateInCell(cell, Ship.this, Game.playerField.getField())) {
+                    if (ShipsCreator.canCreateInCell(
+                            cell, Ship.this, Game.playerField.getField())) {
                         updatePosition(cell.getX(), cell.getY());
                         createAndAnimateShip(cell);
                     } else {
@@ -88,19 +88,37 @@ public class Ship extends Actor {
         private void createAndAnimateShip(Cell cell) {
             isShipLanding = true;
             Ship.this.addAction(
-                    StarBattle.animationManager.getShipEnterAction(Ship.this,
+                    StarBattle.animationManager.getShipEnterAction(
+                            Ship.this,
                             () -> {
                                 ShipsCreator.addShipToGameField(cell, Ship.this, Game.playerField);
                                 isShipLanding = false;
                                 ShipsCreator.createdPlayerShips++;
-                                Game.playerField.setShipsReady(ShipsCreator.createdPlayerShips == ShipsCreator.shipTypes.length);
+                                Game.playerField.setShipsReady(
+                                        ShipsCreator.createdPlayerShips
+                                                == ShipsCreator.shipTypes.length);
                             }));
             StarBattle.soundManager.playShipEnterSound();
             updateBounds();
         }
 
         private Optional<Cell> getCellFromEvent(InputEvent event) {
-            return CellsController.getCellByCoord(event.getStageX() - 5, event.getStageY() - 5);
+            float x = event.getStageX() - 5;
+            float y = event.getStageY() - 5;
+            Cell[][] field = Game.playerField.getField();
+            for (Cell[] cells : field) {
+                for (int j = 0; j < field.length; j++) {
+                    Cell currentCell = cells[j];
+                    float startX = cells[j].getX();
+                    float startY = cells[j].getY();
+                    float endX = startX + cells[j].getWidth();
+                    float endY = startY + cells[j].getHeight();
+                    if ((x > startX) && (x < endX) && (y > startY) && (y < endY)) {
+                        return Optional.of(currentCell);
+                    }
+                }
+            }
+            return Optional.empty();
         }
     }
 
@@ -142,8 +160,6 @@ public class Ship extends Actor {
         Ship.this.isSelected = false;
     }
 
-
-
     private Sprite initSprite() {
         Sprite texture;
         switch (type) {
@@ -173,7 +189,7 @@ public class Ship extends Actor {
         return isKilled;
     }
 
-    public void kill() {
+    public void makeCellsKilled() {
         this.isKilled = true;
         for (Cell c : cells) {
             c.setStatus(CellStatus.KILLED);
@@ -183,16 +199,13 @@ public class Ship extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        if (isSelected)
-            drawBounds(batch);
+        if (isSelected) drawBounds(batch);
 
         Color color = getColor();
         sprite.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         sprite.setPosition(getX(), getY());
-        if (isKilled)
-            drawKilled(batch);
-        else
-            sprite.draw(batch);
+        if (isKilled) drawKilled(batch);
+        else sprite.draw(batch);
 
         sprite.setColor(color.r, color.g, color.b, 1f);
     }
@@ -214,16 +227,13 @@ public class Ship extends Actor {
         }
     }
 
-
     private void drawBounds(Batch batch) {
         batch.end();
         shape.setProjectionMatrix(batch.getProjectionMatrix());
         shape.begin(ShapeRenderer.ShapeType.Line);
         shape.setColor(Color.WHITE);
-        if (isVertical)
-            shape.rect(getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
-        else
-            shape.rect(getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);
+        if (isVertical) shape.rect(getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
+        else shape.rect(getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);
 
         shape.end();
         batch.begin();
@@ -277,7 +287,6 @@ public class Ship extends Actor {
     public Cell[] getCells() {
         return cells;
     }
-
 
     public void setCells(Cell[] cells) {
         this.cells = cells;

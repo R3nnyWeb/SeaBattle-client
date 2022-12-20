@@ -1,9 +1,8 @@
-/* (C)2022 */
+/* Nikita Vashkulatov(C)2022 */
 package com.r3nny.seabatlle.client.core.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -35,17 +34,17 @@ public class Cell extends Actor {
     private final Animation missAnimation;
     private final Animation explosionAnimation;
 
-    public Cell(float x, float y, int column, int row, Ship ship, CellStatus status) {
+    public Cell(float x, float y, int column, int row) {
         this.column = column;
         this.row = row;
-        this.ship = ship;
+        this.ship = null;
         super.setX(x);
         super.setY(y);
         this.injuredAnimation = StarBattle.animationManager.getInjuredAnimation();
         this.burningAnimation = StarBattle.animationManager.getBurningAnimation();
         this.missAnimation = StarBattle.animationManager.getMissAnimation();
         this.explosionAnimation = StarBattle.animationManager.getExplosionAnimation();
-        this.status = status;
+        this.status = CellStatus.SEA;
         shape = new ShapeRenderer();
         shape.setAutoShapeType(true);
         this.setBounds(x, y, SIZE, SIZE);
@@ -59,7 +58,6 @@ public class Cell extends Actor {
                         }
                         return true;
                     }
-
                 });
     }
 
@@ -69,20 +67,16 @@ public class Cell extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.end();
-        shape.setProjectionMatrix(batch.getProjectionMatrix());
+        setUpShapeRenderer(batch);
+        drawCell();
 
-        shape.begin();
-        Gdx.gl20.glLineWidth(3);
-
-        shape.setColor(Color.WHITE);
-        shape.rect(getX(), getY(), SIZE, SIZE);
-        if (status == CellStatus.NOT_ALLOWED) {
+        if (isNotAllowed()) {
             shape.setColor(Color.RED);
             shape.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 8);
         }
+        tearDownShapeRenderer();
 
-        shape.end();
+
 
         batch.begin();
         Color color = getColor();
@@ -122,12 +116,72 @@ public class Cell extends Actor {
         }
 
         batch.setColor(color.r, color.g, color.b, 1f);
-
     }
+
+
+
+
+    private void setUpShapeRenderer(Batch batch) {
+        batch.end();
+        shape.setProjectionMatrix(batch.getProjectionMatrix());
+        shape.begin();
+        Gdx.gl20.glLineWidth(3);
+        shape.setColor(Color.WHITE);
+    }
+
+    private void drawCell() {
+        shape.rect(getX(), getY(), SIZE, SIZE);
+    }
+
+    private void tearDownShapeRenderer() {
+        shape.end();
+    }
+
+    public boolean isNotAllowed() {
+        return  status == CellStatus.NOT_ALLOWED;
+    }
+    public boolean isMissed(){
+        return  status == CellStatus.MISS;
+    }
+
+
+    public boolean isHaveHealthyShip(){
+        return  status == CellStatus.HEALTHY;
+    }
+    public boolean isHaveInjuredShip(){
+        return  status == CellStatus.INJURED;
+    }
+    public boolean isSea(){
+        return  status == CellStatus.SEA;
+    }
+    public boolean isHaveKilledShip(){
+        return  status == CellStatus.KILLED;
+    }
+
+    public void setSea(){
+        this.status = CellStatus.SEA;
+    }
+    public void setMiss(){
+        this.status = CellStatus.MISS;
+    }
+
+    public  void setHealthy(){
+        this.status = CellStatus.HEALTHY;
+    }
+    public void setInjured(){
+        this.status = CellStatus.INJURED;
+    }
+    public void setKilled(){
+        this.status = CellStatus.KILLED;
+    }
+    public void setNotAllowed(){
+        this.status = CellStatus.NOT_ALLOWED;
+    }
+
+
 
     @Override
     public void drawDebug(ShapeRenderer shapes) {
-
         if (status == CellStatus.HEALTHY) {
             shapes.setColor(Color.GREEN);
             shapes.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);

@@ -1,10 +1,6 @@
-/* (C)2022 */
+/* Nikita Vashkulatov(C)2022 */
 package com.r3nny.seabatlle.client.core.controller;
 
-import static com.r3nny.seabatlle.client.core.Game.enemy;
-import static com.r3nny.seabatlle.client.core.Game.playerField;
-
-import com.badlogic.gdx.Gdx;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.StarBattle;
@@ -12,7 +8,65 @@ import com.r3nny.seabatlle.client.core.model.Cell;
 import com.r3nny.seabatlle.client.core.model.CellStatus;
 import com.r3nny.seabatlle.client.core.model.Ship;
 
+import static com.r3nny.seabatlle.client.core.Game.enemy;
+import static com.r3nny.seabatlle.client.core.Game.playerField;
+
 public class GameController {
+
+    public static CellStatus shoot(int row, int column) {
+        Cell cell = getHittedCell(row, column);
+        if (isShotMissed(cell)) {
+            changeGameTurn();
+            makeMiss(cell);
+        } else {
+            if (isShotHitted(cell)) {
+                makeInured(cell);
+                if (isKilling(cell)) makeKilled(cell);
+            }
+        }
+        return cell.getStatus();
+    }
+
+    private static Cell getHittedCell(int row, int column) {
+        return isPlayerTurn()
+                ? Game.enemy.getField()[row][column]
+                : Game.playerField.getField()[row][column];
+    }
+
+    private static boolean isPlayerTurn() {
+        return Game.status == GameStatus.PLAYER_TURN;
+    }
+
+    private static boolean isShotMissed(Cell cell) {
+        return cell.isSea();
+    }
+
+    private static void changeGameTurn() {
+        if (isPlayerTurn()) setEnemyTurn();
+        else setPlayerTurn();
+    }
+
+    private static void setEnemyTurn() {
+        Game.status = GameStatus.ENEMY_TURN;
+    }
+
+    private static void setPlayerTurn() {
+        Game.status = GameStatus.PLAYER_TURN;
+    }
+
+    private static void makeMiss(Cell cell) {
+        StarBattle.soundManager.playMissSound();
+        cell.setStatus(CellStatus.MISS);
+    }
+
+    private static boolean isShotHitted(Cell cell) {
+        return cell.getStatus() == CellStatus.HEALTHY;
+    }
+
+    private static void makeInured(Cell cell) {
+        cell.setStatus(CellStatus.INJURED);
+        StarBattle.soundManager.playInjuredSound();
+    }
 
     private static boolean isKilling(Cell cell) {
         Ship ship = cell.getShip();
@@ -22,48 +76,13 @@ public class GameController {
                 return false;
             }
         }
-        ship.kill();
-        if (Game.status == GameStatus.ENEMY_TURN) {
-            playerField.decByShipType(ship.getType());
-            ShipsCreator.changeCellsStatusAroundShip(ship, playerField.getField(), CellStatus.MISS);
-            playerField.removeActor(ship);
-        } else {
-            enemy.decByShipType(ship.getType());
-            ShipsCreator.changeCellsStatusAroundShip(ship, enemy.getField(), CellStatus.MISS);
-        }
         return true;
     }
 
-    public static CellStatus shoot(int row, int column) {
-        Gdx.app.log(Game.status.toString(), row + " " + column + "");
-
-        // TODO : REWORK
-
-        Cell cell;
-        if (Game.status == GameStatus.PLAYER_TURN) {
-            cell = Game.enemy.getField()[row][column];
-        } else {
-            cell = playerField.getField()[row][column];
-        }
-
-        if (cell.getStatus() == CellStatus.SEA) {
-            if (Game.status == GameStatus.PLAYER_TURN) {
-                Game.status = GameStatus.ENEMY_TURN;
-            } else {
-                Game.status = GameStatus.PLAYER_TURN;
-            }
-            StarBattle.soundManager.playMissSound();
-            cell.setStatus(CellStatus.MISS);
-        }
-        if (cell.getStatus() == CellStatus.HEALTHY) {
-            cell.setStatus(CellStatus.INJURED);
-            if (isKilling(cell)) {
-                StarBattle.soundManager.playKilledSound();
-            } else {
-                StarBattle.soundManager.playInjuredSound();
-            }
-        }
-
-        return cell.getStatus();
+    private static void makeKilled(Cell cell) {
+        Ship ship = cell.getShip();
+        if (isPlayerTurn()) enemy.killShip(ship);
+        else playerField.killShip(ship);
+        StarBattle.soundManager.playKilledSound();
     }
 }

@@ -1,6 +1,7 @@
-/* (C)2022 */
+/* Nikita Vashkulatov(C)2022 */
 package com.r3nny.seabatlle.client.core.model;
 
+import static com.r3nny.seabatlle.client.core.Game.playerField;
 import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isShipLanding;
 import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.shipTypes;
 import static com.r3nny.seabatlle.client.core.model.CellStatus.*;
@@ -92,11 +93,18 @@ public class GameField extends Group {
         Cell[][] field = new Cell[FIELD_SIZE][FIELD_SIZE];
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field.length; j++) {
-                field[i][j] = new Cell(x + Cell.SIZE * j, y - Cell.SIZE * i, j, i, null, SEA);
+                field[i][j] = new Cell(x + Cell.SIZE * j, y - Cell.SIZE * i, j, i);
                 super.addActor(field[i][j]);
             }
         }
         return field;
+    }
+
+    public void killShip(Ship ship) {
+        ship.makeCellsKilled();
+        decByShipType(ship.getType());
+        ShipsCreator.changeCellsStatusAroundShip(ship, playerField.getField(), CellStatus.MISS);
+        removeActor(ship);
     }
 
     public void initAutoShips() {
@@ -148,7 +156,7 @@ public class GameField extends Group {
         super.addActor(shipManager);
     }
 
-    public void decByShipType(ShipType type) {
+    private void decByShipType(ShipType type) {
         shipManager.decByType(type);
     }
 

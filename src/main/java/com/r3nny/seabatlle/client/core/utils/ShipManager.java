@@ -1,4 +1,4 @@
-/* (C)2022 */
+/* Nikita Vashkulatov(C)2022 */
 package com.r3nny.seabatlle.client.core.utils;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -13,7 +13,6 @@ public class ShipManager extends Group {
     private final List<ShipsCountDTO> shipCounts;
 
     public ShipManager(float x, float y) {
-
         shipCounts = new ArrayList<>();
         shipCounts.add(new ShipsCountDTO(x, y, ShipType.FOUR_DECK, 1));
         shipCounts.add(
@@ -40,7 +39,4 @@ public class ShipManager extends Group {
                 shipCounts.stream().filter(s -> s.getType() == shipType).findFirst().get();
         shipCount.dec();
     }
-
-
-
 }

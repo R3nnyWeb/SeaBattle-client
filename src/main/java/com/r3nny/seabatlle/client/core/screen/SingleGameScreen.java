@@ -1,4 +1,4 @@
-/* (C)2022 */
+/* Nikita Vashkulatov(C)2022 */
 package com.r3nny.seabatlle.client.core.screen;
 
 import static com.r3nny.seabatlle.client.core.Game.enemy;
@@ -147,7 +147,7 @@ public class SingleGameScreen implements Screen {
     @Override
     public void show() {}
 
-    //TODO : Проверять через GAME_SHIP_MANAGER
+    // TODO : Проверять через GAME_SHIP_MANAGER
     private boolean isEnemyDead() {
         var enemy = Game.enemy.getShips();
         for (Ship ship : enemy) {

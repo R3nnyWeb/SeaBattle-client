@@ -1,4 +1,4 @@
-/* (C)2022 */
+/* Nikita Vashkulatov(C)2022 */
 package com.r3nny.seabatlle.client.core.controller;
 
 import com.badlogic.gdx.Gdx;
@@ -29,19 +29,18 @@ public class ShipsCreator {
         int x = cell.getColumn();
         int y = cell.getRow();
         for (int i = 0; i < ship.getType().getSize(); i++) {
-
             if (ship.isVertical()) {
                 if (cell.getRow() - i < 0) {
                     return false;
                 }
-                if (field[y - i][x].getStatus() != CellStatus.SEA) {
+                if (!field[y - i][x].isSea()) {
                     return false;
                 }
             } else {
                 if (cell.getColumn() + i >= GameField.FIELD_SIZE) {
                     return false;
                 }
-                if (field[y][x + i].getStatus() != CellStatus.SEA) {
+                if (!field[y][x + i].isSea()) {
                     return false;
                 }
             }

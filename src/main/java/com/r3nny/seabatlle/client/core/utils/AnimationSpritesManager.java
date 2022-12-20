@@ -1,4 +1,4 @@
-/* (C)2022 */
+/* Nikita Vashkulatov(C)2022 */
 package com.r3nny.seabatlle.client.core.utils;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -32,7 +32,8 @@ public class AnimationSpritesManager {
                 loadAnimation(StarBattle.assetsManager.getExplosionAnimation(), 13, 1, 0.07f);
     }
 
-    private Animation<TextureRegion> loadAnimation(Texture sheet, int rows, int cols, float duration) {
+    private Animation<TextureRegion> loadAnimation(
+            Texture sheet, int rows, int cols, float duration) {
         TextureRegion[][] tmp =
                 TextureRegion.split(sheet, sheet.getWidth() / cols, sheet.getHeight() / rows);
         TextureRegion[] frames = new TextureRegion[cols * rows];
@@ -79,9 +80,7 @@ public class AnimationSpritesManager {
                             Actions.moveTo(ship.getX(), ship.getY(), 1F));
         }
         return Actions.sequence(
-                Actions.parallel(
-                        sequence, Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F))),
+                Actions.parallel(sequence, Actions.sequence(Actions.alpha(0F), Actions.fadeIn(1F))),
                 Actions.run(run));
     }
 }
-

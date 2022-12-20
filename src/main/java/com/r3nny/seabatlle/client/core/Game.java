@@ -1,4 +1,4 @@
-/* (C)2022 */
+/* Nikita Vashkulatov(C)2022 */
 package com.r3nny.seabatlle.client.core;
 
 import com.r3nny.seabatlle.client.core.model.GameField;

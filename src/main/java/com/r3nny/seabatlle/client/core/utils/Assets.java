@@ -1,4 +1,4 @@
-/* (C)2022 */
+/* Nikita Vashkulatov(C)2022 */
 package com.r3nny.seabatlle.client.core.utils;
 
 import static com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.DEFAULT_CHARS;
@@ -94,8 +94,6 @@ public class Assets {
         manager.load(SHIP_INJURED_SOUND_2, Sound.class);
         manager.load(KILLED_SOUND, Sound.class);
     }
-
-
 
     public Texture getMenuBackground() {
         return manager.get(MAIN_MENU_BG_PATH);
