@@ -16,13 +16,13 @@ public class SingleGame extends Game {
     private final float BOT_THINKING_TIME = 1.3F;
     private float time = 0F;
 
-    private List<Cell> cellsToShoot;
+    private final List<Cell> cellsToShoot;
 
     private boolean isNeedToKill = false;
 
     private Stack<Cell> possibleCellsToShoot;
 
-    private List<Cell> hittedCells;
+    private final List<Cell> hittedCells;
 
     public SingleGame() {
         playerField = new GameField(PLAYER_FIELD_X, FIELD_Y, true);
@@ -97,7 +97,7 @@ public class SingleGame extends Game {
         }
     }
 
-    private void pushGorizontalCells(int row, int column, Cell[][] field, Stack<Cell> stack) {
+    private void pushHorizontalCells(int row, int column, Cell[][] field, Stack<Cell> stack) {
         if (column - 1 >= 0
                 && (field[row][column - 1].getStatus() != CellStatus.INJURED
                         && field[row][column - 1].getStatus() != CellStatus.MISS)) {
@@ -117,11 +117,11 @@ public class SingleGame extends Game {
         Cell[][] field = playerField.getField();
         // TODO: Переработать
         if (cell.getShip().isVertical()) {
-            pushGorizontalCells(row, column, field, stack);
+            pushHorizontalCells(row, column, field, stack);
             pushVerticalCells(row, column, field, stack);
         } else {
             pushVerticalCells(row, column, field, stack);
-            pushGorizontalCells(row, column, field, stack);
+            pushHorizontalCells(row, column, field, stack);
         }
 
         return stack;

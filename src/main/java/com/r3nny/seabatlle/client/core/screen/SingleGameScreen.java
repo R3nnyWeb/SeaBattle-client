@@ -147,6 +147,7 @@ public class SingleGameScreen implements Screen {
     @Override
     public void show() {}
 
+    //TODO : Проверять через GAME_SHIP_MANAGER
     private boolean isEnemyDead() {
         var enemy = Game.enemy.getShips();
         for (Ship ship : enemy) {

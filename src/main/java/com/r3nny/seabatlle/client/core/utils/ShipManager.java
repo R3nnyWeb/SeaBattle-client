@@ -40,4 +40,7 @@ public class ShipManager extends Group {
                 shipCounts.stream().filter(s -> s.getType() == shipType).findFirst().get();
         shipCount.dec();
     }
+
+
+
 }

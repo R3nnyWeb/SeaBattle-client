@@ -77,7 +77,7 @@ public class GameField extends Group {
     private List<Ship> initShips() {
         List<Ship> ships = new LinkedList<>();
         for (int i = 0; i < shipTypes.length; i++) {
-            // TODO: заменить null на пустой лист
+
             Ship ship = new Ship(0, 0, null, ShipsCreator.shipTypes[i]);
             ships.add(ship);
         }

@@ -186,16 +186,13 @@ public class Ship extends Actor {
         if (isSelected)
             drawBounds(batch);
 
-
         Color color = getColor();
         sprite.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         sprite.setPosition(getX(), getY());
-
         if (isKilled)
             drawKilled(batch);
         else
             sprite.draw(batch);
-
 
         sprite.setColor(color.r, color.g, color.b, 1f);
     }
