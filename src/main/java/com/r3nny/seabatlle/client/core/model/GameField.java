@@ -103,7 +103,7 @@ public class GameField extends Group {
     public void killShip(Ship ship) {
         ship.makeCellsKilled();
         decByShipType(ship.getType());
-        ShipsCreator.changeCellsStatusAroundShip(ship, playerField.getField());
+        ShipsCreator.changeCellsStatusAroundShip(ship, this.getField());
         removeActor(ship);
     }
 

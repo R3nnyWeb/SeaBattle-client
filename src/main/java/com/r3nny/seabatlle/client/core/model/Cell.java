@@ -34,11 +34,8 @@ public class Cell extends Actor {
     private Ship ship;
     private CellStatus status;
     private final ShapeRenderer shape;
+    private float animationTime = 0f;
 
-    // TODO: Подумать
-    private float injuredTime = 0f;
-    private float missTime = 0f;
-    private float explosionTime = 0f;
     private final Animation injuredAnimation;
     private final Animation burningAnimation;
     private final Animation missAnimation;
@@ -71,52 +68,16 @@ public class Cell extends Actor {
                 });
     }
 
-    public Ship getShip() {
-        return ship;
-    }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        animationTime += Gdx.graphics.getDeltaTime();
         drawBorders(batch);
-
-        batch.begin();
-        Color color = getColor();
-        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-        if (status == CellStatus.INJURED) {
-            injuredTime += Gdx.graphics.getDeltaTime();
-            if (!injuredAnimation.isAnimationFinished(injuredTime)) {
-                TextureRegion currentFrame =
-                        (TextureRegion) injuredAnimation.getKeyFrame(injuredTime, false);
-                batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
-            } else {
-                TextureRegion currentFrame =
-                        (TextureRegion) burningAnimation.getKeyFrame(injuredTime, true);
-                batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
-            }
-        }
-        if (isKilled()) {
-            explosionTime += Gdx.graphics.getDeltaTime();
-            TextureRegion currentFrame =
-                    (TextureRegion) explosionAnimation.getKeyFrame(explosionTime, false);
-            batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
-        }
-
-        if (status == CellStatus.MISS) {
-            missTime += Gdx.graphics.getDeltaTime();
-            batch.draw(
-                    (TextureRegion) missAnimation.getKeyFrame(missAnimation.getFrameDuration() * 3),
-                    getX(),
-                    getY(),
-                    Cell.SIZE,
-                    Cell.SIZE);
-            if (!missAnimation.isAnimationFinished(missTime)) {
-                TextureRegion currentFrame =
-                        (TextureRegion) missAnimation.getKeyFrame(missTime, false);
-                batch.draw(currentFrame, getX(), getY(), Cell.SIZE, Cell.SIZE);
-            }
-        }
-
-        batch.setColor(color.r, color.g, color.b, 1f);
+        setUpBatch(batch, parentAlpha);
+        drawInjured(batch);
+        drawKilled(batch);
+        drawMissed(batch);
+        tearDownBatch(batch);
     }
 
 
@@ -139,50 +100,111 @@ public class Cell extends Actor {
         shape.end();
     }
 
-    public boolean isMissed(){
-        return  status == CellStatus.MISS;
+    private void setUpBatch(Batch batch, float parentAlpha) {
+        batch.begin();
+        Color color = getColor();
+        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+    }
+
+    private void drawInjured(Batch batch) {
+        if (isInjured()) {
+            if (!injuredAnimation.isAnimationFinished(animationTime))
+                batch.draw(getCurrentFrame(injuredAnimation), getX(), getY(), Cell.SIZE, Cell.SIZE);
+            else
+                batch.draw(getCurrentFrame(burningAnimation, true), getX(), getY(), Cell.SIZE, Cell.SIZE);
+        }
     }
 
 
-    public boolean isHealthy(){
-        return  status == CellStatus.HEALTHY;
+    private TextureRegion getCurrentFrame(Animation animation) {
+        return getCurrentFrame(animation, animationTime, false);
     }
-    public boolean isInjured(){
-        return  status == CellStatus.INJURED;
-    }
-    public boolean isSea(){
-        return  status == CellStatus.SEA;
-    }
-    public boolean isKilled(){
-        return  status == CellStatus.KILLED;
+    private TextureRegion getCurrentFrame(Animation animation, boolean looping) {
+        return getCurrentFrame(animation, animationTime, looping);
     }
 
-    public void setSea(){
-        this.status = CellStatus.SEA;
-    }
-    public void setMiss(){
-        this.status = CellStatus.MISS;
-    }
-
-    public  void setHealthy(){
-        this.status = CellStatus.HEALTHY;
-    }
-    public void setInjured(){
-        this.status = CellStatus.INJURED;
-    }
-    public void setKilled(){
-        this.status = CellStatus.KILLED;
+    private TextureRegion getCurrentFrame(Animation animation, float time, boolean looping) {
+        return (TextureRegion) animation.getKeyFrame(time, looping);
     }
 
 
+    private void drawKilled(Batch batch) {
+        if (isKilled())
+            batch.draw(getCurrentFrame(explosionAnimation), getX(), getY(), Cell.SIZE, Cell.SIZE);
+
+    }
+
+    private void drawMissed(Batch batch) {
+        if (isMissed()) {
+            batch.draw(getCurrentFrame(missAnimation, missAnimation.getFrameDuration() * 3, false),getX(),getY(),Cell.SIZE,Cell.SIZE);
+            if (!missAnimation.isAnimationFinished(animationTime)) {
+                batch.draw(getCurrentFrame(missAnimation), getX(), getY(), Cell.SIZE, Cell.SIZE);
+            }
+        }
+    }
+
+
+    private void tearDownBatch(Batch batch) {
+        Color color = getColor();
+        batch.setColor(color.r, color.g, color.b, 1f);
+    }
 
 
     @Override
     public void drawDebug(ShapeRenderer shapes) {
-        if (status == CellStatus.HEALTHY) {
+        if (isHealthy()) {
             shapes.setColor(Color.GREEN);
             shapes.circle(getX() + SIZE / 2, getY() + SIZE / 2, SIZE / 2 - 3);
         }
+    }
+
+
+    public boolean isMissed() {
+        return status == CellStatus.MISS;
+    }
+
+
+    public boolean isHealthy() {
+        return status == CellStatus.HEALTHY;
+    }
+
+    public boolean isInjured() {
+        return status == CellStatus.INJURED;
+    }
+
+    public boolean isSea() {
+        return status == CellStatus.SEA;
+    }
+
+    public boolean isKilled() {
+        return status == CellStatus.KILLED;
+    }
+
+    public void setSea() {
+        this.status = CellStatus.SEA;
+    }
+
+    public void setMiss() {
+        animationTime = 0;
+        this.status = CellStatus.MISS;
+    }
+
+    public void setHealthy() {
+        this.status = CellStatus.HEALTHY;
+    }
+
+    public void setInjured() {
+        animationTime = 0;
+        this.status = CellStatus.INJURED;
+    }
+
+    public void setKilled() {
+        animationTime = 0;
+        this.status = CellStatus.KILLED;
+    }
+
+    public Ship getShip() {
+        return ship;
     }
 
     public int getColumn() {
