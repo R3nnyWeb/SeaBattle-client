@@ -47,7 +47,7 @@ public class SingleGameScreen implements Screen {
 
     private Label turnLabel;
 
-    public SingleGameScreen(SingleGame game) {
+    public SingleGameScreen(SingleGame game, StarBattle application) {
         this.game = game;
 
         player.createShipsManager();
@@ -175,7 +175,6 @@ public class SingleGameScreen implements Screen {
                 (Game.status == GameStatus.PLAYER_TURN) ? "Shoot, Admiral" : "Enemy shooting");
         ScreenUtils.clear(new Color(Color.BLACK));
         game.update();
-        // TODO: Сделать ShipsManager для отслеживания оставшихся кораблей
         if (j > 1) {
             if (isGameOver()) {
                 StarBattle.soundManager.stopBattleMusic();

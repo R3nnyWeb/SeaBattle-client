@@ -23,15 +23,13 @@ import com.r3nny.seabatlle.client.core.SingleGame;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 import com.r3nny.seabatlle.client.core.model.ShipsCreatingArea;
+import com.r3nny.seabatlle.client.core.ui.ChangeScreenButton;
 
 public class ShipsCreatingScreen implements Screen {
 
-    private final Image menuLogo;
     private final SingleGame game;
     private TextButton acceptButton;
-    private final Image bg;
     private final StarBattle application;
-
     public final Stage stage;
 
     public ShipsCreatingScreen(StarBattle application) {
@@ -39,14 +37,21 @@ public class ShipsCreatingScreen implements Screen {
         status = GameStatus.SHIPS_STAGE;
         this.stage = StarBattle.setUpStage();
 
-        ShipsCreatingArea creatingArea = new ShipsCreatingArea(Game.ENEMY_FIELD_X, Game.FIELD_Y);
+        setUpBg();
+        setUpMenuLogo();
+        setUpBackButton();
+        setUpAcceptButton();
+        setUpShipsCreatingArea();
+        setUpLabels();
 
-        TextButton backButton =
-                new TextButton("Back to menu", StarBattle.assetsManager.getMenuButtonSkin());
-        backButton.setX(10);
-        backButton.setSize(200, 50);
-        backButton.setY(StarBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
+        game = new SingleGame();
+        stage.addActor(Game.player);
+        stage.setDebugAll(StarBattle.DEBUG);
+    }
 
+
+
+    private void setUpAcceptButton() {
         acceptButton = new TextButton("Accept", StarBattle.assetsManager.getMenuButtonSkin());
         acceptButton.setSize(200, 50);
         acceptButton.setX(StarBattle.WORLD_WIDTH - acceptButton.getWidth() - 10);
@@ -60,38 +65,44 @@ public class ShipsCreatingScreen implements Screen {
                     }
                 });
 
-        backButton.addListener(
-                new ClickListener() {
-                    @Override
-                    public void enter(
-                            InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        StarBattle.soundManager.playFocusButton();
-                    }
+        stage.addActor(acceptButton);
+    }
 
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        StarBattle.soundManager.playClickSound();
-                        StarBattle.soundManager.stopBattleMusic();
-                        player.addAction(Actions.fadeOut(0.5F));
-                        Game.enemy.addAction(Actions.fadeOut(0.5F));
-                        backButton.addAction(
-                                Actions.sequence(
-                                        Actions.fadeOut(0.5F),
-                                        Actions.run(
-                                                () -> {
-                                                    stage.clear();
-                                                    application.setScreen(new MenuScreen(application));
-                                                })));
-                    }
-                });
 
-        menuLogo = new Image(StarBattle.assetsManager.getMenuLogo());
+    private void setUpBg() {
+      Image bg = new Image(StarBattle.assetsManager.getInGameBackground());
+        bg.setSize(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT);
+        stage.addActor(bg);
+    }
+
+    private void setUpMenuLogo() {
+        Image menuLogo = new Image(StarBattle.assetsManager.getMenuLogo());
         menuLogo.setSize(310, 27);
         menuLogo.setX(StarBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
         menuLogo.setY(StarBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
 
-        bg = new Image(StarBattle.assetsManager.getInGameBackground());
-        bg.setSize(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT);
+        stage.addActor(menuLogo);
+    }
+
+    private void setUpBackButton() {
+       ChangeScreenButton backButton =
+                new ChangeScreenButton("Back to menu",() -> {}, () -> {
+                    stage.clear();
+                    application.setScreen(new MenuScreen(application));
+                });
+        backButton.setX(10);
+        backButton.setSize(200, 50);
+        backButton.setY(StarBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
+
+        stage.addActor(backButton);
+    }
+
+    private void setUpShipsCreatingArea() {
+        ShipsCreatingArea shipsCreatingArea = new ShipsCreatingArea(Game.ENEMY_FIELD_X, Game.FIELD_Y);
+        stage.addActor(shipsCreatingArea);
+    }
+
+    private void setUpLabels() {
 
         Label.LabelStyle skin = new Label.LabelStyle();
         skin.font = StarBattle.assetsManager.getFont(40);
@@ -100,18 +111,11 @@ public class ShipsCreatingScreen implements Screen {
         playerFieldLabel.setFontScale(0.5F);
         playerFieldLabel.setPosition(
                 Game.PLAYER_FIELD_X, Game.FIELD_Y + playerFieldLabel.getHeight() - 20);
-
-        game = new SingleGame();
-
-        stage.addActor(bg);
-        stage.addActor(menuLogo);
-        stage.addActor(creatingArea);
-        stage.addActor(player);
-        stage.addActor(acceptButton);
         stage.addActor(playerFieldLabel);
-        stage.addActor(backButton);
-        stage.setDebugAll(StarBattle.DEBUG);
+
     }
+
+
 
     @Override
     public void show() {
@@ -126,16 +130,14 @@ public class ShipsCreatingScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             if (!ShipsCreator.isShipLanding) {
                 acceptButton.setVisible(true);
-                Gdx.app.log("SingleGameScreen", "Autocreating Player ships");
-                player.createShipsAutomaticaly();
+                Game.player.createShipsAutomaticaly();
             }
         }
 
         if (game.isShipsReady()) {
-            player.clearAllMissed();
-            StarBattle seabatlle = ((StarBattle) Gdx.app.getApplicationListener());
+            Game.player.clearAllMissed();
             stage.clear();
-            seabatlle.setScreen(new SingleGameScreen(game));
+            application.setScreen(new SingleGameScreen(game, application));
         }
     }
 
