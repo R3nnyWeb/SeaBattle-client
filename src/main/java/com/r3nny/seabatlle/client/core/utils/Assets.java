@@ -49,7 +49,6 @@ public class Assets {
     private final String MISS_ANIMATION = "sprites/missSprite.png";
 
     private final String EXPLOSION_ANIMATION = "sprites/explosionSprite.png";
-    private final String EXPLOSION_ATLAS = "sprites/explosionAtlas.atlas";
 
     private final AssetManager manager;
 
@@ -76,6 +75,7 @@ public class Assets {
 
         manager.load(MENU_BUTTON_ATLAS, TextureAtlas.class);
         manager.load(CHOOSE_BUTTON_ATLAS, TextureAtlas.class);
+        String EXPLOSION_ATLAS = "sprites/explosionAtlas.atlas";
         manager.load(EXPLOSION_ATLAS, TextureAtlas.class);
 
         manager.load(MAIN_MUSIC, Music.class);

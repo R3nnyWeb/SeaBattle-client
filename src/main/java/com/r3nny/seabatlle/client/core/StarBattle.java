@@ -22,7 +22,7 @@ public class StarBattle extends com.badlogic.gdx.Game {
     /**Поле, отвечающее за режим отладки*/
     public static boolean DEBUG = true;
 
-    /**@Returns Настроенная сцена для всех экранов*/
+    /**@return Настроенная сцена для всех экранов*/
     public static Stage setUpStage() {
         Stage stage = new Stage(new FitViewport(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT)); //Устанавливаю Viewport для одинаковой системы координат при людом разрешении
         Gdx.input.setInputProcessor(stage);

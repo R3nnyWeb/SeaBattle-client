@@ -75,8 +75,10 @@ public class GameController {
 
     private static void makeKilled(Cell cell) {
         Ship ship = cell.getShip();
-        if (isPlayerTurn()) enemy.killShip(ship);
-        else player.killShip(ship);
+        if (isPlayerTurn())
+            enemy.killShip(ship);
+        else
+            player.killShip(ship);
         StarBattle.soundManager.playKilledSound();
     }
 }

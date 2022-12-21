@@ -226,8 +226,5 @@ public class Cell extends Actor {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "Cell{" + "column=" + column + ", row=" + row + ", status=" + status + '}';
-    }
+
 }

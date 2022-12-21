@@ -1,14 +1,14 @@
 /* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.utils;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.r3nny.seabatlle.client.core.StarBattle;
+
 import java.util.Random;
 
 public class SoundManager {
-    private Random random = new Random();
+    private final Random random = new Random();
 
     private final Music mainMusic;
     private final Music battleMusic;
@@ -24,8 +24,8 @@ public class SoundManager {
     private final Sound killedSound;
 
     // TODO : Файл настроек
-    private float musicVolume = 0.1F;
-    private float soundVolume = 0.8F;
+    private final float musicVolume = 0.1F;
+    private final float soundVolume = 0.8F;
 
     public SoundManager() {
 
@@ -70,9 +70,6 @@ public class SoundManager {
         shipEnterSound.play(soundVolume);
     }
 
-    public float getMusicVolume() {
-        return musicVolume;
-    }
 
     public void playFocusButton() {
         focusSound.play(soundVolume);
@@ -99,12 +96,7 @@ public class SoundManager {
         }
     }
 
-    public void setMusicVolume(float musicVolume) {
-        if (musicVolume > 0.2F || musicVolume < 0F) {
-            Gdx.app.error("Music manager", "Incorrect Volume sound: " + musicVolume);
-            throw new IllegalArgumentException("Incorrect Volume");
-        } else this.musicVolume = musicVolume;
-    }
+
 
     public void playKilledSound() {
         killedSound.play(soundVolume);

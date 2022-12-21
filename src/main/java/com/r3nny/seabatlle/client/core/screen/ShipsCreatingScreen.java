@@ -1,17 +1,12 @@
 /* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.screen;
 
-import static com.r3nny.seabatlle.client.core.Game.player;
-import static com.r3nny.seabatlle.client.core.Game.status;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -24,6 +19,9 @@ import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 import com.r3nny.seabatlle.client.core.model.ShipsCreatingArea;
 import com.r3nny.seabatlle.client.core.ui.ChangeScreenButton;
+
+import static com.r3nny.seabatlle.client.core.Game.player;
+import static com.r3nny.seabatlle.client.core.Game.status;
 
 public class ShipsCreatingScreen implements Screen {
 

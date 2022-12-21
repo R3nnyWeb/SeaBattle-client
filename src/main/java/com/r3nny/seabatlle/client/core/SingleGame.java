@@ -6,14 +6,11 @@ import com.r3nny.seabatlle.client.core.controller.GameController;
 import com.r3nny.seabatlle.client.core.model.Cell;
 import com.r3nny.seabatlle.client.core.model.EnemyGameField;
 import com.r3nny.seabatlle.client.core.model.PlayerGameField;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Stack;
+
+import java.util.*;
 
 public class SingleGame extends Game {
 
-    private final float BOT_THINKING_TIME = 1.3F;
     private float time = 0F;
 
     private final List<Cell> cellsToShoot;
@@ -30,10 +27,8 @@ public class SingleGame extends Game {
         this.hittedCells = new ArrayList<>();
         cellsToShoot = new ArrayList<>();
         Cell[][] field = player.getField();
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field.length; j++) {
-                cellsToShoot.add(field[i][j]);
-            }
+        for (Cell[] cells : field) {
+            cellsToShoot.addAll(Arrays.asList(cells).subList(0, field.length));
         }
     }
 
@@ -46,6 +41,7 @@ public class SingleGame extends Game {
         if (Game.status == GameStatus.ENEMY_TURN) {
             time += Gdx.graphics.getDeltaTime();
         }
+        float BOT_THINKING_TIME = 1.3F;
         if (Game.status == GameStatus.ENEMY_TURN && time > BOT_THINKING_TIME) {
             if (isNeedToKill) {
 
@@ -75,7 +71,7 @@ public class SingleGame extends Game {
                         hittedCells.add(cell);
                         possibleCellsToShoot = getPossibleCellsToShoot(cell);
                     }
-                    ;
+
                     time = 0f;
                 }
                 cellsToShoot.remove(cell);
@@ -106,7 +102,7 @@ public class SingleGame extends Game {
     }
 
     private Stack<Cell> getPossibleCellsToShoot(Cell cell) {
-        Stack<Cell> stack = new Stack<Cell>();
+        Stack<Cell> stack = new Stack<>();
         int row = cell.getRow();
         int column = cell.getColumn();
         Cell[][] field = player.getField();

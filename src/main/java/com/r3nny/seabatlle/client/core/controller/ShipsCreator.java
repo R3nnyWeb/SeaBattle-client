@@ -181,6 +181,7 @@ public class ShipsCreator {
     }
 
 
+    //TODO: Rework
     public static void autoCreateShips(GameField gf) {
         Random rd = new Random();
         Cell[][] field = gf.getField();
