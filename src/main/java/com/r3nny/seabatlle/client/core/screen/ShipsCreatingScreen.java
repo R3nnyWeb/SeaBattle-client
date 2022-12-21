@@ -26,6 +26,7 @@ import static com.r3nny.seabatlle.client.core.Game.status;
 public class ShipsCreatingScreen implements Screen {
 
     private final SingleGame game;
+
     private TextButton acceptButton;
     private final StarBattle application;
     public final Stage stage;
