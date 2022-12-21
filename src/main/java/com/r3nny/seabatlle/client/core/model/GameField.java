@@ -77,7 +77,7 @@ public abstract class GameField extends Group {
     public void killShip(Ship ship) {
         ship.makeCellsKilled();
         decByShipType(ship.getType());
-        ShipsCreator.changeCellsStatusAroundShip(ship, this.getField());
+        ShipsCreator.changeCellsStatusAroundShipToMiss(ship, this.getField());
         removeActor(ship);
     }
 

@@ -6,10 +6,8 @@ import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isShipLand
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -17,13 +15,16 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
+
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public class Ship extends Actor {
     private final ShipType type;
 
     //TODO : Переделать на коллекцию
-    private Cell[] cells;
+    private List<Cell> cells;
     private float startX;
     private float startY;
     private boolean isVertical;
@@ -72,10 +73,9 @@ public class Ship extends Actor {
                 Optional<Cell> optionalCell = getCellFromEvent(event);
                 if (optionalCell.isPresent()) {
                     Cell cell = optionalCell.get();
-                    if (ShipsCreator.canCreateInCell(
-                            cell, Ship.this, Game.player.getField())) {
+                    if (ShipsCreator.addShipToGameField(cell, Ship.this, Game.player)) {
                         updatePosition(cell.getX(), cell.getY());
-                        createAndAnimateShip(cell);
+                        animateShip();
                     } else {
                         resetCoordinates();
                     }
@@ -85,13 +85,12 @@ public class Ship extends Actor {
             }
         }
 
-        private void createAndAnimateShip(Cell cell) {
+        private void animateShip() {
             isShipLanding = true;
             Ship.this.addAction(
                     StarBattle.animationManager.getShipEnterAction(
                             Ship.this,
                             () -> {
-                                ShipsCreator.addShipToGameField(cell, Ship.this, Game.player);
                                 isShipLanding = false;
                                 ShipsCreator.createdPlayerShips++;
                                 Game.player.setShipsReady(
@@ -125,7 +124,7 @@ public class Ship extends Actor {
 
     public Ship(float x, float y, ShipType type) {
         shape = new ShapeRenderer();
-        this.cells = null;
+        this.cells = Collections.emptyList();
         this.type = type;
         super.setX(x);
         super.setY(y);
@@ -148,7 +147,7 @@ public class Ship extends Actor {
     }
 
     private boolean isShipNotPlaced() {
-        return this.cells == null;
+        return this.cells.isEmpty();
     }
 
     private void selectShip() {
@@ -267,11 +266,11 @@ public class Ship extends Actor {
         return type;
     }
 
-    public Cell[] getCells() {
+    public List<Cell> getCells() {
         return cells;
     }
 
-    public void setCells(Cell[] cells) {
+    public void setCells(List<Cell> cells) {
         this.cells = cells;
     }
 

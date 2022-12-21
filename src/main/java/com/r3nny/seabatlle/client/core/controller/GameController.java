@@ -7,6 +7,8 @@ import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.model.Cell;
 import com.r3nny.seabatlle.client.core.model.Ship;
 
+import java.util.List;
+
 import static com.r3nny.seabatlle.client.core.Game.enemy;
 import static com.r3nny.seabatlle.client.core.Game.player;
 
@@ -68,13 +70,8 @@ public class GameController {
 
     private static boolean isKilling(Cell cell) {
         Ship ship = cell.getShip();
-        Cell[] cells = ship.getCells();
-        for (Cell c : cells) {
-            if (c.isHealthy()) {
-                return false;
-            }
-        }
-        return true;
+        List<Cell> cells =  ship.getCells();
+        return cells.stream().filter(Cell::isHealthy).toList().isEmpty();
     }
 
     private static void makeKilled(Cell cell) {

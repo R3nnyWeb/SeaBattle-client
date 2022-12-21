@@ -40,6 +40,8 @@ public class SingleGameScreen implements Screen {
 
     private Assets assetsManager;
 
+
+
     private Image bgImage;
 
     private SoundManager soundManager;

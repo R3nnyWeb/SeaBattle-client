@@ -10,8 +10,6 @@
     <name>SeaBattle-client</name>
     <url>http://maven.apache.org</url>
 
-
-
     <properties>
         <gdx.version>1.11.0</gdx.version>
         <java.version>17</java.version>
@@ -19,14 +17,18 @@
 
 
     <dependencies>
-
-
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-platform</artifactId>
             <classifier>natives-desktop</classifier>
             <version>${gdx.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-freetype-platform</artifactId>
+            <version>1.11.0</version>
+            <classifier>natives-desktop</classifier>
         </dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
