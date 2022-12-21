@@ -11,13 +11,6 @@
     <url>http://maven.apache.org</url>
 
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-
-    </repositories>
 
     <properties>
         <gdx.version>1.11.0</gdx.version>
@@ -26,12 +19,7 @@
 
 
     <dependencies>
-        <dependency>
-            <groupId>com.github.raeleus.stripe</groupId>
-            <artifactId>freetype</artifactId>
-            <version>1.4.1</version>
 
-        </dependency>
 
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
@@ -44,13 +32,6 @@
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx</artifactId>
             <version>${gdx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.badlogicgames.gdx</groupId>
-            <artifactId>gdx-freetype-platform</artifactId>
-            <version>1.11.0</version>
-            <classifier>natives-desktop</classifier>
-
         </dependency>
         <dependency>
             <groupId>com.diffplug.spotless</groupId>
@@ -67,16 +48,7 @@
             <artifactId>gdx-backend-lwjgl3</artifactId>
             <version>${gdx.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.badlogicgames.box2dlights</groupId>
-            <artifactId>box2dlights</artifactId>
-            <version>1.5</version>
-        </dependency>
-        <dependency>
-            <groupId>com.badlogicgames.gdx</groupId>
-            <artifactId>gdx-openal</artifactId>
-            <version>0.9.9</version>
-        </dependency>
+
     </dependencies>
     <build>
         <finalName>SeaBattle-client</finalName>
@@ -116,7 +88,7 @@
                           optionally, Spotless can set copyright years by digging
                           through git history (see "license" section below) -->
                         <licenseHeader>
-                            <content>/* Nikita Vashkulatov(C)$YEAR */</content>  <!-- or <file>${project.basedir}/license-header</file> -->
+                            <content>/* Nikita Vashkulatov(C) $YEAR */</content>  <!-- or <file>${project.basedir}/license-header</file> -->
                         </licenseHeader>
                     </java>
                 </configuration>
