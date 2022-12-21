@@ -8,7 +8,7 @@ import com.r3nny.seabatlle.client.core.model.Cell;
 import com.r3nny.seabatlle.client.core.model.Ship;
 
 import static com.r3nny.seabatlle.client.core.Game.enemy;
-import static com.r3nny.seabatlle.client.core.Game.playerField;
+import static com.r3nny.seabatlle.client.core.Game.player;
 
 public class GameController {
 
@@ -28,7 +28,7 @@ public class GameController {
     private static Cell getHittedCell(int row, int column) {
         return isPlayerTurn()
                 ? Game.enemy.getField()[row][column]
-                : Game.playerField.getField()[row][column];
+                : Game.player.getField()[row][column];
     }
 
     private static boolean isPlayerTurn() {
@@ -80,7 +80,7 @@ public class GameController {
     private static void makeKilled(Cell cell) {
         Ship ship = cell.getShip();
         if (isPlayerTurn()) enemy.killShip(ship);
-        else playerField.killShip(ship);
+        else player.killShip(ship);
         StarBattle.soundManager.playKilledSound();
     }
 }

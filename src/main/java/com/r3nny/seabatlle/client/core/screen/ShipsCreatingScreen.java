@@ -1,7 +1,7 @@
 /* Nikita Vashkulatov(C)2022 */
 package com.r3nny.seabatlle.client.core.screen;
 
-import static com.r3nny.seabatlle.client.core.Game.playerField;
+import static com.r3nny.seabatlle.client.core.Game.player;
 import static com.r3nny.seabatlle.client.core.Game.status;
 
 import com.badlogic.gdx.Gdx;
@@ -54,7 +54,7 @@ public class ShipsCreatingScreen implements Screen {
                 new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        playerField.setShipsReady(true);
+                        player.setShipsReady(true);
                     }
                 });
 
@@ -70,7 +70,7 @@ public class ShipsCreatingScreen implements Screen {
                     public void clicked(InputEvent event, float x, float y) {
                         StarBattle.soundManager.playClickSound();
                         StarBattle.soundManager.stopBattleMusic();
-                        playerField.addAction(Actions.fadeOut(0.5F));
+                        player.addAction(Actions.fadeOut(0.5F));
                         Game.enemy.addAction(Actions.fadeOut(0.5F));
                         backButton.addAction(
                                 Actions.sequence(
@@ -108,7 +108,7 @@ public class ShipsCreatingScreen implements Screen {
         stage.addActor(bg);
         stage.addActor(menuLogo);
         stage.addActor(creatingArea);
-        stage.addActor(playerField);
+        stage.addActor(player);
         stage.addActor(acceptButton);
         stage.addActor(playerFieldLabel);
         stage.addActor(backButton);
@@ -128,11 +128,11 @@ public class ShipsCreatingScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.A) && !ShipsCreator.isShipLanding) {
             acceptButton.setVisible(true);
             Gdx.app.log("SingleGameScreen", "Autocreating Player ships");
-            playerField.initAutoShips();
+            player.initAutoShips();
         }
 
         if (game.isShipsReady()) {
-            playerField.clearAllMissed();
+            player.clearAllMissed();
             StarBattle seabatlle = ((StarBattle) Gdx.app.getApplicationListener());
             stage.clear();
             seabatlle.setScreen(new SingleGameScreen(game));

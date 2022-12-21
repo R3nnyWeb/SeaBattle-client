@@ -4,7 +4,9 @@ package com.r3nny.seabatlle.client.core;
 import com.badlogic.gdx.Gdx;
 import com.r3nny.seabatlle.client.core.controller.GameController;
 import com.r3nny.seabatlle.client.core.model.Cell;
-import com.r3nny.seabatlle.client.core.model.GameField;
+import com.r3nny.seabatlle.client.core.model.EnemyGameField;
+import com.r3nny.seabatlle.client.core.model.PlayerGameField;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -24,12 +26,11 @@ public class SingleGame extends Game {
     private final List<Cell> hittedCells;
 
     public SingleGame() {
-        playerField = new GameField(PLAYER_FIELD_X, FIELD_Y, true);
-        enemy = new GameField(ENEMY_FIELD_X, FIELD_Y, false);
+        player = new PlayerGameField(PLAYER_FIELD_X, FIELD_Y);
+        enemy = new EnemyGameField(ENEMY_FIELD_X, FIELD_Y);
         this.hittedCells = new ArrayList<>();
-
         cellsToShoot = new ArrayList<>();
-        Cell[][] field = playerField.getField();
+        Cell[][] field = player.getField();
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field.length; j++) {
                 cellsToShoot.add(field[i][j]);
@@ -38,7 +39,7 @@ public class SingleGame extends Game {
     }
 
     public boolean isShipsReady() {
-        return playerField.isShipsReady() && enemy.isShipsReady();
+        return player.isShipsReady() && enemy.isShipsReady();
     }
 
     // TODO: Переписать
@@ -113,7 +114,7 @@ public class SingleGame extends Game {
         Stack<Cell> stack = new Stack<Cell>();
         int row = cell.getRow();
         int column = cell.getColumn();
-        Cell[][] field = playerField.getField();
+        Cell[][] field = player.getField();
         // TODO: Переработать
         if (cell.getShip().isVertical()) {
             pushHorizontalCells(row, column, field, stack);

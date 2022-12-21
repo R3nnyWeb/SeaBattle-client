@@ -75,7 +75,7 @@ public class Ship extends Actor {
                 if (optionalCell.isPresent()) {
                     Cell cell = optionalCell.get();
                     if (ShipsCreator.canCreateInCell(
-                            cell, Ship.this, Game.playerField.getField())) {
+                            cell, Ship.this, Game.player.getField())) {
                         updatePosition(cell.getX(), cell.getY());
                         createAndAnimateShip(cell);
                     } else {
@@ -93,10 +93,10 @@ public class Ship extends Actor {
                     StarBattle.animationManager.getShipEnterAction(
                             Ship.this,
                             () -> {
-                                ShipsCreator.addShipToGameField(cell, Ship.this, Game.playerField);
+                                ShipsCreator.addShipToGameField(cell, Ship.this, Game.player);
                                 isShipLanding = false;
                                 ShipsCreator.createdPlayerShips++;
-                                Game.playerField.setShipsReady(
+                                Game.player.setShipsReady(
                                         ShipsCreator.createdPlayerShips
                                                 == ShipsCreator.shipTypes.length);
                             }));
@@ -107,7 +107,7 @@ public class Ship extends Actor {
         private Optional<Cell> getCellFromEvent(InputEvent event) {
             float x = event.getStageX() - 5;
             float y = event.getStageY() - 5;
-            Cell[][] field = Game.playerField.getField();
+            Cell[][] field = Game.player.getField();
             for (Cell[] cells : field) {
                 for (int j = 0; j < field.length; j++) {
                     Cell currentCell = cells[j];

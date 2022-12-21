@@ -2,7 +2,7 @@
 package com.r3nny.seabatlle.client.core.screen;
 
 import static com.r3nny.seabatlle.client.core.Game.enemy;
-import static com.r3nny.seabatlle.client.core.Game.playerField;
+import static com.r3nny.seabatlle.client.core.Game.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -49,7 +49,7 @@ public class SingleGameScreen implements Screen {
     public SingleGameScreen(SingleGame game) {
         this.game = game;
 
-        playerField.createShipsManager();
+        player.createShipsManager();
         enemy.createShipsManager();
 
         Random rd = new Random();
@@ -82,7 +82,7 @@ public class SingleGameScreen implements Screen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         StarBattle.soundManager.playClickSound();
-                        playerField.addAction(Actions.fadeOut(0.5F));
+                        player.addAction(Actions.fadeOut(0.5F));
                         enemy.addAction(Actions.fadeOut(0.5F));
                         backButton.addAction(
                                 Actions.sequence(
@@ -101,7 +101,7 @@ public class SingleGameScreen implements Screen {
                 });
 
         // TODO: rework this
-        Cell[][] cells = playerField.getField();
+        Cell[][] cells = player.getField();
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
 
@@ -135,7 +135,7 @@ public class SingleGameScreen implements Screen {
         bgImage.setSize(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT);
         stage.addActor(bgImage);
         stage.addActor(menuLogo);
-        stage.addActor(playerField);
+        stage.addActor(player);
         stage.addActor(playerFieldLabel);
         stage.addActor(enemyFieldLabel);
         stage.addActor(turnLabel);
@@ -159,7 +159,7 @@ public class SingleGameScreen implements Screen {
     }
 
     private boolean isPlayerDead() {
-        var playerShips = playerField.getShips();
+        var playerShips = player.getShips();
         for (Ship ship : playerShips) {
             if (!ship.isKilled()) {
                 return false;
