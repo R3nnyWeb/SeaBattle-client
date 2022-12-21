@@ -29,10 +29,8 @@ public class Ship extends Actor {
     private boolean isVertical;
     private boolean isSelected;
     private boolean isKilled;
-    private final Animation destroyingAnimation;
     private final ShapeRenderer shape;
     private final Sprite sprite;
-    private float stateTime = 0F;
 
     private class ShipInputListener extends InputListener {
 
@@ -131,7 +129,6 @@ public class Ship extends Actor {
         this.type = type;
         super.setX(x);
         super.setY(y);
-        this.destroyingAnimation = StarBattle.animationManager.getShipDestroyingAnimation();
         this.sprite = initSprite();
         updateBounds();
         this.addListener(new ShipInputListener());
@@ -207,28 +204,11 @@ public class Ship extends Actor {
         Color color = getColor();
         sprite.setColor(color.r, color.g, color.b, color.a * parentAlpha);
         sprite.setPosition(getX(), getY());
-        if (isKilled) drawKilled(batch);
-        else sprite.draw(batch);
+        sprite.draw(batch);
 
         sprite.setColor(color.r, color.g, color.b, 1f);
     }
 
-    private void drawKilled(Batch batch) {
-        stateTime += Gdx.graphics.getDeltaTime();
-        TextureRegion currentFrame =
-                (TextureRegion) destroyingAnimation.getKeyFrame(stateTime, false);
-        Sprite animatedSprite = new Sprite(currentFrame);
-        animatedSprite.setPosition(getX(), getY());
-        if (isVertical) {
-            animatedSprite.rotate90(true);
-            animatedSprite.setSize(Cell.SIZE, Cell.SIZE * type.getSize());
-            animatedSprite.draw(batch);
-
-        } else {
-            animatedSprite.setSize(Cell.SIZE * type.getSize(), Cell.SIZE);
-            animatedSprite.draw(batch);
-        }
-    }
 
     private void drawBounds(Batch batch) {
         batch.end();

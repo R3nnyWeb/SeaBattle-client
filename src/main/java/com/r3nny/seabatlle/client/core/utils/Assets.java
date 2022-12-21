@@ -22,7 +22,6 @@ public class Assets {
     private final String THREE_DECK_SHIP_PATH = "ships/3xShip.png";
     private final String FOUR_DECK_SHIP_PATH = "ships/4xShip.png";
     private final String IN_GAME_BACKGROUND = "inGame/bg.jpg";
-    private final String INJURED__CELL = "injured.png";
 
     private final String GAME_LOGO = "gameLogo.png";
 
@@ -45,12 +44,12 @@ public class Assets {
     private final String SHIP_INJURED_SOUND_2 = "sounds/injured_2.wav";
     private final String KILLED_SOUND = "sounds/killed.WAV";
 
-    private final String INJURED_ANIMATION = "injuredSprite.png";
-    private final String BURNING_ANIMATION = "burningSprite.png";
-    private final String MISS_ANIMATION = "missSprite.png";
-    private final String SHIP_DESTROYING_ANIMATION = "shipDestroingSprite.png";
-    private final String EXPLOSION_ANIMATION = "explosionSprite.png";
-    private final String EXPLOSION_ATLAS = "explosionAtlas.atlas";
+    private final String INJURED_ANIMATION = "sprites/injuredSprite.png";
+    private final String BURNING_ANIMATION = "sprites/burningSprite.png";
+    private final String MISS_ANIMATION = "sprites/missSprite.png";
+
+    private final String EXPLOSION_ANIMATION = "sprites/explosionSprite.png";
+    private final String EXPLOSION_ATLAS = "sprites/explosionAtlas.atlas";
 
     private final AssetManager manager;
 
@@ -67,11 +66,9 @@ public class Assets {
         manager.load(FOUR_DECK_SHIP_PATH, Texture.class);
         manager.load(IN_GAME_BACKGROUND, Texture.class);
         manager.load(GAME_LOGO, Texture.class);
-        manager.load(INJURED__CELL, Texture.class);
         manager.load(INJURED_ANIMATION, Texture.class);
         manager.load(BURNING_ANIMATION, Texture.class);
         manager.load(MISS_ANIMATION, Texture.class);
-        manager.load(SHIP_DESTROYING_ANIMATION, Texture.class);
         manager.load(EXPLOSION_ANIMATION, Texture.class);
 
         manager.load(MENU_BUTTON_SKIN, Skin.class);
@@ -107,9 +104,7 @@ public class Assets {
         return manager.get(TWO_DECK_SHIP_PATH);
     }
 
-    public Texture getInjuredCell() {
-        return manager.get(INJURED__CELL);
-    }
+
 
     public Texture getThreeDeckShip() {
         return manager.get(THREE_DECK_SHIP_PATH);
@@ -199,9 +194,7 @@ public class Assets {
         return manager.get(MISS_ANIMATION);
     }
 
-    public Texture getShipDestroyingAnimation() {
-        return manager.get(SHIP_DESTROYING_ANIMATION);
-    }
+
 
     public Texture getExplosionAnimation() {
         return manager.get(EXPLOSION_ANIMATION);

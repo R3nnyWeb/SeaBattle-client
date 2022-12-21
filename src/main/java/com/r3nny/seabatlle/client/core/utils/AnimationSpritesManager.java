@@ -16,7 +16,7 @@ public class AnimationSpritesManager {
     private final Animation<TextureRegion> injuredAnimation;
     private final Animation<TextureRegion> burningAnimation;
     private final Animation<TextureRegion> missAnimation;
-    private final Animation<TextureRegion> shipDestroyingAnimation;
+
     private final Animation<TextureRegion> explosionAnimation;
 
     public AnimationSpritesManager() {
@@ -26,9 +26,7 @@ public class AnimationSpritesManager {
                 loadAnimation(StarBattle.assetsManager.getBurningAnimation(), 2, 5, 0.07F);
         this.missAnimation =
                 loadAnimation(StarBattle.assetsManager.getMissAnimation(), 4, 5, 0.05F);
-        this.shipDestroyingAnimation =
-                loadAnimation(StarBattle.assetsManager.getShipDestroyingAnimation(), 2, 4, 0.1F);
-        this.explosionAnimation =
+         this.explosionAnimation =
                 loadAnimation(StarBattle.assetsManager.getExplosionAnimation(), 13, 1, 0.07f);
     }
 
@@ -58,9 +56,7 @@ public class AnimationSpritesManager {
         return missAnimation;
     }
 
-    public Animation<TextureRegion> getShipDestroyingAnimation() {
-        return shipDestroyingAnimation;
-    }
+
 
     public Animation<TextureRegion> getExplosionAnimation() {
         return explosionAnimation;
