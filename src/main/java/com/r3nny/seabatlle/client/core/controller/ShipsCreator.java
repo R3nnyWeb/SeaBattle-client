@@ -101,9 +101,13 @@ public class ShipsCreator {
         List<Cell> cells = ship.getCells();
         Cell firstCell = cells.get(0);
         try {
-            if (ship.isVertical()) field[firstCell.getRow() + 1][firstCell.getColumn()].setMiss();
-            else field[firstCell.getRow()][firstCell.getColumn() - 1].setMiss();
-        } catch (IndexOutOfBoundsException ignored) {};
+            if (ship.isVertical())
+                field[firstCell.getRow() + 1][firstCell.getColumn()].setMiss();
+            else
+                field[firstCell.getRow()][firstCell.getColumn() - 1].setMiss();
+        } catch (IndexOutOfBoundsException ignored) {
+        }
+        ;
     }
 
     private static void setMissAfter(Ship ship, Cell[][] field) {
@@ -114,25 +118,68 @@ public class ShipsCreator {
                 field[lastCell.getRow() - 1][lastCell.getColumn()].setMiss();
             else
                 field[lastCell.getRow()][lastCell.getColumn() + 1].setMiss();
-        } catch (IndexOutOfBoundsException ignored) {};
+        } catch (IndexOutOfBoundsException ignored) {
+        }
+        ;
 
     }
 
-    private static void setMissOnSidesOfShip(Ship ship, Cell[][] field)
-            throws IndexOutOfBoundsException {
+    private static void setMissOnSidesOfShip(Ship ship, Cell[][] field) {
         Cell startCell = ship.getCells().get(0);
         int x = startCell.getColumn();
         int y = startCell.getRow();
         for (int i = 0; i < ship.getType().getSize() + 2; i++) {
-            if (ship.isVertical()) {
-                field[y - i + 1][x + 1].setMiss();
-                field[y - i + 1][x - 1].setMiss();
-            } else {
-                field[y + 1][x - 1 + i].setMiss();
-                field[y - 1][x - 1 + i].setMiss();
+            try {
+                if (ship.isVertical()) {
+                    if ((y - i + 1) >= 0) {
+                        Cell cell = field[y - i + 1][x];
+                        setMissLeftFromShip(field, cell);
+                        setMissRightFromShip(field, cell);
+                    }
+                } else {
+                    if ((x + i - 1) < GameField.FIELD_SIZE) {
+                        Cell cell = field[y][x + i - 1];
+                        setMissUnderShip(field, cell);
+                        setMissTopOfShip(field, cell);
+                    }
+                }
+            } catch (IndexOutOfBoundsException ignored) {
             }
+            ;
+
         }
     }
+
+
+    private static void setMissLeftFromShip(Cell[][] field, Cell cell) {
+        try {
+            field[cell.getRow()][cell.getColumn() - 1].setMiss();
+        } catch (IndexOutOfBoundsException ignored) {
+        }
+    }
+
+    private static void setMissRightFromShip(Cell[][] field, Cell cell) {
+        try {
+            field[cell.getRow()][cell.getColumn() + 1].setMiss();
+        } catch (IndexOutOfBoundsException ignored) {
+        }
+    }
+
+
+    private static void setMissUnderShip(Cell[][] field, Cell cell) {
+        try {
+            field[cell.getRow() + 1][cell.getColumn()].setMiss();
+        } catch (IndexOutOfBoundsException ignored) {
+        }
+    }
+
+    private static void setMissTopOfShip(Cell[][] field, Cell cell) {
+        try {
+            field[cell.getRow() - 1][cell.getColumn()].setMiss();
+        } catch (IndexOutOfBoundsException ignored) {
+        }
+    }
+
 
     public static void autoCreateShips(GameField gf) {
         Random rd = new Random();
