@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public  class GameField extends Group {
+public abstract class GameField extends Group {
     public static final int FIELD_SIZE = 10;
     private final float x;
     private final float y;
@@ -31,8 +31,10 @@ public  class GameField extends Group {
         ships = initShips();
         if (!isPlayer)
             initAutoShips();
-        else
+        else {
+            addShipsToGroup();
             placeShipsOnCreatingArea();
+        }
     }
 
 
@@ -48,9 +50,7 @@ public  class GameField extends Group {
     }
 
     private List<Ship> initShips() {
-        List<Ship> ships = createShipsAllTypes(ShipsCreator.shipTypes);
-        addShipsToGroup(ships);
-        return ships;
+        return createShipsAllTypes(ShipsCreator.shipTypes);
     }
 
     private List<Ship> createShipsAllTypes(ShipType[] shipTypes) {
@@ -62,8 +62,8 @@ public  class GameField extends Group {
         return ships;
     }
 
-    private void addShipsToGroup( List<Ship> ships) {
-        for (Ship ship : ships) {
+    private void addShipsToGroup() {
+        for (Ship ship : this.ships) {
             super.addActor(ship);
         }
     }
@@ -71,7 +71,6 @@ public  class GameField extends Group {
 
     public void initAutoShips() {
         StarBattle.soundManager.playShipEnterSound();
-        removeShipsFromGroup();
         clearField();
         ShipsCreator.autoCreateShips(this);
         if (this.isPlayer) {
