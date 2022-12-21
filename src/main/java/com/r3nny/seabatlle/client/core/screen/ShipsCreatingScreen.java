@@ -125,10 +125,13 @@ public class ShipsCreatingScreen implements Screen {
         ScreenUtils.clear(new Color(Color.BLACK));
         stage.act();
         stage.draw();
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && !ShipsCreator.isShipLanding) {
-            acceptButton.setVisible(true);
-            Gdx.app.log("SingleGameScreen", "Autocreating Player ships");
-            player.initAutoShips();
+        if (Gdx.input.isKeyPressed(Input.Keys.A) ) {
+            if( !ShipsCreator.isShipLanding){
+                acceptButton.setVisible(true);
+                Gdx.app.log("SingleGameScreen", "Autocreating Player ships");
+                player.createShipsAutomaticaly();
+            }
+
         }
 
         if (game.isShipsReady()) {

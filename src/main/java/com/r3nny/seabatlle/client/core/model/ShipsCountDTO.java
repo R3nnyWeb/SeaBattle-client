@@ -12,7 +12,6 @@ public class ShipsCountDTO extends Actor {
     private ShipType type;
     private Sprite texture;
     private int count;
-
     BitmapFont font;
 
     public ShipsCountDTO(float x, float y, ShipType type, int count) {
