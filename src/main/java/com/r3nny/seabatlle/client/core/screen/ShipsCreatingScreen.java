@@ -30,10 +30,12 @@ public class ShipsCreatingScreen implements Screen {
     private final SingleGame game;
     private TextButton acceptButton;
     private final Image bg;
+    private final StarBattle application;
 
     public final Stage stage;
 
-    public ShipsCreatingScreen() {
+    public ShipsCreatingScreen(StarBattle application) {
+        this.application = application;
         status = GameStatus.SHIPS_STAGE;
         this.stage = StarBattle.setUpStage();
 
@@ -78,11 +80,7 @@ public class ShipsCreatingScreen implements Screen {
                                         Actions.run(
                                                 () -> {
                                                     stage.clear();
-                                                    StarBattle seabatlle =
-                                                            ((StarBattle)
-                                                                    Gdx.app
-                                                                            .getApplicationListener());
-                                                    seabatlle.setScreen(new MenuScreen());
+                                                    application.setScreen(new MenuScreen(application));
                                                 })));
                     }
                 });

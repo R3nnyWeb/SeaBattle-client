@@ -9,19 +9,22 @@ import com.r3nny.seabatlle.client.core.utils.AnimationSpritesManager;
 import com.r3nny.seabatlle.client.core.utils.Assets;
 import com.r3nny.seabatlle.client.core.utils.SoundManager;
 
+/**
+ * Основной класс с которым рабоет LGJWL App*/
 public class StarBattle extends com.badlogic.gdx.Game {
 
     public static Assets assetsManager;
     public static SoundManager soundManager;
     public static AnimationSpritesManager animationManager;
-
     public static final float WORLD_WIDTH = 1024;
     public static final float WORLD_HEIGHT = 576;
 
+    /**Поле, отвечающее за режим отладки*/
     public static boolean DEBUG = true;
 
+    /**@Returns Настроенная сцена для всех экранов*/
     public static Stage setUpStage() {
-        Stage stage = new Stage(new FitViewport(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT));
+        Stage stage = new Stage(new FitViewport(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT)); //Устанавливаю Viewport для одинаковой системы координат при людом разрешении
         Gdx.input.setInputProcessor(stage);
         return stage;
     }

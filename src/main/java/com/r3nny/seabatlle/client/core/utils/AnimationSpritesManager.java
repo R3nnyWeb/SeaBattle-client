@@ -6,10 +6,12 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.model.Ship;
 
+/**Разбиение спрайтов на анимации, заготовленные actions*/
 public class AnimationSpritesManager {
 
     // TODO: Вынести все Actions сюда
@@ -60,6 +62,17 @@ public class AnimationSpritesManager {
         return explosionAnimation;
     }
 
+
+    public SequenceAction getFadeInAnimation() {
+       return  Actions.sequence(Actions.alpha(0F), Actions.fadeIn(0.8F));
+    }
+    public AlphaAction getFadeOutAnimation() {
+        return  Actions.fadeOut(0.5F);
+    }
+
+    /**Иммирует появление корабля со стороны
+     * @param ship корабль
+     * @param run код, который запускается после анимации*/
     public Action getShipEnterAction(Ship ship, Runnable run) {
         SequenceAction sequence;
         if (!ship.isVertical()) {

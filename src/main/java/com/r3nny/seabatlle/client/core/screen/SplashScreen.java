@@ -14,13 +14,13 @@ import com.r3nny.seabatlle.client.core.utils.AnimationSpritesManager;
 import com.r3nny.seabatlle.client.core.utils.Assets;
 import com.r3nny.seabatlle.client.core.utils.SoundManager;
 
+/**
+ * Экран загрузки
+ * */
 public class SplashScreen implements Screen {
-
-    private Texture splashTexture;
     private Image splashImage;
-
     private Stage stage;
-    private StarBattle game;
+    private StarBattle application;
     private Assets manager;
     private boolean startLoading = false;
 
@@ -29,12 +29,17 @@ public class SplashScreen implements Screen {
         stage = StarBattle.setUpStage();
         StarBattle.assetsManager = new Assets();
         this.manager = StarBattle.assetsManager;
-        game = ((StarBattle) Gdx.app.getApplicationListener());
-        splashTexture = new Texture(Gdx.files.internal("gameLogo.png"));
-        splashImage = new Image(splashTexture);
+        application = ((StarBattle) Gdx.app.getApplicationListener());
+        splashImage = new Image(new Texture(Gdx.files.internal("gameLogo.png")));
+
+        setUpSplashImage();
+    }
+
+    private void setUpSplashImage() {
         splashImage.setSize(620, 55);
         splashImage.setX(StarBattle.WORLD_WIDTH / 2 - splashImage.getWidth() / 2);
         splashImage.setY(StarBattle.WORLD_HEIGHT / 2);
+
         splashImage.addAction(
                 Actions.sequence(
                         Actions.alpha(0.0F),
@@ -47,6 +52,7 @@ public class SplashScreen implements Screen {
                                 })));
 
         stage.addActor(splashImage);
+
     }
 
     @Override
@@ -64,9 +70,9 @@ public class SplashScreen implements Screen {
                                     () -> {
                                         stage.clear();
                                         if (StarBattle.DEBUG) {
-                                            game.setScreen(new ShipsCreatingScreen());
+                                            application.setScreen(new ShipsCreatingScreen(application));
                                         } else {
-                                            game.setScreen(new MenuScreen());
+                                            application.setScreen(new MenuScreen(application));
                                         }
                                     })));
         }

@@ -37,6 +37,7 @@ public class SingleGameScreen implements Screen {
     private final SingleGame game;
 
     private final Stage stage;
+    private StarBattle application;
 
     private Assets assetsManager;
 
@@ -90,12 +91,7 @@ public class SingleGameScreen implements Screen {
                                         Actions.run(
                                                 () -> {
                                                     stage.clear();
-                                                    StarBattle seabatlle =
-                                                            ((StarBattle)
-                                                                    Gdx.app
-                                                                            .getApplicationListener());
-                                                    StarBattle.soundManager.stopBattleMusic();
-                                                    seabatlle.setScreen(new MenuScreen());
+                                                    application.setScreen(new MenuScreen(application));
                                                 })));
                     }
                 });
@@ -183,8 +179,7 @@ public class SingleGameScreen implements Screen {
         if (j > 1) {
             if (isGameOver()) {
                 StarBattle.soundManager.stopBattleMusic();
-                StarBattle seabatlle = ((StarBattle) Gdx.app.getApplicationListener());
-                seabatlle.setScreen(new MenuScreen());
+                application.setScreen(new MenuScreen(application));
             }
         }
 
