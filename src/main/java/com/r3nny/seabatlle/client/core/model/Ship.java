@@ -21,6 +21,8 @@ import java.util.Optional;
 
 public class Ship extends Actor {
     private final ShipType type;
+
+    //TODO : Переделать на коллекцию
     private Cell[] cells;
     private float startX;
     private float startY;
@@ -113,6 +115,7 @@ public class Ship extends Actor {
                     float startY = cells[j].getY();
                     float endX = startX + cells[j].getWidth();
                     float endY = startY + cells[j].getHeight();
+                    //TODO: Contains написать
                     if ((x > startX) && (x < endX) && (y > startY) && (y < endY)) {
                         return Optional.of(currentCell);
                     }
@@ -122,9 +125,9 @@ public class Ship extends Actor {
         }
     }
 
-    public Ship(float x, float y, Cell[] cells, ShipType type) {
+    public Ship(float x, float y, ShipType type) {
         shape = new ShapeRenderer();
-        this.cells = cells;
+        this.cells = null;
         this.type = type;
         super.setX(x);
         super.setY(y);

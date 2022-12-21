@@ -13,7 +13,7 @@ import com.r3nny.seabatlle.client.core.StarBattle;
 public class ShipsCreatingArea extends Group {
 
     private final ShapeRenderer shape;
-    Label controlHelp;
+    Label controlsHelp;
     Label fourDeskLabel;
     Label treeDeskLabel;
     Label twoDeskLabel;
@@ -25,15 +25,15 @@ public class ShipsCreatingArea extends Group {
 
         skin.font = StarBattle.assetsManager.getFont(52);
         skin.fontColor = new Color(Color.WHITE);
-        controlHelp =
+        controlsHelp =
                 new Label(
                         "Press A to automatically place ships\n\nDrag`n`Drop ship to place it. \n\nPress RMB to rotate ship",
                         skin);
-        controlHelp.setFontScale(0.25F);
-        controlHelp.setPosition(x + 10, getY() + 130);
+        controlsHelp.setFontScale(0.25F);
+        controlsHelp.setPosition(x + 10, getY() + 130);
         fourDeskLabel = new Label("Super Destroyers: ", skin);
         fourDeskLabel.setFontScale(0.25F);
-        fourDeskLabel.setPosition(controlHelp.getX(), controlHelp.getY() + 50);
+        fourDeskLabel.setPosition(controlsHelp.getX(), controlsHelp.getY() + 50);
         treeDeskLabel = new Label("Destroyers: ", skin);
         treeDeskLabel.setFontScale(0.25F);
         treeDeskLabel.setPosition(fourDeskLabel.getX(), fourDeskLabel.getY() - 60);
@@ -66,7 +66,7 @@ public class ShipsCreatingArea extends Group {
         shape.end();
         Gdx.gl.glDisable(GL30.GL_BLEND);
         batch.begin();
-        controlHelp.draw(batch, parentAlpha);
+        controlsHelp.draw(batch, parentAlpha);
         fourDeskLabel.draw(batch, parentAlpha);
         treeDeskLabel.draw(batch, parentAlpha);
         twoDeskLabel.draw(batch, parentAlpha);
