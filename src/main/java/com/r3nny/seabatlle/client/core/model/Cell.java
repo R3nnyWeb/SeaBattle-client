@@ -1,4 +1,4 @@
-/* Nikita Vashkulatov(C)2022 */
+/* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.model;
 
 import com.badlogic.gdx.Gdx;
@@ -15,7 +15,6 @@ import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.GameController;
 
-
 enum CellStatus {
     SEA,
     MISS,
@@ -23,7 +22,6 @@ enum CellStatus {
     INJURED,
     KILLED
 }
-
 
 public class Cell extends Actor {
 
@@ -68,7 +66,6 @@ public class Cell extends Actor {
                 });
     }
 
-
     @Override
     public void draw(Batch batch, float parentAlpha) {
         animationTime += Gdx.graphics.getDeltaTime();
@@ -79,7 +76,6 @@ public class Cell extends Actor {
         drawMissed(batch);
         tearDownBatch(batch);
     }
-
 
     private void drawBorders(Batch batch) {
         setUpShapeRenderer(batch);
@@ -94,7 +90,6 @@ public class Cell extends Actor {
         Gdx.gl20.glLineWidth(3);
         shape.setColor(Color.WHITE);
     }
-
 
     private void tearDownShapeRenderer() {
         shape.end();
@@ -111,14 +106,19 @@ public class Cell extends Actor {
             if (!injuredAnimation.isAnimationFinished(animationTime))
                 batch.draw(getCurrentFrame(injuredAnimation), getX(), getY(), Cell.SIZE, Cell.SIZE);
             else
-                batch.draw(getCurrentFrame(burningAnimation, true), getX(), getY(), Cell.SIZE, Cell.SIZE);
+                batch.draw(
+                        getCurrentFrame(burningAnimation, true),
+                        getX(),
+                        getY(),
+                        Cell.SIZE,
+                        Cell.SIZE);
         }
     }
-
 
     private TextureRegion getCurrentFrame(Animation animation) {
         return getCurrentFrame(animation, animationTime, false);
     }
+
     private TextureRegion getCurrentFrame(Animation animation, boolean looping) {
         return getCurrentFrame(animation, animationTime, looping);
     }
@@ -127,28 +127,29 @@ public class Cell extends Actor {
         return (TextureRegion) animation.getKeyFrame(time, looping);
     }
 
-
     private void drawKilled(Batch batch) {
         if (isKilled())
             batch.draw(getCurrentFrame(explosionAnimation), getX(), getY(), Cell.SIZE, Cell.SIZE);
-
     }
 
     private void drawMissed(Batch batch) {
         if (isMissed()) {
-            batch.draw(getCurrentFrame(missAnimation, missAnimation.getFrameDuration() * 3, false),getX(),getY(),Cell.SIZE,Cell.SIZE);
+            batch.draw(
+                    getCurrentFrame(missAnimation, missAnimation.getFrameDuration() * 3, false),
+                    getX(),
+                    getY(),
+                    Cell.SIZE,
+                    Cell.SIZE);
             if (!missAnimation.isAnimationFinished(animationTime)) {
                 batch.draw(getCurrentFrame(missAnimation), getX(), getY(), Cell.SIZE, Cell.SIZE);
             }
         }
     }
 
-
     private void tearDownBatch(Batch batch) {
         Color color = getColor();
         batch.setColor(color.r, color.g, color.b, 1f);
     }
-
 
     @Override
     public void drawDebug(ShapeRenderer shapes) {
@@ -158,11 +159,9 @@ public class Cell extends Actor {
         }
     }
 
-
     public boolean isMissed() {
         return status == CellStatus.MISS;
     }
-
 
     public boolean isHealthy() {
         return status == CellStatus.HEALTHY;

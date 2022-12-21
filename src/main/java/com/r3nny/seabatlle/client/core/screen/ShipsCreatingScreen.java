@@ -1,4 +1,4 @@
-/* Nikita Vashkulatov(C)2022 */
+/* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.screen;
 
 import static com.r3nny.seabatlle.client.core.Game.player;
@@ -125,13 +125,12 @@ public class ShipsCreatingScreen implements Screen {
         ScreenUtils.clear(new Color(Color.BLACK));
         stage.act();
         stage.draw();
-        if (Gdx.input.isKeyPressed(Input.Keys.A) ) {
-            if( !ShipsCreator.isShipLanding){
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            if (!ShipsCreator.isShipLanding) {
                 acceptButton.setVisible(true);
                 Gdx.app.log("SingleGameScreen", "Autocreating Player ships");
                 player.createShipsAutomaticaly();
             }
-
         }
 
         if (game.isShipsReady()) {

@@ -1,14 +1,12 @@
-/* Nikita Vashkulatov(C)2022 */
+/* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.model;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 import com.r3nny.seabatlle.client.core.utils.ShipManager;
-
 import java.util.LinkedList;
 import java.util.List;
-
 
 public abstract class GameField extends Group {
     public static final int FIELD_SIZE = 10;
@@ -19,14 +17,12 @@ public abstract class GameField extends Group {
     private final Cell[][] field;
     protected final List<Ship> ships;
 
-
     public GameField(float x, float y) {
         this.x = x;
         this.y = y;
         field = initCells();
         ships = initShips();
     }
-
 
     private Cell[][] initCells() {
         Cell[][] field = new Cell[FIELD_SIZE][FIELD_SIZE];
@@ -52,16 +48,12 @@ public abstract class GameField extends Group {
         return ships;
     }
 
-
-
     public void createShipsAutomaticaly() {
         StarBattle.soundManager.playShipEnterSound();
         clearField();
         ShipsCreator.autoCreateShips(this);
         clearAllMissed();
     }
-
-
 
     private void clearField() {
         for (Cell[] cells : this.field) {
@@ -71,17 +63,12 @@ public abstract class GameField extends Group {
         }
     }
 
-
-
-
     public void killShip(Ship ship) {
         ship.makeCellsKilled();
         decByShipType(ship.getType());
-        ShipsCreator.changeCellsStatusAroundShipToMiss(ship, this.getField());
+        ShipsCreator.setCellsAroundShipMissed(ship, this.getField());
         removeActor(ship);
     }
-
-
 
     public void clearAllMissed() {
         for (Cell[] cells : field) {
@@ -92,6 +79,7 @@ public abstract class GameField extends Group {
             }
         }
     }
+
     public void createShipsManager() {
         shipManager = new ShipManager(x, y - (Cell.SIZE * field.length) - 40);
         super.addActor(shipManager);

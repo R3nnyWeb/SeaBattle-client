@@ -1,4 +1,4 @@
-/* Nikita Vashkulatov(C)2022 */
+/* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.utils;
 
 import static com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.DEFAULT_CHARS;
@@ -104,8 +104,6 @@ public class Assets {
         return manager.get(TWO_DECK_SHIP_PATH);
     }
 
-
-
     public Texture getThreeDeckShip() {
         return manager.get(THREE_DECK_SHIP_PATH);
     }
@@ -193,8 +191,6 @@ public class Assets {
     public Texture getMissAnimation() {
         return manager.get(MISS_ANIMATION);
     }
-
-
 
     public Texture getExplosionAnimation() {
         return manager.get(EXPLOSION_ANIMATION);

@@ -1,4 +1,4 @@
-/* Nikita Vashkulatov(C)2022 */
+/* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.model;
 
 import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isShipLanding;
@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +22,7 @@ import java.util.Optional;
 public class Ship extends Actor {
     private final ShipType type;
 
-    //TODO : Переделать на коллекцию
+    // TODO : Переделать на коллекцию
     private List<Cell> cells;
     private float startX;
     private float startY;
@@ -112,7 +111,7 @@ public class Ship extends Actor {
                     float startY = cells[j].getY();
                     float endX = startX + cells[j].getWidth();
                     float endY = startY + cells[j].getHeight();
-                    //TODO: Contains написать
+                    // TODO: Contains написать
                     if ((x > startX) && (x < endX) && (y > startY) && (y < endY)) {
                         return Optional.of(currentCell);
                     }
@@ -207,7 +206,6 @@ public class Ship extends Actor {
 
         sprite.setColor(color.r, color.g, color.b, 1f);
     }
-
 
     private void drawBounds(Batch batch) {
         batch.end();

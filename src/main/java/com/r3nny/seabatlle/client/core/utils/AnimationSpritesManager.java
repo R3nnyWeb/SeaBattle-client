@@ -1,4 +1,4 @@
-/* Nikita Vashkulatov(C)2022 */
+/* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.utils;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -26,7 +26,7 @@ public class AnimationSpritesManager {
                 loadAnimation(StarBattle.assetsManager.getBurningAnimation(), 2, 5, 0.07F);
         this.missAnimation =
                 loadAnimation(StarBattle.assetsManager.getMissAnimation(), 4, 5, 0.05F);
-         this.explosionAnimation =
+        this.explosionAnimation =
                 loadAnimation(StarBattle.assetsManager.getExplosionAnimation(), 13, 1, 0.07f);
     }
 
@@ -55,8 +55,6 @@ public class AnimationSpritesManager {
     public Animation<TextureRegion> getMissAnimation() {
         return missAnimation;
     }
-
-
 
     public Animation<TextureRegion> getExplosionAnimation() {
         return explosionAnimation;

@@ -1,16 +1,15 @@
-/* Nikita Vashkulatov(C)2022 */
+/* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.controller;
+
+import static com.r3nny.seabatlle.client.core.Game.enemy;
+import static com.r3nny.seabatlle.client.core.Game.player;
 
 import com.r3nny.seabatlle.client.core.Game;
 import com.r3nny.seabatlle.client.core.GameStatus;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.model.Cell;
 import com.r3nny.seabatlle.client.core.model.Ship;
-
 import java.util.List;
-
-import static com.r3nny.seabatlle.client.core.Game.enemy;
-import static com.r3nny.seabatlle.client.core.Game.player;
 
 public class GameController {
 
@@ -70,7 +69,7 @@ public class GameController {
 
     private static boolean isKilling(Cell cell) {
         Ship ship = cell.getShip();
-        List<Cell> cells =  ship.getCells();
+        List<Cell> cells = ship.getCells();
         return cells.stream().filter(Cell::isHealthy).toList().isEmpty();
     }
 

@@ -1,4 +1,4 @@
-/* Nikita Vashkulatov(C)2022 */
+/* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core;
 
 import com.badlogic.gdx.Gdx;
@@ -6,7 +6,6 @@ import com.r3nny.seabatlle.client.core.controller.GameController;
 import com.r3nny.seabatlle.client.core.model.Cell;
 import com.r3nny.seabatlle.client.core.model.EnemyGameField;
 import com.r3nny.seabatlle.client.core.model.PlayerGameField;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -54,7 +53,7 @@ public class SingleGame extends Game {
                     possibleCellsToShoot = getPossibleCellsToShoot(hittedCells.get(0));
                 } else {
                     Cell cell = possibleCellsToShoot.pop();
-                     GameController.shoot(cell.getRow(), cell.getColumn());
+                    GameController.shoot(cell.getRow(), cell.getColumn());
                     if (cell.isKilled()) {
                         isNeedToKill = false;
                         possibleCellsToShoot.clear();
@@ -69,7 +68,7 @@ public class SingleGame extends Game {
             } else {
                 Random rd = new Random();
                 Cell cell = cellsToShoot.get(rd.nextInt(cellsToShoot.size() - 1));
-                if(!cell.isMissed() && !cell.isKilled()) {
+                if (!cell.isMissed() && !cell.isKilled()) {
                     GameController.shoot(cell.getRow(), cell.getColumn());
                     if (cell.isInjured()) {
                         isNeedToKill = true;
@@ -86,26 +85,22 @@ public class SingleGame extends Game {
 
     private void pushVerticalCells(int row, int column, Cell[][] field, Stack<Cell> stack) {
         if (row - 1 >= 0
-                && (!field[row - 1][column].isInjured()
-                        && !field[row - 1][column].isMissed())) {
+                && (!field[row - 1][column].isInjured() && !field[row - 1][column].isMissed())) {
             stack.push(field[row - 1][column]);
         }
         if (row + 1 < field.length
-                && (!field[row + 1][column].isInjured()
-                        && !field[row + 1][column].isMissed())) {
+                && (!field[row + 1][column].isInjured() && !field[row + 1][column].isMissed())) {
             stack.push(field[row + 1][column]);
         }
     }
 
     private void pushHorizontalCells(int row, int column, Cell[][] field, Stack<Cell> stack) {
         if (column - 1 >= 0
-                && (!field[row][column - 1].isInjured()
-                        && !field[row][column - 1].isMissed())) {
+                && (!field[row][column - 1].isInjured() && !field[row][column - 1].isMissed())) {
             stack.push(field[row][column - 1]);
         }
         if (column + 1 < field.length
-                && (!field[row][column + 1].isInjured()
-                        && !field[row][column + 1].isMissed())) {
+                && (!field[row][column + 1].isInjured() && !field[row][column + 1].isMissed())) {
             stack.push(field[row][column + 1]);
         }
     }
