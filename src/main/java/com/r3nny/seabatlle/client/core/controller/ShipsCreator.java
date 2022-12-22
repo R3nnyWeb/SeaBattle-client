@@ -53,10 +53,10 @@ public class ShipsCreator {
             Ship ship = ships.get(createdShips);
             if (rd.nextBoolean())
                 ship.rotate();
-            try{
+            try {
                 addShipToGameField(cell, ships.get(createdShips), gf);
                 createdShips++;
-            } catch (CantCreateShipException ex){
+            } catch (CantCreateShipException ex) {
                 System.err.println("Cant create ship on Cell" + cell);
             }
         }
@@ -226,6 +226,5 @@ public class ShipsCreator {
         } catch (IndexOutOfBoundsException ignored) {
         }
     }
-
 
 }
