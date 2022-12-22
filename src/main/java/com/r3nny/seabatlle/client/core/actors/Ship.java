@@ -250,6 +250,8 @@ public class Ship extends Actor {
         return isVertical;
     }
 
+
+    /**Поворачивает корабль на 90 градусов*/
     public void rotate() {
         boolean rotation = !isVertical();
         sprite.rotate90(rotation);

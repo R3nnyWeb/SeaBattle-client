@@ -2,7 +2,7 @@
 package com.r3nny.seabatlle.client.core.game;
 
 import com.badlogic.gdx.Gdx;
-import com.r3nny.seabatlle.client.core.controller.GameController;
+import com.r3nny.seabatlle.client.core.controller.ShootController;
 import com.r3nny.seabatlle.client.core.actors.Cell;
 import com.r3nny.seabatlle.client.core.actors.EnemyGameField;
 import com.r3nny.seabatlle.client.core.actors.PlayerGameField;
@@ -49,7 +49,7 @@ public class SingleGame extends Game {
                     possibleCellsToShoot = getPossibleCellsToShoot(hittedCells.get(0));
                 } else {
                     Cell cell = possibleCellsToShoot.pop();
-                    GameController.shoot(cell.getRow(), cell.getColumn());
+                    ShootController.shoot(cell.getRow(), cell.getColumn());
                     if (cell.isKilled()) {
                         isNeedToKill = false;
                         possibleCellsToShoot.clear();
@@ -65,7 +65,7 @@ public class SingleGame extends Game {
                 Random rd = new Random();
                 Cell cell = cellsToShoot.get(rd.nextInt(cellsToShoot.size() - 1));
                 if (!cell.isMissed() && !cell.isKilled()) {
-                    GameController.shoot(cell.getRow(), cell.getColumn());
+                    ShootController.shoot(cell.getRow(), cell.getColumn());
                     if (cell.isInjured()) {
                         isNeedToKill = true;
                         hittedCells.add(cell);

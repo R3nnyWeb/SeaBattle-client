@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.r3nny.seabatlle.client.core.game.Game;
 import com.r3nny.seabatlle.client.core.game.GameStatus;
 import com.r3nny.seabatlle.client.core.StarBattle;
-import com.r3nny.seabatlle.client.core.controller.GameController;
+import com.r3nny.seabatlle.client.core.controller.ShootController;
 
 enum CellStatus {
     SEA,
@@ -60,7 +60,7 @@ public class Cell extends Actor {
                     public boolean touchDown(
                             InputEvent event, float x, float y, int pointer, int button) {
                         if (Game.status == GameStatus.PLAYER_TURN) {
-                            GameController.shoot(Cell.this.row, Cell.this.column);
+                            ShootController.shoot(Cell.this.row, Cell.this.column);
                         }
                         return true;
                     }

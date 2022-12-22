@@ -13,7 +13,7 @@ import java.util.List;
 
 
 /**Содержит единственный метод для обработки выстрела*/
-public class GameController {
+public class ShootController {
 
     /**Меняет состояния клетки на поле в зависимости от результата и хода*/
     public static void shoot(int row, int column) {
