@@ -22,7 +22,7 @@ public class StarBattle extends com.badlogic.gdx.Game {
     public static final float WORLD_HEIGHT = 576;
 
     /**Поле, отвечающее за режим отладки*/
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
 
     /**@return Настроенная сцена для всех экранов*/
     public static Stage setUpStage() {
