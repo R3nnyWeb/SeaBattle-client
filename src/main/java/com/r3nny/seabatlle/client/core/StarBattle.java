@@ -2,7 +2,9 @@
 package com.r3nny.seabatlle.client.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.r3nny.seabatlle.client.core.screen.SplashScreen;
 import com.r3nny.seabatlle.client.core.utils.AnimationManager;

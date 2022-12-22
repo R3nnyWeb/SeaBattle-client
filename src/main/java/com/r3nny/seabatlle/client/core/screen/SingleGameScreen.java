@@ -2,24 +2,24 @@
 package com.r3nny.seabatlle.client.core.screen;
 
 
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.r3nny.seabatlle.client.core.StarBattle;
+import com.r3nny.seabatlle.client.core.actors.Cell;
 import com.r3nny.seabatlle.client.core.game.Game;
 import com.r3nny.seabatlle.client.core.game.GameStatus;
 import com.r3nny.seabatlle.client.core.game.SingleGame;
-import com.r3nny.seabatlle.client.core.StarBattle;
-import com.r3nny.seabatlle.client.core.actors.Cell;
-import com.r3nny.seabatlle.client.core.ui.ChangeScreenButton;
 
 import java.util.Random;
 
-/**Экран при одиночной игре*/
+/**
+ * Экран при одиночной игре
+ */
 public class SingleGameScreen extends InGameScreen {
     private final SingleGame game;
 
@@ -79,7 +79,6 @@ public class SingleGameScreen extends InGameScreen {
     }
 
 
-
     private GameStatus randomGameStatus() {
         Random rd = new Random();
         return rd.nextBoolean() ? GameStatus.PLAYER_TURN : GameStatus.ENEMY_TURN;
@@ -108,7 +107,15 @@ public class SingleGameScreen extends InGameScreen {
         game.update();
         if (isGameOver()) {
             soundManager().stopBattleMusic();
-            application.setScreen(new MenuScreen());
+            Game.status = GameStatus.END;
+            stage.addAction(
+                    Actions.sequence(
+                            animationManager().getFadeOutAnimation(),
+                            Actions.run(() -> {
+                                stage.clear();
+                                application.setScreen(new EndScreen(isEnemyDead()));
+
+                            })));
         }
         stage.act();
         stage.draw();

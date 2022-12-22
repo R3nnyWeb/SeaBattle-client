@@ -13,8 +13,6 @@ import com.r3nny.seabatlle.client.core.StarBattle;
 /**Экран с выбором режима игры*/
 public class ChooseScreen extends InGameScreen {
     private ImageButton singleGame;
-    private ImageButton multiGame;
-    private Image bgImage;
 
 
     public ChooseScreen( ) {
@@ -52,7 +50,7 @@ public class ChooseScreen extends InGameScreen {
     }
 
     private void setUpMultiGameButton() {
-        multiGame = new ImageButton(assetManager().getChooseButtonSkin(), "multiPlayer");
+        ImageButton multiGame = new ImageButton(assetManager().getChooseButtonSkin(), "multiPlayer");
 
         multiGame.setSize(singleGame.getWidth(), singleGame.getHeight());
         multiGame.setX(StarBattle.WORLD_WIDTH / 2 + 25);
@@ -70,12 +68,8 @@ public class ChooseScreen extends InGameScreen {
     public void show() {
     }
 
-    @Override
-    public void render(float delta) {
-        ScreenUtils.clear(new Color(Color.BLACK));
-        stage.act();
-        stage.draw();
-    }
+
+
 
     @Override
     public void resize(int width, int height) {

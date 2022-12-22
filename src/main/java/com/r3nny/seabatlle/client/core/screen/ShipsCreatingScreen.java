@@ -3,30 +3,30 @@ package com.r3nny.seabatlle.client.core.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.r3nny.seabatlle.client.core.StarBattle;
+import com.r3nny.seabatlle.client.core.actors.ShipsCreatingArea;
+import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 import com.r3nny.seabatlle.client.core.game.Game;
 import com.r3nny.seabatlle.client.core.game.GameStatus;
 import com.r3nny.seabatlle.client.core.game.SingleGame;
-import com.r3nny.seabatlle.client.core.StarBattle;
-import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
-import com.r3nny.seabatlle.client.core.actors.ShipsCreatingArea;
 
 import static com.r3nny.seabatlle.client.core.game.Game.player;
 
-/**Экран с созданием кораблей игрока*/
+/**
+ * Экран с созданием кораблей игрока
+ */
 public class ShipsCreatingScreen extends InGameScreen {
 
     private final SingleGame game;
 
     private TextButton acceptButton;
 
-    private  ShipsCreatingArea shipsCreatingArea;
+    private ShipsCreatingArea shipsCreatingArea;
 
     public ShipsCreatingScreen() {
         super(new Image(StarBattle.assetsManager.getInGameBackground()));
@@ -38,7 +38,6 @@ public class ShipsCreatingScreen extends InGameScreen {
         stage.addActor(Game.player);
         stage.setDebugAll(StarBattle.DEBUG);
     }
-
 
 
     private void setUpAcceptButton() {
@@ -59,9 +58,8 @@ public class ShipsCreatingScreen extends InGameScreen {
     }
 
 
-
     private void setUpShipsCreatingArea() {
-       shipsCreatingArea = new ShipsCreatingArea(Game.ENEMY_FIELD_X, Game.FIELD_Y);
+        shipsCreatingArea = new ShipsCreatingArea(Game.ENEMY_FIELD_X, Game.FIELD_Y);
         stage.addActor(shipsCreatingArea);
     }
 
@@ -79,7 +77,6 @@ public class ShipsCreatingScreen extends InGameScreen {
     }
 
 
-
     @Override
     public void show() {
         soundManager().playBattleMusic();
@@ -87,20 +84,17 @@ public class ShipsCreatingScreen extends InGameScreen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(new Color(Color.BLACK));
-        stage.act();
-        stage.draw();
+        super.render(delta);
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             if (!ShipsCreator.isAnyShipLanding) {
                 acceptButton.setVisible(true);
                 Game.player.createShipsAutomaticaly();
             }
         }
-
         if (game.isShipsReady()) {
             Game.player.clearAllMissed();
             shipsCreatingArea.remove();
-            application.setScreen(new SingleGameScreen( game));
+            application.setScreen(new SingleGameScreen(game));
         }
     }
 
@@ -110,10 +104,12 @@ public class ShipsCreatingScreen extends InGameScreen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
     public void hide() {

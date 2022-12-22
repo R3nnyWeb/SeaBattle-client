@@ -217,8 +217,11 @@ public class Cell extends Actor {
         this.ship = ship;
     }
 
-
-
-
-
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "column=" + column +
+                ", row=" + row +
+                '}';
+    }
 }

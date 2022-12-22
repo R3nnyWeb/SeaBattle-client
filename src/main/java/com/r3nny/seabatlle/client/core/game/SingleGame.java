@@ -1,122 +1,25 @@
 /* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.game;
 
-import com.badlogic.gdx.Gdx;
-import com.r3nny.seabatlle.client.core.controller.ShootController;
-import com.r3nny.seabatlle.client.core.actors.Cell;
 import com.r3nny.seabatlle.client.core.actors.EnemyGameField;
 import com.r3nny.seabatlle.client.core.actors.PlayerGameField;
-import com.r3nny.seabatlle.client.core.utils.Bot;
-
-import java.util.*;
+import com.r3nny.seabatlle.client.core.controller.Bot;
 
 public class SingleGame extends Game {
-
-    private float timeFromLastShoot = 0F;
-
-    private final List<Cell> cellsToShoot;
-
-    private boolean isNeedToKill = false;
-    private Bot bot;
-
-    private Stack<Cell> possibleCellsToShoot;
-
-    private final List<Cell> hittedCells;
+    private final Bot bot;
 
     public SingleGame() {
         player = new PlayerGameField(PLAYER_FIELD_X, FIELD_Y);
         enemy = new EnemyGameField(ENEMY_FIELD_X, FIELD_Y);
-        this.hittedCells = new ArrayList<>();
-        cellsToShoot = new ArrayList<>();
-        Cell[][] field = player.getField();
-        for (Cell[] cells : field) {
-            cellsToShoot.addAll(Arrays.asList(cells).subList(0, field.length));
-        }
+        bot = new Bot();
     }
 
     public boolean isShipsReady() {
         return player.isShipsReady() && enemy.isShipsReady();
     }
 
-    // TODO: Переписать
-    public void update() {
-        if (Game.status == GameStatus.ENEMY_TURN) {
-            timeFromLastShoot += Gdx.graphics.getDeltaTime();
-        }
-        float BOT_THINKING_TIME = 1.3F;
-        if (Game.status == GameStatus.ENEMY_TURN && timeFromLastShoot > BOT_THINKING_TIME) {
-            if (isNeedToKill) {
-
-                if (possibleCellsToShoot.empty()) {
-                    possibleCellsToShoot = getPossibleCellsToShoot(hittedCells.get(0));
-                } else {
-                    Cell cell = possibleCellsToShoot.pop();
-                    ShootController.shoot(cell.getRow(), cell.getColumn());
-                    if (cell.isKilled()) {
-                        isNeedToKill = false;
-                        possibleCellsToShoot.clear();
-                        hittedCells.clear();
-                    } else if (cell.isInjured()) {
-                        hittedCells.add(cell);
-                        possibleCellsToShoot = getPossibleCellsToShoot(cell);
-                    }
-                    timeFromLastShoot = 0f;
-                    cellsToShoot.remove(cell);
-                }
-            } else {
-                Random rd = new Random();
-                Cell cell = cellsToShoot.get(rd.nextInt(cellsToShoot.size() - 1));
-                if (!cell.isMissed() && !cell.isKilled()) {
-                    ShootController.shoot(cell.getRow(), cell.getColumn());
-                    if (cell.isInjured()) {
-                        isNeedToKill = true;
-                        hittedCells.add(cell);
-                        possibleCellsToShoot = getPossibleCellsToShoot(cell);
-                    }
-
-                    timeFromLastShoot = 0f;
-                }
-                cellsToShoot.remove(cell);
-            }
-        }
+    public  void  update(){
+        bot.update();
     }
 
-    private void pushVerticalCells(int row, int column, Cell[][] field, Stack<Cell> stack) {
-        if (row - 1 >= 0
-                && (!field[row - 1][column].isInjured() && !field[row - 1][column].isMissed())) {
-            stack.push(field[row - 1][column]);
-        }
-        if (row + 1 < field.length
-                && (!field[row + 1][column].isInjured() && !field[row + 1][column].isMissed())) {
-            stack.push(field[row + 1][column]);
-        }
-    }
-
-    private void pushHorizontalCells(int row, int column, Cell[][] field, Stack<Cell> stack) {
-        if (column - 1 >= 0
-                && (!field[row][column - 1].isInjured() && !field[row][column - 1].isMissed())) {
-            stack.push(field[row][column - 1]);
-        }
-        if (column + 1 < field.length
-                && (!field[row][column + 1].isInjured() && !field[row][column + 1].isMissed())) {
-            stack.push(field[row][column + 1]);
-        }
-    }
-
-    private Stack<Cell> getPossibleCellsToShoot(Cell cell) {
-        Stack<Cell> stack = new Stack<>();
-        int row = cell.getRow();
-        int column = cell.getColumn();
-        Cell[][] field = player.getField();
-        // TODO: Переработать
-        if (cell.getShip().isVertical()) {
-            pushHorizontalCells(row, column, field, stack);
-            pushVerticalCells(row, column, field, stack);
-        } else {
-            pushVerticalCells(row, column, field, stack);
-            pushHorizontalCells(row, column, field, stack);
-        }
-
-        return stack;
-    }
 }

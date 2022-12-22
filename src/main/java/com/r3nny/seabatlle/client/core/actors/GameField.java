@@ -109,4 +109,8 @@ public abstract class GameField extends Group {
     public boolean isAllShipsKilled(){
         return shipManager.isAllShipsKilled();
     }
+
+    public ShipManager getShipManager() {
+        return shipManager;
+    }
 }

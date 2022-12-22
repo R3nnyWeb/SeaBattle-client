@@ -13,6 +13,8 @@ public class SoundManager {
 
     private final Music mainMusic;
     private final Music battleMusic;
+    private final Music wonMusic;
+    private final Music loseMusic;
 
     private final Sound newGameClick;
     private final Sound focusSound;
@@ -23,13 +25,12 @@ public class SoundManager {
     private final Sound injuredSound_1;
     private final Sound injuredSound_2;
     private final Sound killedSound;
-
-    // TODO : Файл настроек
     private final float musicVolume = 0.1F;
     private final float soundVolume = 0.8F;
 
     public SoundManager() {
-
+        this.wonMusic = StarBattle.assetsManager.getWonMusic();
+        this.loseMusic = StarBattle.assetsManager.getLoseMusic();
         this.mainMusic = StarBattle.assetsManager.getMainMusic();
         this.battleMusic = StarBattle.assetsManager.getBattleMusic();
         this.newGameClick = StarBattle.assetsManager.getNewGameClickSound();
@@ -57,6 +58,22 @@ public class SoundManager {
     public void playBattleMusic() {
         battleMusic.setVolume(musicVolume);
         battleMusic.play();
+    }
+    public void playWonMusic() {
+        wonMusic.setVolume(musicVolume);
+        wonMusic.play();
+    }
+
+    public void stopWonMusic() {
+        wonMusic.stop();
+    }
+    public void playLoseMusic() {
+        loseMusic.setVolume(musicVolume);
+        loseMusic.play();
+    }
+
+    public void stopLoseMusic() {
+        loseMusic.stop();
     }
 
     public void stopBattleMusic() {

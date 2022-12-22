@@ -33,8 +33,8 @@ public class ShipManager extends Group {
         }
     }
 
-    public void decByType(ShipType shipType) {
-        shipCounts.stream().filter(s -> s.getType() == shipType).findFirst().ifPresent(ShipsCountDTO::dec);
+    public void decByType(ShipType type) {
+        shipCounts.stream().filter(s -> s.getType() == type).findFirst().ifPresent(ShipsCountDTO::dec);
 
     }
 

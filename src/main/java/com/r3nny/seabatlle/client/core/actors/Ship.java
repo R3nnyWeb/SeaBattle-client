@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.r3nny.seabatlle.client.core.exeptions.CantCreateShipException;
 import com.r3nny.seabatlle.client.core.game.Game;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
@@ -74,14 +75,16 @@ public class Ship extends Actor {
                 Optional<Cell> optionalCell = getCellFromEvent(event);
                 if (optionalCell.isPresent()) {
                     Cell cell = optionalCell.get();
-                    if (ShipsCreator.addShipToGameField(cell, Ship.this, Game.player)) {
+                    try {
+                        ShipsCreator.addShipToGameField(cell, Ship.this, Game.player);
                         updatePosition(cell.getX(), cell.getY());
                         animateShip();
                         ShipsCreator.createdPlayerShips++;
                         Game.player.setShipsReady(
                                 ShipsCreator.createdPlayerShips
                                         == ShipsCreator.shipTypes.length);
-                    } else {
+                    }
+                    catch (CantCreateShipException ex){
                         resetCoordinates();
                     }
                 } else {

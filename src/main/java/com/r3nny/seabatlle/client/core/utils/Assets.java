@@ -1,8 +1,6 @@
 /* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.utils;
 
-import static com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.DEFAULT_CHARS;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -13,7 +11,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-/**Прокси над com.badlogic.gdx.assets.AssetManager*/
+import static com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.DEFAULT_CHARS;
+
+/**
+ * Прокси над com.badlogic.gdx.assets.AssetManager
+ */
 public class Assets {
 
     private final String MAIN_MENU_BG_PATH = "mainMenu/bg.png";
@@ -49,6 +51,10 @@ public class Assets {
     private final String MISS_ANIMATION = "sprites/missSprite.png";
 
     private final String EXPLOSION_ANIMATION = "sprites/explosionSprite.png";
+    private final String WON_IMAGE = "won.png";
+    private final String LOSE_IMAGE = "lose.png";
+    private final String WON_SOUND = "sounds/winSound.mp3";
+    private final String LOST_SOUND = "sounds/lostSound.mp3";
 
     private final AssetManager manager;
 
@@ -69,6 +75,9 @@ public class Assets {
         manager.load(BURNING_ANIMATION, Texture.class);
         manager.load(MISS_ANIMATION, Texture.class);
         manager.load(EXPLOSION_ANIMATION, Texture.class);
+        manager.load(WON_IMAGE, Texture.class);
+        manager.load(LOSE_IMAGE, Texture.class);
+
 
         manager.load(MENU_BUTTON_SKIN, Skin.class);
         manager.load(CHOOSE_BUTTON_SKIN, Skin.class);
@@ -80,6 +89,8 @@ public class Assets {
 
         manager.load(MAIN_MUSIC, Music.class);
         manager.load(BATTLE_MUSIC, Music.class);
+        manager.load(WON_SOUND, Music.class);
+        manager.load(LOST_SOUND, Music.class);
 
         manager.load(NEW_GAME_CLICK, Sound.class);
         manager.load(SHIP_ENTER_SOUND, Sound.class);
@@ -90,6 +101,22 @@ public class Assets {
         manager.load(SHIP_INJURED_SOUND_1, Sound.class);
         manager.load(SHIP_INJURED_SOUND_2, Sound.class);
         manager.load(KILLED_SOUND, Sound.class);
+    }
+
+    public Music getWonMusic() {
+        return manager.get(WON_SOUND);
+    }
+
+    public Music getLoseMusic() {
+        return manager.get(LOST_SOUND);
+    }
+
+    public Texture getWonImage() {
+        return manager.get(WON_IMAGE);
+    }
+
+    public Texture getLoseImage() {
+        return manager.get(LOSE_IMAGE);
     }
 
     public Texture getMenuBackground() {

@@ -88,12 +88,8 @@ public class MenuScreen extends Screen {
         Gdx.app.log("Menu Screen", "Showing menu screen");
     }
 
-    @Override
-    public void render(float delta) {
-        ScreenUtils.clear(new Color(Color.BLACK));
-        stage.act();
-        stage.draw();
-    }
+
+
 
     @Override
     public void resize(int i, int i1) {

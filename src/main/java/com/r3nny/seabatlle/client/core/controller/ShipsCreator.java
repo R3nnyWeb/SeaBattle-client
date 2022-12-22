@@ -2,21 +2,25 @@
 package com.r3nny.seabatlle.client.core.controller;
 
 import com.badlogic.gdx.Gdx;
-import com.r3nny.seabatlle.client.core.exeptions.CantCreateShipException;
 import com.r3nny.seabatlle.client.core.actors.Cell;
 import com.r3nny.seabatlle.client.core.actors.GameField;
 import com.r3nny.seabatlle.client.core.actors.Ship;
 import com.r3nny.seabatlle.client.core.actors.ShipType;
+import com.r3nny.seabatlle.client.core.exeptions.CantCreateShipException;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-/**Статические методы для создания кораблей*/
+/**
+ * Статические методы для создания кораблей
+ */
 public class ShipsCreator {
     private static Random rd;
 
-    /**Учет успешно созданных кораблей игрока*/
+    /**
+     * Учет успешно созданных кораблей игрока
+     */
     public static int createdPlayerShips = 0;
 
     public static boolean isAnyShipLanding = false;
@@ -34,9 +38,11 @@ public class ShipsCreator {
             ShipType.ONE_DECK
     };
 
-    /**Автоматически создает корабли на поле
+    /**
+     * Автоматически создает корабли на поле
+     *
      * @param gf Игровое поле
-     * */
+     */
     public static void autoCreateShips(GameField gf) {
         rd = new Random();
         Cell[][] field = gf.getField();
@@ -47,9 +53,12 @@ public class ShipsCreator {
             Ship ship = ships.get(createdShips);
             if (rd.nextBoolean())
                 ship.rotate();
-            if (addShipToGameField(cell, ships.get(createdShips), gf))
+            try{
+                addShipToGameField(cell, ships.get(createdShips), gf);
                 createdShips++;
-
+            } catch (CantCreateShipException ex){
+                System.err.println("Cant create ship on Cell" + cell);
+            }
         }
         Gdx.app.log("ShipsCreator", "All ships automatically created");
     }
@@ -60,25 +69,25 @@ public class ShipsCreator {
         return field[row][column];
     }
 
-    //TODO: Пусть выбрасывает CantCreateShip.java
-    /**Помещает корабль на поле с началом на определенной клетке
+
+    /**
+     * Помещает корабль на поле с началом на определенной клетке
+     *
      * @param cell начало корабля
      * @param ship корабль
-     * @param gf поле
-     * @return успешность добавления*/
-    public static boolean addShipToGameField(Cell cell, Ship ship, GameField gf) {
-        try {
-            List<Cell> shipCells = getShipCells(cell, ship, gf.getField());
-            linkShipAndCells(ship, shipCells);
-        } catch (CantCreateShipException e) {
-            return false;
-        }
+     * @param gf   поле
+     * @throws CantCreateShipException если нельзя поместить корабль
+     */
+    public static void addShipToGameField(Cell cell, Ship ship, GameField gf) throws CantCreateShipException {
+        List<Cell> shipCells = getShipCells(cell, ship, gf.getField());
+        linkShipAndCells(ship, shipCells);
         setCellsAroundShipMissed(ship, gf.getField());
-        return true;
     }
 
-    /**@return Список клеток в которые добавляется корабль
-     *@throws CantCreateShipException если нельзя поместить корабль*/
+    /**
+     * @return Список клеток в которые добавляется корабль
+     * @throws CantCreateShipException если нельзя поместить корабль
+     */
     private static List<Cell> getShipCells(Cell startCell, Ship ship, Cell[][] field)
             throws CantCreateShipException {
         List<Cell> cells = new LinkedList<>();
@@ -110,7 +119,9 @@ public class ShipsCreator {
             return field[startCell.getRow()][startCell.getColumn() + i];
     }
 
-    /**Связывает корабль и клетки в двухстороннем порядке*/
+    /**
+     * Связывает корабль и клетки в двухстороннем порядке
+     */
     private static void linkShipAndCells(Ship ship, List<Cell> shipCells) {
         Cell startCell = shipCells.get(0);
         ship.setPosition(startCell.getX(), startCell.getY());
