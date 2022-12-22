@@ -47,12 +47,12 @@ public class PlayerGameField extends GameField {
     }
 
     private void animateShipsCreating() {
-        ShipsCreator.isShipLanding = true;
+        ShipsCreator.isAnyShipLanding = true;
         for (Ship ship : ships) {
             ship.addAction(
                     StarBattle.animationManager.getShipEnterAction(
                             ship,
-                            () -> ShipsCreator.isShipLanding = false));
+                            () -> ShipsCreator.isAnyShipLanding = false));
         }
     }
 

@@ -6,6 +6,7 @@ import com.r3nny.seabatlle.client.core.controller.ShootController;
 import com.r3nny.seabatlle.client.core.actors.Cell;
 import com.r3nny.seabatlle.client.core.actors.EnemyGameField;
 import com.r3nny.seabatlle.client.core.actors.PlayerGameField;
+import com.r3nny.seabatlle.client.core.utils.Bot;
 
 import java.util.*;
 
@@ -16,6 +17,7 @@ public class SingleGame extends Game {
     private final List<Cell> cellsToShoot;
 
     private boolean isNeedToKill = false;
+    private Bot bot;
 
     private Stack<Cell> possibleCellsToShoot;
 

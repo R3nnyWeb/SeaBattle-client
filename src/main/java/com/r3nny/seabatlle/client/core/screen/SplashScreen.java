@@ -70,9 +70,9 @@ public class SplashScreen implements Screen {
                                     () -> {
                                         stage.clear();
                                         if (StarBattle.DEBUG) {
-                                            application.setScreen(new ShipsCreatingScreen(application));
+                                            application.setScreen(new ShipsCreatingScreen());
                                         } else {
-                                            application.setScreen(new MenuScreen(application));
+                                            application.setScreen(new MenuScreen());
                                         }
                                     })));
         }

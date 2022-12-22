@@ -1,7 +1,7 @@
 /* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.actors;
 
-import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isShipLanding;
+import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isAnyShipLanding;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -22,8 +22,6 @@ import java.util.Optional;
 /**Корабль*/
 public class Ship extends Actor {
     private final ShipType type;
-
-    // TODO : Переделать на коллекцию
     private List<Cell> cells;
 
     /**Координата для окна создания корабля*/
@@ -40,13 +38,13 @@ public class Ship extends Actor {
 
         @Override
         public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-            unSelectShip();
+            unSelect();
         }
 
         @Override
         public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
             if (canMoveShip()) {
-                selectShip();
+                select();
             }
         }
 
@@ -93,11 +91,11 @@ public class Ship extends Actor {
         }
 
         private void animateShip() {
-            isShipLanding = true;
+            isAnyShipLanding = true;
             Ship.this.addAction(
                     StarBattle.animationManager.getShipEnterAction(
                             Ship.this,
-                            () ->isShipLanding = false));
+                            () -> isAnyShipLanding = false));
             StarBattle.soundManager.playShipEnterSound();
             updateBounds();
         }
@@ -138,7 +136,10 @@ public class Ship extends Actor {
     }
 
     public boolean canMoveShip() {
-        return isShipNotPlaced() && !isShipLanding;
+        return isShipNotPlaced() && !isAnyShipLanding;
+    }
+    private boolean isShipNotPlaced() {
+        return this.cells.isEmpty();
     }
 
     private void updatePosition(float v, float v1) {
@@ -150,16 +151,14 @@ public class Ship extends Actor {
         setPosition(getStartX(), getStartY());
     }
 
-    private boolean isShipNotPlaced() {
-        return this.cells.isEmpty();
-    }
 
-    private void selectShip() {
+
+    private void select() {
         Ship.this.isSelected = true;
         StarBattle.soundManager.playFocusButton();
     }
 
-    private void unSelectShip() {
+    private void unSelect() {
         Ship.this.isSelected = false;
     }
 

@@ -19,7 +19,7 @@ public class ShipsCreator {
     /**Учет успешно созданных кораблей игрока*/
     public static int createdPlayerShips = 0;
 
-    public static boolean isShipLanding = false;
+    public static boolean isAnyShipLanding = false;
 
     public static ShipType[] shipTypes = {
             ShipType.FOUR_DECK,

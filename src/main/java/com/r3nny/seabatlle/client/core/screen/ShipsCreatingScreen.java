@@ -3,10 +3,8 @@ package com.r3nny.seabatlle.client.core.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -18,33 +16,24 @@ import com.r3nny.seabatlle.client.core.game.SingleGame;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 import com.r3nny.seabatlle.client.core.actors.ShipsCreatingArea;
-import com.r3nny.seabatlle.client.core.ui.ChangeScreenButton;
 
 import static com.r3nny.seabatlle.client.core.game.Game.player;
-import static com.r3nny.seabatlle.client.core.game.Game.status;
 
 /**Экран с созданием кораблей игрока*/
-public class ShipsCreatingScreen implements Screen {
+public class ShipsCreatingScreen extends InGameScreen {
 
     private final SingleGame game;
 
     private TextButton acceptButton;
-    private final StarBattle application;
-    public final Stage stage;
+
     private  ShipsCreatingArea shipsCreatingArea;
 
-    public ShipsCreatingScreen(StarBattle application) {
-        this.application = application;
-        status = GameStatus.SHIPS_STAGE;
-        this.stage = StarBattle.setUpStage();
-
-        setUpBg();
-        setUpLogo();
-        setUpBackButton();
+    public ShipsCreatingScreen() {
+        super(new Image(StarBattle.assetsManager.getInGameBackground()));
+        Game.status = GameStatus.SHIPS_STAGE;
         setUpAcceptButton();
         setUpShipsCreatingArea();
         setUpLabels();
-
         game = new SingleGame();
         stage.addActor(Game.player);
         stage.setDebugAll(StarBattle.DEBUG);
@@ -53,7 +42,7 @@ public class ShipsCreatingScreen implements Screen {
 
 
     private void setUpAcceptButton() {
-        acceptButton = new TextButton("Accept", StarBattle.assetsManager.getMenuButtonSkin());
+        acceptButton = new TextButton("Accept", assetManager().getMenuButtonSkin());
         acceptButton.setSize(200, 50);
         acceptButton.setX(StarBattle.WORLD_WIDTH - acceptButton.getWidth() - 10);
         acceptButton.setY(10);
@@ -70,33 +59,6 @@ public class ShipsCreatingScreen implements Screen {
     }
 
 
-    private void setUpBg() {
-      Image bg = new Image(StarBattle.assetsManager.getInGameBackground());
-        bg.setSize(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT);
-        stage.addActor(bg);
-    }
-
-    private void setUpLogo() {
-        Image menuLogo = new Image(StarBattle.assetsManager.getMenuLogo());
-        menuLogo.setSize(310, 27);
-        menuLogo.setX(StarBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
-        menuLogo.setY(StarBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
-
-        stage.addActor(menuLogo);
-    }
-
-    private void setUpBackButton() {
-       ChangeScreenButton backButton =
-                new ChangeScreenButton("Back to menu",() -> {}, () -> {
-                    stage.clear();
-                    application.setScreen(new MenuScreen(application));
-                });
-        backButton.setX(10);
-        backButton.setSize(200, 50);
-        backButton.setY(StarBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
-
-        stage.addActor(backButton);
-    }
 
     private void setUpShipsCreatingArea() {
        shipsCreatingArea = new ShipsCreatingArea(Game.ENEMY_FIELD_X, Game.FIELD_Y);
@@ -120,7 +82,7 @@ public class ShipsCreatingScreen implements Screen {
 
     @Override
     public void show() {
-        StarBattle.soundManager.playBattleMusic();
+        soundManager().playBattleMusic();
     }
 
     @Override
@@ -129,7 +91,7 @@ public class ShipsCreatingScreen implements Screen {
         stage.act();
         stage.draw();
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            if (!ShipsCreator.isShipLanding) {
+            if (!ShipsCreator.isAnyShipLanding) {
                 acceptButton.setVisible(true);
                 Game.player.createShipsAutomaticaly();
             }
@@ -138,7 +100,7 @@ public class ShipsCreatingScreen implements Screen {
         if (game.isShipsReady()) {
             Game.player.clearAllMissed();
             shipsCreatingArea.remove();
-            application.setScreen(new SingleGameScreen( game, application));
+            application.setScreen(new SingleGameScreen( game));
         }
     }
 

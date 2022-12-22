@@ -2,7 +2,7 @@
 package com.r3nny.seabatlle.client.core.screen;
 
 
-import com.badlogic.gdx.Screen;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,25 +20,19 @@ import com.r3nny.seabatlle.client.core.ui.ChangeScreenButton;
 import java.util.Random;
 
 /**Экран при одиночной игре*/
-public class SingleGameScreen implements Screen {
-
+public class SingleGameScreen extends InGameScreen {
     private final SingleGame game;
-
-    private final Stage stage;
-    private final StarBattle application;
 
     private Label turnLabel;
 
-    public SingleGameScreen(SingleGame game, StarBattle application) {
+    public SingleGameScreen(SingleGame game) {
+        super(new Image(StarBattle.assetsManager.getInGameBackground()));
         this.game = game;
-        this.application = application;
+
         Game.player.createShipsManager();
         Game.enemy.createShipsManager();
         Game.status = randomGameStatus();
-        stage = StarBattle.setUpStage();
-        setUpBgImage();
-        setUpLogo();
-        setUpBackButton();
+
         disableClicksOnPlayerField();
         setUpLabels();
         stage.addActor(Game.player);
@@ -49,7 +43,7 @@ public class SingleGameScreen implements Screen {
 
     private void setUpLabels() {
         Label.LabelStyle skin = new Label.LabelStyle();
-        skin.font = StarBattle.assetsManager.getFont(40);
+        skin.font = assetManager().getFont(40);
 
         Label playerFieldLabel = new Label("Your Field", skin);
         playerFieldLabel.setFontScale(0.5F);
@@ -84,32 +78,7 @@ public class SingleGameScreen implements Screen {
         }
     }
 
-    private void setUpBackButton() {
-        ChangeScreenButton backButton =
-                new ChangeScreenButton("Back to menu", () -> {
-                }, () -> {
-                    stage.clear();
-                    application.setScreen(new MenuScreen(application));
-                });
-        backButton.setX(10);
-        backButton.setSize(200, 50);
-        backButton.setY(StarBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
-        stage.addActor(backButton);
-    }
 
-    private void setUpLogo() {
-        Image menuLogo = new Image(StarBattle.assetsManager.getMenuLogo());
-        menuLogo.setSize(310, 27);
-        menuLogo.setX(StarBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
-        menuLogo.setY(StarBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
-        stage.addActor(menuLogo);
-    }
-
-    private void setUpBgImage() {
-        Image bgImage = new Image(StarBattle.assetsManager.getInGameBackground());
-        bgImage.setSize(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT);
-        stage.addActor(bgImage);
-    }
 
     private GameStatus randomGameStatus() {
         Random rd = new Random();
@@ -138,8 +107,8 @@ public class SingleGameScreen implements Screen {
         updateTurnLabel();
         game.update();
         if (isGameOver()) {
-            StarBattle.soundManager.stopBattleMusic();
-            application.setScreen(new MenuScreen(application));
+            soundManager().stopBattleMusic();
+            application.setScreen(new MenuScreen());
         }
         stage.act();
         stage.draw();

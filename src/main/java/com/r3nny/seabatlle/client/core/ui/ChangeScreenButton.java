@@ -27,6 +27,7 @@ public class ChangeScreenButton extends TextButton {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 StarBattle.soundManager.playClickSound();
+                StarBattle.soundManager.stopBattleMusic();
                 withFadeOut.run();
                 ChangeScreenButton.super.addAction(
                         Actions.sequence(
