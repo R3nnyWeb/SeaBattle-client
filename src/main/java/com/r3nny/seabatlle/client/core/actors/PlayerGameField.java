@@ -52,9 +52,7 @@ public class PlayerGameField extends GameField {
             ship.addAction(
                     StarBattle.animationManager.getShipEnterAction(
                             ship,
-                            () -> {
-                                ShipsCreator.isShipLanding = false;
-                            }));
+                            () -> ShipsCreator.isShipLanding = false));
         }
     }
 

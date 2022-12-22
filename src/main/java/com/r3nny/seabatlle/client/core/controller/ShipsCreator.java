@@ -115,10 +115,10 @@ public class ShipsCreator {
         Cell startCell = shipCells.get(0);
         ship.setPosition(startCell.getX(), startCell.getY());
         ship.setCells(shipCells);
-        setShipToCells(ship, shipCells);
+        setShipToCells(ship);
     }
 
-    private static void setShipToCells(Ship ship, List<Cell> shipCells) {
+    private static void setShipToCells(Ship ship) {
         for (Cell cell : ship.getCells()) {
             cell.setShip(ship);
             cell.setHealthy();
@@ -145,7 +145,7 @@ public class ShipsCreator {
                 field[firstCell.getRow()][firstCell.getColumn() - 1].setMiss();
         } catch (IndexOutOfBoundsException ignored) {
         }
-        ;
+
     }
 
     private static void setMissAfter(Ship ship, Cell[][] field) {
@@ -158,7 +158,7 @@ public class ShipsCreator {
                 field[lastCell.getRow()][lastCell.getColumn() + 1].setMiss();
         } catch (IndexOutOfBoundsException ignored) {
         }
-        ;
+
 
     }
 
@@ -183,7 +183,7 @@ public class ShipsCreator {
                 }
             } catch (IndexOutOfBoundsException ignored) {
             }
-            ;
+
 
         }
     }

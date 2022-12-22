@@ -35,10 +35,10 @@ public class Cell extends Actor {
     private final ShapeRenderer shape;
     private float animationTime = 0f;
 
-    private final Animation injuredAnimation;
-    private final Animation burningAnimation;
-    private final Animation missAnimation;
-    private final Animation explosionAnimation;
+    private final Animation<TextureRegion> injuredAnimation;
+    private final Animation<TextureRegion> burningAnimation;
+    private final Animation<TextureRegion> missAnimation;
+    private final Animation<TextureRegion> explosionAnimation;
 
     public Cell(float x, float y, int column, int row) {
         this.column = column;
@@ -108,7 +108,7 @@ public class Cell extends Actor {
                 batch.draw(getCurrentFrame(injuredAnimation), getX(), getY(), Cell.SIZE, Cell.SIZE);
             else
                 batch.draw(
-                        getCurrentFrame(burningAnimation, true),
+                        getCurrentFrame(burningAnimation, animationTime, true),
                         getX(),
                         getY(),
                         Cell.SIZE,
@@ -116,16 +116,14 @@ public class Cell extends Actor {
         }
     }
 
-    private TextureRegion getCurrentFrame(Animation animation) {
+    private TextureRegion getCurrentFrame(Animation<TextureRegion> animation) {
         return getCurrentFrame(animation, animationTime, false);
     }
 
-    private TextureRegion getCurrentFrame(Animation animation, boolean looping) {
-        return getCurrentFrame(animation, animationTime, looping);
-    }
 
-    private TextureRegion getCurrentFrame(Animation animation, float time, boolean looping) {
-        return (TextureRegion) animation.getKeyFrame(time, looping);
+
+    private TextureRegion getCurrentFrame(Animation<TextureRegion> animation, float time, boolean looping) {
+        return animation.getKeyFrame(time, looping);
     }
 
     private void drawKilled(Batch batch) {
@@ -219,13 +217,8 @@ public class Cell extends Actor {
         this.ship = ship;
     }
 
-    public CellStatus getStatus() {
-        return status;
-    }
 
-    public void setStatus(CellStatus status) {
-        this.status = status;
-    }
+
 
 
 }

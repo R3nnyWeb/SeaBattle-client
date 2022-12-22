@@ -50,13 +50,11 @@ public class ShipsCreatingArea extends Group {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-
         batch.end();
         Gdx.gl.glEnable(GL30.GL_BLEND);
         Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         shape.setProjectionMatrix(batch.getProjectionMatrix());
         shape.begin(ShapeRenderer.ShapeType.Filled);
-        Color color = getColor();
         shape.setColor(0, 0, 0, 0.7F);
         shape.rect(getX(), getY() - 20, Cell.SIZE * 10, Cell.SIZE * 10 + 10);
         shape.end();

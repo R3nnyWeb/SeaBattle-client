@@ -2,19 +2,17 @@
 package com.r3nny.seabatlle.client.core.actors;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.r3nny.seabatlle.client.core.actors.Cell;
-import com.r3nny.seabatlle.client.core.actors.ShipType;
-import com.r3nny.seabatlle.client.core.actors.ShipsCountDTO;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**Учет количества кораблей и отображение количества*/
 public class ShipManager extends Group {
 
-    private final List<ShipsCountDTO> shipCounts;
+    private final Set<ShipsCountDTO> shipCounts;
 
     public ShipManager(float x, float y) {
-        shipCounts = new ArrayList<>();
+        shipCounts = new HashSet<>();
         shipCounts.add(new ShipsCountDTO(x, y, ShipType.FOUR_DECK, 1));
         shipCounts.add(
                 new ShipsCountDTO(
@@ -36,9 +34,8 @@ public class ShipManager extends Group {
     }
 
     public void decByType(ShipType shipType) {
-        ShipsCountDTO shipCount =
-                shipCounts.stream().filter(s -> s.getType() == shipType).findFirst().get();
-        shipCount.dec();
+        shipCounts.stream().filter(s -> s.getType() == shipType).findFirst().ifPresent(ShipsCountDTO::dec);
+
     }
 
     public boolean isAllShipsKilled(){

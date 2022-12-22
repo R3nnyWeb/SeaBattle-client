@@ -32,7 +32,6 @@ public class Ship extends Actor {
     private float startY;
     private boolean isVertical;
     private boolean isSelected;
-    private boolean isKilled;
     private final ShapeRenderer shape;
     private final Sprite sprite;
 
@@ -189,12 +188,7 @@ public class Ship extends Actor {
         }
     }
 
-    public boolean isKilled() {
-        return isKilled;
-    }
-
     public void makeCellsKilled() {
-        this.isKilled = true;
         for (Cell c : cells) {
             c.setKilled();
         }
