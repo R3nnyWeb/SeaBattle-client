@@ -7,9 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.r3nny.seabatlle.client.core.StarBattle;
 
+/**Прокси над com.badlogic.gdx.scenes.scene2d.ui.TextButton; Исчезает после нажатия*/
 public class ChangeScreenButton extends TextButton {
 
-
+    /**@param text Текст на кнопке
+     * @param withFadeOut Действие, выполняемое во время анимации исчезновения
+     * @param afterFadeOut  Действие, выполняемое после исчезновения */
     public ChangeScreenButton(String text, Runnable withFadeOut, Runnable afterFadeOut) {
         super(text, StarBattle.assetsManager.getMenuButtonSkin());
         super.addAction(StarBattle.animationManager.getFadeInAnimation());

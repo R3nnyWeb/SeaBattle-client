@@ -1,18 +1,21 @@
 /* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.controller;
 
-import static com.r3nny.seabatlle.client.core.Game.enemy;
-import static com.r3nny.seabatlle.client.core.Game.player;
+import static com.r3nny.seabatlle.client.core.game.Game.enemy;
+import static com.r3nny.seabatlle.client.core.game.Game.player;
 
-import com.r3nny.seabatlle.client.core.Game;
-import com.r3nny.seabatlle.client.core.GameStatus;
+import com.r3nny.seabatlle.client.core.game.Game;
+import com.r3nny.seabatlle.client.core.game.GameStatus;
 import com.r3nny.seabatlle.client.core.StarBattle;
-import com.r3nny.seabatlle.client.core.model.Cell;
-import com.r3nny.seabatlle.client.core.model.Ship;
+import com.r3nny.seabatlle.client.core.actors.Cell;
+import com.r3nny.seabatlle.client.core.actors.Ship;
 import java.util.List;
 
+
+/**Содержит единственный метод для обработки выстрела*/
 public class GameController {
 
+    /**Меняет состояния клетки на поле в зависимости от результата и хода*/
     public static void shoot(int row, int column) {
         Cell cell = getHittedCell(row, column);
         if (isShotMissed(cell)) {

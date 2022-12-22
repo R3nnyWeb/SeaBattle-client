@@ -1,13 +1,14 @@
 /* Nikita Vashkulatov(C) 2022 */
-package com.r3nny.seabatlle.client.core.utils;
+package com.r3nny.seabatlle.client.core.actors;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.r3nny.seabatlle.client.core.model.Cell;
-import com.r3nny.seabatlle.client.core.model.ShipType;
-import com.r3nny.seabatlle.client.core.model.ShipsCountDTO;
+import com.r3nny.seabatlle.client.core.actors.Cell;
+import com.r3nny.seabatlle.client.core.actors.ShipType;
+import com.r3nny.seabatlle.client.core.actors.ShipsCountDTO;
 import java.util.ArrayList;
 import java.util.List;
 
+/**Учет количества кораблей и отображение количества*/
 public class ShipManager extends Group {
 
     private final List<ShipsCountDTO> shipCounts;
@@ -38,5 +39,9 @@ public class ShipManager extends Group {
         ShipsCountDTO shipCount =
                 shipCounts.stream().filter(s -> s.getType() == shipType).findFirst().get();
         shipCount.dec();
+    }
+
+    public boolean isAllShipsKilled(){
+        return shipCounts.stream().filter(c-> c.getCount()!=0).toList().isEmpty();
     }
 }

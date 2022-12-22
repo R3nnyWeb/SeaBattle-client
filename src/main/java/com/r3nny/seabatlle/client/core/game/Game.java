@@ -1,9 +1,10 @@
 /* Nikita Vashkulatov(C) 2022 */
-package com.r3nny.seabatlle.client.core;
+package com.r3nny.seabatlle.client.core.game;
 
-import com.r3nny.seabatlle.client.core.model.EnemyGameField;
-import com.r3nny.seabatlle.client.core.model.PlayerGameField;
+import com.r3nny.seabatlle.client.core.actors.EnemyGameField;
+import com.r3nny.seabatlle.client.core.actors.PlayerGameField;
 
+/**Контейнер с статусом и полями*/
 public class Game {
     public static final int FIELD_Y = 426;
     public static final int PLAYER_FIELD_X = 89;

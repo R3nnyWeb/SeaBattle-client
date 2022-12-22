@@ -7,6 +7,7 @@ import com.r3nny.seabatlle.client.core.StarBattle;
 
 import java.util.Random;
 
+/**Включение звуков и музыки*/
 public class SoundManager {
     private final Random random = new Random();
 

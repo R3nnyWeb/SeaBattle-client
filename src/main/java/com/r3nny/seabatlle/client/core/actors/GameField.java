@@ -1,13 +1,14 @@
 /* Nikita Vashkulatov(C) 2022 */
-package com.r3nny.seabatlle.client.core.model;
+package com.r3nny.seabatlle.client.core.actors;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
-import com.r3nny.seabatlle.client.core.utils.ShipManager;
+
 import java.util.LinkedList;
 import java.util.List;
 
+/**Игровое поле*/
 public abstract class GameField extends Group {
     public static final int FIELD_SIZE = 10;
     private final float x;
@@ -103,5 +104,9 @@ public abstract class GameField extends Group {
 
     public List<Ship> getShips() {
         return ships;
+    }
+
+    public boolean isAllShipsKilled(){
+        return shipManager.isAllShipsKilled();
     }
 }

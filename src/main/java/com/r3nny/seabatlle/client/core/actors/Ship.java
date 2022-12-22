@@ -1,5 +1,5 @@
 /* Nikita Vashkulatov(C) 2022 */
-package com.r3nny.seabatlle.client.core.model;
+package com.r3nny.seabatlle.client.core.actors;
 
 import static com.r3nny.seabatlle.client.core.controller.ShipsCreator.isShipLanding;
 
@@ -12,19 +12,23 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.r3nny.seabatlle.client.core.Game;
+import com.r3nny.seabatlle.client.core.game.Game;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+/**Корабль*/
 public class Ship extends Actor {
     private final ShipType type;
 
     // TODO : Переделать на коллекцию
     private List<Cell> cells;
+
+    /**Координата для окна создания корабля*/
     private float startX;
+    /**Координата для окна создания корабля*/
     private float startY;
     private boolean isVertical;
     private boolean isSelected;
@@ -32,6 +36,7 @@ public class Ship extends Actor {
     private final ShapeRenderer shape;
     private final Sprite sprite;
 
+    /**Обработчик нажатия на корабль*/
     private class ShipInputListener extends InputListener {
 
         @Override
@@ -75,6 +80,10 @@ public class Ship extends Actor {
                     if (ShipsCreator.addShipToGameField(cell, Ship.this, Game.player)) {
                         updatePosition(cell.getX(), cell.getY());
                         animateShip();
+                        ShipsCreator.createdPlayerShips++;
+                        Game.player.setShipsReady(
+                                ShipsCreator.createdPlayerShips
+                                        == ShipsCreator.shipTypes.length);
                     } else {
                         resetCoordinates();
                     }
@@ -89,17 +98,14 @@ public class Ship extends Actor {
             Ship.this.addAction(
                     StarBattle.animationManager.getShipEnterAction(
                             Ship.this,
-                            () -> {
-                                isShipLanding = false;
-                                ShipsCreator.createdPlayerShips++;
-                                Game.player.setShipsReady(
-                                        ShipsCreator.createdPlayerShips
-                                                == ShipsCreator.shipTypes.length);
-                            }));
+                            () ->isShipLanding = false));
             StarBattle.soundManager.playShipEnterSound();
             updateBounds();
         }
 
+
+
+        /**@return Клетка на которую был брошен корабль*/
         private Optional<Cell> getCellFromEvent(InputEvent event) {
             float x = event.getStageX() - 5;
             float y = event.getStageY() - 5;
@@ -197,26 +203,33 @@ public class Ship extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        if (isSelected) drawBounds(batch);
+        if (isSelected)
+            drawBounds(batch);
+        drawShip(batch, parentAlpha);
 
-        Color color = getColor();
-        sprite.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-        sprite.setPosition(getX(), getY());
-        sprite.draw(batch);
-
-        sprite.setColor(color.r, color.g, color.b, 1f);
     }
+
+
 
     private void drawBounds(Batch batch) {
         batch.end();
         shape.setProjectionMatrix(batch.getProjectionMatrix());
         shape.begin(ShapeRenderer.ShapeType.Line);
         shape.setColor(Color.WHITE);
-        if (isVertical) shape.rect(getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
-        else shape.rect(getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);
-
+        if (isVertical)
+            shape.rect(getX(), getY(), Cell.SIZE, type.getSize() * Cell.SIZE);
+        else
+            shape.rect(getX(), getY(), type.getSize() * Cell.SIZE, Cell.SIZE);
         shape.end();
         batch.begin();
+    }
+
+    private void drawShip(Batch batch, float parentAlpha) {
+        Color color = getColor();
+        sprite.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+        sprite.setPosition(getX(), getY());
+        sprite.draw(batch);
+        sprite.setColor(color.r, color.g, color.b, 1f);
     }
 
     @Override
@@ -272,17 +285,4 @@ public class Ship extends Actor {
         this.cells = cells;
     }
 
-    @Override
-    public String toString() {
-        return "Ship{"
-                + "x="
-                + getX()
-                + "type="
-                + type
-                + ", isVertical="
-                + isVertical
-                + ", isSelected="
-                + isSelected
-                + '}';
-    }
 }

@@ -13,9 +13,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+/**Прокси над com.badlogic.gdx.assets.AssetManager*/
 public class Assets {
 
-    // TODO: Вынести пути в файл и разбить на листы по классам
     private final String MAIN_MENU_BG_PATH = "mainMenu/bg.png";
     private final String ONE_DECK_SHIP_PATH = "ships/1xShip.png";
     private final String TWO_DECK_SHIP_PATH = "ships/2xShip.png";

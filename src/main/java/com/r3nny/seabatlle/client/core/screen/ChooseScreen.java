@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.ui.ChangeScreenButton;
 
+/**Экран с выбором режима игры*/
 public class ChooseScreen implements Screen {
     private ImageButton singleGame;
     private ImageButton multiGame;

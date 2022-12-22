@@ -1,11 +1,12 @@
 /* Nikita Vashkulatov(C) 2022 */
-package com.r3nny.seabatlle.client.core.model;
+package com.r3nny.seabatlle.client.core.actors;
 
-import com.r3nny.seabatlle.client.core.Game;
+import com.r3nny.seabatlle.client.core.game.Game;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
 import java.util.List;
 
+/**Игровое поле игрока*/
 public class PlayerGameField extends GameField {
 
     private final ShipsCreatingArea shipsCreatingArea;

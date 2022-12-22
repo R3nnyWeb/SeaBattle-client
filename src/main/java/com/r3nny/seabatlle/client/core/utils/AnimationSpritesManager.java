@@ -9,12 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.r3nny.seabatlle.client.core.StarBattle;
-import com.r3nny.seabatlle.client.core.model.Ship;
+import com.r3nny.seabatlle.client.core.actors.Ship;
 
-/**Разбиение спрайтов на анимации, заготовленные actions*/
+/**Разбиение спрайтов на анимации, заготовление actions*/
 public class AnimationSpritesManager {
 
-    // TODO: Вынести все Actions сюда
     private final Animation<TextureRegion> injuredAnimation;
     private final Animation<TextureRegion> burningAnimation;
     private final Animation<TextureRegion> missAnimation;

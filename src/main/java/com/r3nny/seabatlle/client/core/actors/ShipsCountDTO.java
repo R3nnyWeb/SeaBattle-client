@@ -1,5 +1,5 @@
 /* Nikita Vashkulatov(C) 2022 */
-package com.r3nny.seabatlle.client.core.model;
+package com.r3nny.seabatlle.client.core.actors;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.r3nny.seabatlle.client.core.StarBattle;
 
+/**Описывает тип корабля и количество оставшихся*/
 public class ShipsCountDTO extends Actor {
 
     private final ShipType type;
@@ -45,5 +46,9 @@ public class ShipsCountDTO extends Actor {
 
     public void dec() {
         count--;
+    }
+
+    public int getCount() {
+        return count;
     }
 }

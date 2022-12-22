@@ -1,5 +1,5 @@
 /* Nikita Vashkulatov(C) 2022 */
-package com.r3nny.seabatlle.client.core.model;
+package com.r3nny.seabatlle.client.core.actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.r3nny.seabatlle.client.core.Game;
-import com.r3nny.seabatlle.client.core.GameStatus;
+import com.r3nny.seabatlle.client.core.game.Game;
+import com.r3nny.seabatlle.client.core.game.GameStatus;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.GameController;
 
@@ -23,6 +23,7 @@ enum CellStatus {
     KILLED
 }
 
+/**Клетка*/
 public class Cell extends Actor {
 
     public static final float SIZE = 31.37f;

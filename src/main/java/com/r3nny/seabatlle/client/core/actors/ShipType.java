@@ -1,5 +1,5 @@
 /* Nikita Vashkulatov(C) 2022 */
-package com.r3nny.seabatlle.client.core.model;
+package com.r3nny.seabatlle.client.core.actors;
 
 public enum ShipType {
     ONE_DECK(1),

@@ -1,11 +1,11 @@
 /* Nikita Vashkulatov(C) 2022 */
-package com.r3nny.seabatlle.client.core;
+package com.r3nny.seabatlle.client.core.game;
 
 import com.badlogic.gdx.Gdx;
 import com.r3nny.seabatlle.client.core.controller.GameController;
-import com.r3nny.seabatlle.client.core.model.Cell;
-import com.r3nny.seabatlle.client.core.model.EnemyGameField;
-import com.r3nny.seabatlle.client.core.model.PlayerGameField;
+import com.r3nny.seabatlle.client.core.actors.Cell;
+import com.r3nny.seabatlle.client.core.actors.EnemyGameField;
+import com.r3nny.seabatlle.client.core.actors.PlayerGameField;
 
 import java.util.*;
 

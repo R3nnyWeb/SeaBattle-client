@@ -12,17 +12,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.r3nny.seabatlle.client.core.Game;
-import com.r3nny.seabatlle.client.core.GameStatus;
-import com.r3nny.seabatlle.client.core.SingleGame;
+import com.r3nny.seabatlle.client.core.game.Game;
+import com.r3nny.seabatlle.client.core.game.GameStatus;
+import com.r3nny.seabatlle.client.core.game.SingleGame;
 import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.controller.ShipsCreator;
-import com.r3nny.seabatlle.client.core.model.ShipsCreatingArea;
+import com.r3nny.seabatlle.client.core.actors.ShipsCreatingArea;
 import com.r3nny.seabatlle.client.core.ui.ChangeScreenButton;
 
-import static com.r3nny.seabatlle.client.core.Game.player;
-import static com.r3nny.seabatlle.client.core.Game.status;
+import static com.r3nny.seabatlle.client.core.game.Game.player;
+import static com.r3nny.seabatlle.client.core.game.Game.status;
 
+/**Экран с созданием кораблей игрока*/
 public class ShipsCreatingScreen implements Screen {
 
     private final SingleGame game;
@@ -30,6 +31,7 @@ public class ShipsCreatingScreen implements Screen {
     private TextButton acceptButton;
     private final StarBattle application;
     public final Stage stage;
+    private  ShipsCreatingArea shipsCreatingArea;
 
     public ShipsCreatingScreen(StarBattle application) {
         this.application = application;
@@ -37,7 +39,7 @@ public class ShipsCreatingScreen implements Screen {
         this.stage = StarBattle.setUpStage();
 
         setUpBg();
-        setUpMenuLogo();
+        setUpLogo();
         setUpBackButton();
         setUpAcceptButton();
         setUpShipsCreatingArea();
@@ -74,7 +76,7 @@ public class ShipsCreatingScreen implements Screen {
         stage.addActor(bg);
     }
 
-    private void setUpMenuLogo() {
+    private void setUpLogo() {
         Image menuLogo = new Image(StarBattle.assetsManager.getMenuLogo());
         menuLogo.setSize(310, 27);
         menuLogo.setX(StarBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
@@ -97,7 +99,7 @@ public class ShipsCreatingScreen implements Screen {
     }
 
     private void setUpShipsCreatingArea() {
-        ShipsCreatingArea shipsCreatingArea = new ShipsCreatingArea(Game.ENEMY_FIELD_X, Game.FIELD_Y);
+       shipsCreatingArea = new ShipsCreatingArea(Game.ENEMY_FIELD_X, Game.FIELD_Y);
         stage.addActor(shipsCreatingArea);
     }
 
@@ -135,8 +137,8 @@ public class ShipsCreatingScreen implements Screen {
 
         if (game.isShipsReady()) {
             Game.player.clearAllMissed();
-            stage.clear();
-            application.setScreen(new SingleGameScreen(game, application));
+            shipsCreatingArea.remove();
+            application.setScreen(new SingleGameScreen( game, application));
         }
     }
 

@@ -1,113 +1,53 @@
 /* Nikita Vashkulatov(C) 2022 */
 package com.r3nny.seabatlle.client.core.screen;
 
-import static com.r3nny.seabatlle.client.core.Game.enemy;
-import static com.r3nny.seabatlle.client.core.Game.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.r3nny.seabatlle.client.core.Game;
-import com.r3nny.seabatlle.client.core.GameStatus;
-import com.r3nny.seabatlle.client.core.SingleGame;
+import com.r3nny.seabatlle.client.core.game.Game;
+import com.r3nny.seabatlle.client.core.game.GameStatus;
+import com.r3nny.seabatlle.client.core.game.SingleGame;
 import com.r3nny.seabatlle.client.core.StarBattle;
-import com.r3nny.seabatlle.client.core.model.Cell;
-import com.r3nny.seabatlle.client.core.model.Ship;
-import com.r3nny.seabatlle.client.core.utils.Assets;
-import com.r3nny.seabatlle.client.core.utils.SoundManager;
+import com.r3nny.seabatlle.client.core.actors.Cell;
+import com.r3nny.seabatlle.client.core.ui.ChangeScreenButton;
+
 import java.util.Random;
 
+/**Экран при одиночной игре*/
 public class SingleGameScreen implements Screen {
 
-    // TODO: Ну гавно же
-    private float i;
-    // TODO: Ну гавно же
-    private float j;
     private final SingleGame game;
 
     private final Stage stage;
-    private StarBattle application;
-
-    private Assets assetsManager;
-
-    private Image bgImage;
-
-    private SoundManager soundManager;
+    private final StarBattle application;
 
     private Label turnLabel;
 
     public SingleGameScreen(SingleGame game, StarBattle application) {
         this.game = game;
-
-        player.createShipsManager();
-        enemy.createShipsManager();
-
-        Random rd = new Random();
-        Game.status = rd.nextBoolean() ? GameStatus.PLAYER_TURN : GameStatus.ENEMY_TURN;
-
+        this.application = application;
+        Game.player.createShipsManager();
+        Game.enemy.createShipsManager();
+        Game.status = randomGameStatus();
         stage = StarBattle.setUpStage();
-        assetsManager = StarBattle.assetsManager;
-        soundManager = StarBattle.soundManager;
+        setUpBgImage();
+        setUpLogo();
+        setUpBackButton();
+        disableClicksOnPlayerField();
+        setUpLabels();
+        stage.addActor(Game.player);
 
-        TextButton backButton =
-                new TextButton("Back to menu", StarBattle.assetsManager.getMenuButtonSkin());
-        backButton.setX(10);
-        backButton.setSize(200, 50);
-        backButton.setY(StarBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
+        stage.addActor(Game.enemy);
+        stage.setDebugAll(StarBattle.DEBUG);
+    }
 
-        Image menuLogo = new Image(StarBattle.assetsManager.getMenuLogo());
-        menuLogo.setSize(310, 27);
-        menuLogo.setX(StarBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
-        menuLogo.setY(StarBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
-
-        // TODO: Два одинаковых - кринж
-        backButton.addListener(
-                new ClickListener() {
-                    @Override
-                    public void enter(
-                            InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        StarBattle.soundManager.playFocusButton();
-                    }
-
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        StarBattle.soundManager.playClickSound();
-                        player.addAction(Actions.fadeOut(0.5F));
-                        enemy.addAction(Actions.fadeOut(0.5F));
-                        backButton.addAction(
-                                Actions.sequence(
-                                        Actions.fadeOut(0.5F),
-                                        Actions.run(
-                                                () -> {
-                                                    stage.clear();
-                                                    application.setScreen(new MenuScreen(application));
-                                                })));
-                    }
-                });
-
-        // TODO: rework this
-        Cell[][] cells = player.getField();
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells.length; j++) {
-
-                var listeners = cells[i][j].getListeners();
-                for (EventListener listener : listeners) {
-                    cells[i][j].removeListener(listener);
-                }
-            }
-        }
-
+    private void setUpLabels() {
         Label.LabelStyle skin = new Label.LabelStyle();
         skin.font = StarBattle.assetsManager.getFont(40);
 
@@ -126,42 +66,67 @@ public class SingleGameScreen implements Screen {
         turnLabel.setPosition(
                 StarBattle.WORLD_WIDTH / 2 + 3 - turnLabel.getWidth() / 2, Game.FIELD_Y);
         turnLabel.setAlignment(Align.center);
-
-        bgImage = new Image(StarBattle.assetsManager.getInGameBackground());
-        bgImage.setSize(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT);
-        stage.addActor(bgImage);
-        stage.addActor(menuLogo);
-        stage.addActor(player);
         stage.addActor(playerFieldLabel);
         stage.addActor(enemyFieldLabel);
         stage.addActor(turnLabel);
-        stage.addActor(enemy);
+
+    }
+
+    private void disableClicksOnPlayerField() {
+        Cell[][] cells = Game.player.getField();
+        for (Cell[] cell : cells) {
+            for (int j = 0; j < cells.length; j++) {
+                var listeners = cell[j].getListeners();
+                for (EventListener listener : listeners) {
+                    cell[j].removeListener(listener);
+                }
+            }
+        }
+    }
+
+    private void setUpBackButton() {
+        ChangeScreenButton backButton =
+                new ChangeScreenButton("Back to menu", () -> {
+                }, () -> {
+                    stage.clear();
+                    application.setScreen(new MenuScreen(application));
+                });
+        backButton.setX(10);
+        backButton.setSize(200, 50);
+        backButton.setY(StarBattle.WORLD_HEIGHT - 10 - backButton.getHeight());
         stage.addActor(backButton);
-        stage.setDebugAll(StarBattle.DEBUG);
+    }
+
+    private void setUpLogo() {
+        Image menuLogo = new Image(StarBattle.assetsManager.getMenuLogo());
+        menuLogo.setSize(310, 27);
+        menuLogo.setX(StarBattle.WORLD_WIDTH / 2 - menuLogo.getWidth() / 2);
+        menuLogo.setY(StarBattle.WORLD_HEIGHT - menuLogo.getHeight() - 20);
+        stage.addActor(menuLogo);
+    }
+
+    private void setUpBgImage() {
+        Image bgImage = new Image(StarBattle.assetsManager.getInGameBackground());
+        bgImage.setSize(StarBattle.WORLD_WIDTH, StarBattle.WORLD_HEIGHT);
+        stage.addActor(bgImage);
+    }
+
+    private GameStatus randomGameStatus() {
+        Random rd = new Random();
+        return rd.nextBoolean() ? GameStatus.PLAYER_TURN : GameStatus.ENEMY_TURN;
     }
 
     @Override
-    public void show() {}
+    public void show() {
+    }
 
-    // TODO : Проверять через GAME_SHIP_MANAGER
+
     private boolean isEnemyDead() {
-        var enemy = Game.enemy.getShips();
-        for (Ship ship : enemy) {
-            if (!ship.isKilled()) {
-                return false;
-            }
-        }
-        return true;
+        return Game.enemy.isAllShipsKilled();
     }
 
     private boolean isPlayerDead() {
-        var playerShips = player.getShips();
-        for (Ship ship : playerShips) {
-            if (!ship.isKilled()) {
-                return false;
-            }
-        }
-        return true;
+        return Game.player.isAllShipsKilled();
     }
 
     private boolean isGameOver() {
@@ -170,20 +135,20 @@ public class SingleGameScreen implements Screen {
 
     @Override
     public void render(float v) {
-        j += v;
+        updateTurnLabel();
+        game.update();
+        if (isGameOver()) {
+            StarBattle.soundManager.stopBattleMusic();
+            application.setScreen(new MenuScreen(application));
+        }
+        stage.act();
+        stage.draw();
+    }
+
+    private void updateTurnLabel() {
         turnLabel.setText(
                 (Game.status == GameStatus.PLAYER_TURN) ? "Shoot, Admiral" : "Enemy shooting");
         ScreenUtils.clear(new Color(Color.BLACK));
-        game.update();
-        if (j > 1) {
-            if (isGameOver()) {
-                StarBattle.soundManager.stopBattleMusic();
-                application.setScreen(new MenuScreen(application));
-            }
-        }
-
-        stage.act();
-        stage.draw();
     }
 
     @Override
@@ -192,14 +157,18 @@ public class SingleGameScreen implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+    }
 }
