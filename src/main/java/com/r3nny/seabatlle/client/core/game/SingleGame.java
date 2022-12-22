@@ -11,7 +11,7 @@ import java.util.*;
 
 public class SingleGame extends Game {
 
-    private float time = 0F;
+    private float timeFromLastShoot = 0F;
 
     private final List<Cell> cellsToShoot;
 
@@ -39,10 +39,10 @@ public class SingleGame extends Game {
     // TODO: Переписать
     public void update() {
         if (Game.status == GameStatus.ENEMY_TURN) {
-            time += Gdx.graphics.getDeltaTime();
+            timeFromLastShoot += Gdx.graphics.getDeltaTime();
         }
         float BOT_THINKING_TIME = 1.3F;
-        if (Game.status == GameStatus.ENEMY_TURN && time > BOT_THINKING_TIME) {
+        if (Game.status == GameStatus.ENEMY_TURN && timeFromLastShoot > BOT_THINKING_TIME) {
             if (isNeedToKill) {
 
                 if (possibleCellsToShoot.empty()) {
@@ -58,7 +58,7 @@ public class SingleGame extends Game {
                         hittedCells.add(cell);
                         possibleCellsToShoot = getPossibleCellsToShoot(cell);
                     }
-                    time = 0f;
+                    timeFromLastShoot = 0f;
                     cellsToShoot.remove(cell);
                 }
             } else {
@@ -72,7 +72,7 @@ public class SingleGame extends Game {
                         possibleCellsToShoot = getPossibleCellsToShoot(cell);
                     }
 
-                    time = 0f;
+                    timeFromLastShoot = 0f;
                 }
                 cellsToShoot.remove(cell);
             }

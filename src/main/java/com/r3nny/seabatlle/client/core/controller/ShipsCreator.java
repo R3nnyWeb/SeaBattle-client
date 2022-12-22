@@ -14,6 +14,7 @@ import java.util.Random;
 
 /**Статические методы для создания кораблей*/
 public class ShipsCreator {
+    private static Random rd;
 
     /**Учет успешно созданных кораблей игрока*/
     public static int createdPlayerShips = 0;
@@ -37,28 +38,26 @@ public class ShipsCreator {
      * @param gf Игровое поле
      * */
     public static void autoCreateShips(GameField gf) {
-        Random rd = new Random();
+        rd = new Random();
         Cell[][] field = gf.getField();
         List<Ship> ships = gf.getShips();
-        int i = 0;
-        while (i < shipTypes.length) {
-            // TODO: Use thread safe
-            int row = rd.nextInt(GameField.FIELD_SIZE);
-            int column = rd.nextInt(GameField.FIELD_SIZE);
-            Ship ship = ships.get(i);
-            if (rd.nextBoolean()) {
+        int createdShips = 0;
+        while (createdShips < shipTypes.length) {
+            Cell cell = getRandomCellFromField(field);
+            Ship ship = ships.get(createdShips);
+            if (rd.nextBoolean())
                 ship.rotate();
-            }
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            if (addShipToGameField(field[row][column], ships.get(i), gf)) {
-                i++;
-            }
+            if (addShipToGameField(cell, ships.get(createdShips), gf))
+                createdShips++;
+
         }
         Gdx.app.log("ShipsCreator", "All ships automatically created");
+    }
+
+    private static Cell getRandomCellFromField(Cell[][] field) {
+        int row = rd.nextInt(GameField.FIELD_SIZE);
+        int column = rd.nextInt(GameField.FIELD_SIZE);
+        return field[row][column];
     }
 
     /**Помещает корабль на поле с началом на определенной клетке
@@ -183,8 +182,6 @@ public class ShipsCreator {
                 }
             } catch (IndexOutOfBoundsException ignored) {
             }
-
-
         }
     }
 
