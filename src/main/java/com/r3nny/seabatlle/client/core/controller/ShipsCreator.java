@@ -60,6 +60,7 @@ public class ShipsCreator {
         return field[row][column];
     }
 
+    //TODO: Пусть выбрасывает CantCreateShip.java
     /**Помещает корабль на поле с началом на определенной клетке
      * @param cell начало корабля
      * @param ship корабль

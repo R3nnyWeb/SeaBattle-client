@@ -12,7 +12,7 @@ import com.r3nny.seabatlle.client.core.StarBattle;
 import com.r3nny.seabatlle.client.core.actors.Ship;
 
 /**Разбиение спрайтов на анимации, заготовление actions*/
-public class AnimationSpritesManager {
+public class AnimationManager {
 
     private final Animation<TextureRegion> injuredAnimation;
     private final Animation<TextureRegion> burningAnimation;
@@ -20,7 +20,7 @@ public class AnimationSpritesManager {
 
     private final Animation<TextureRegion> explosionAnimation;
 
-    public AnimationSpritesManager() {
+    public AnimationManager() {
         this.injuredAnimation =
                 loadAnimation(StarBattle.assetsManager.getInjuredAnimation(), 2, 5, 0.07F);
         this.burningAnimation =

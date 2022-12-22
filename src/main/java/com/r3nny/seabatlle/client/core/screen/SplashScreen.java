@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.r3nny.seabatlle.client.core.StarBattle;
-import com.r3nny.seabatlle.client.core.utils.AnimationSpritesManager;
+import com.r3nny.seabatlle.client.core.utils.AnimationManager;
 import com.r3nny.seabatlle.client.core.utils.Assets;
 import com.r3nny.seabatlle.client.core.utils.SoundManager;
 
@@ -62,7 +62,7 @@ public class SplashScreen implements Screen {
         stage.draw();
         if (manager.update() && startLoading) {
             StarBattle.soundManager = new SoundManager();
-            StarBattle.animationManager = new AnimationSpritesManager();
+            StarBattle.animationManager = new AnimationManager();
             stage.addAction(
                     Actions.sequence(
                             Actions.fadeOut(0.5F),
