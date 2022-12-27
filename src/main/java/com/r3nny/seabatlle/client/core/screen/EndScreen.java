@@ -7,8 +7,6 @@ import com.r3nny.seabatlle.client.core.StarBattle;
 import static com.r3nny.seabatlle.client.core.StarBattle.soundManager;
 
 public class EndScreen extends InGameScreen {
-
-
     public EndScreen(boolean isPlayerWin) {
         super(new Image(StarBattle.assetsManager.getMenuBackground()));
 

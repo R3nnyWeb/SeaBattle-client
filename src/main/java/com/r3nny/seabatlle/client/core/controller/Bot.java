@@ -44,7 +44,6 @@ public class Bot {
                 keepDestroyingShip();
              else
                 doRandomShot();
-            timeFromLastShoot = 0;
         }
 
     }
@@ -93,8 +92,7 @@ public class Bot {
 
     private void shootOnSameDirection(Cell cell) {
         Gdx.app.log("Bot", "Can shoot on this");
-        ShootController.shoot(cell.getRow(), cell.getColumn());
-        cellsToShoot.remove(cell);
+        shoot(cell);
         if (cell.isMissed()) {
             Gdx.app.log("Bot", "Missed");
             changeDirection(direction.get());
@@ -108,6 +106,12 @@ public class Bot {
                 resetBot();
             }
         }
+    }
+
+    private void shoot(Cell cell){
+        ShootController.shoot(cell.getRow(), cell.getColumn());
+        cellsToShoot.remove(cell);
+        timeFromLastShoot = 0;
     }
 
     private void changeDirection(Direction current) {
@@ -155,11 +159,10 @@ public class Bot {
     private void doRandomShot() {
         Cell cell = getRandomCellToShoot();
         Gdx.app.log("Bot", "Random shoot to cell " + cell);
-        ShootController.shoot(cell.getRow(), cell.getColumn());
+        shoot(cell);
         if (cell.isInjured()) {
             Gdx.app.log("Bot", "Injured");
             hittedCells.add(cell);
-            cellsToShoot.remove(cell);
             setRandomDirection();
         } else {
             Gdx.app.log("Bot", "Miss or killed");
@@ -181,9 +184,6 @@ public class Bot {
         Direction[] directions = Direction.values();
         direction = Optional.of(directions[rd.nextInt(directions.length)]);
     }
-
-
-
 
 
 
